@@ -12,7 +12,8 @@ var apiService = builder
     .AddProject<Projects.Halcyon_Api>("api")
     .WithExternalHttpEndpoints()
     .WithReference(postgresdb)
-    .WithReference(cache);
+    .WithReference(cache)
+    .WithReference(rabbitmq);
 
 builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
