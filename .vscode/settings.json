@@ -1,8 +1,10 @@
 {
   "files.exclude": {
+    "**/.azure": true,
+    "**/.vs": true,
     "**/bin": true,
-    "**/obj": true,
     "**/dist": true,
-    "**/node_modules": true
+    "**/node_modules": true,
+    "**/obj": true
   }
 }

@@ -2,11 +2,15 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var cache = builder.AddRedis("cache");
 
-var apiService = builder.AddProject<Projects.Halcyon_ApiService>("apiservice").WithReference(cache);
+var apiService = builder.AddProject<Projects.Halcyon_ApiService>("apiservice")
+    .WithExternalHttpEndpoints()
+    .WithReference(cache);
 
 builder
-    .AddViteApp("webfrontend", "../halcyon-web")
-    .WithNpmPackageInstallation()
-    .WithEnvironment("VITE_API_URL", apiService.GetEndpoint("https"));
+    .AddNpmApp("webfrontend", "../halcyon-web", scriptName: "dev")
+    .WithEnvironment("VITE_API_URL", apiService.GetEndpoint("https"))
+    .WithHttpEndpoint(env: "PORT")
+    .WithExternalHttpEndpoints()
+    .PublishAsDockerFile();
 
 builder.Build().Run();
