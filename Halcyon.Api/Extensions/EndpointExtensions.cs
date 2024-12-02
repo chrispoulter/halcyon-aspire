@@ -15,7 +15,7 @@ public static class EndpointExtensions
         Assembly assembly
     )
     {
-        ServiceDescriptor[] serviceDescriptors = assembly
+        var serviceDescriptors = assembly
             .DefinedTypes.Where(type =>
                 type is { IsAbstract: false, IsInterface: false }
                 && type.IsAssignableTo(typeof(IEndpoint))
@@ -28,20 +28,13 @@ public static class EndpointExtensions
         return services;
     }
 
-    public static IApplicationBuilder MapEndpoints(
-        this WebApplication app,
-        RouteGroupBuilder? routeGroupBuilder = null
-    )
+    public static IApplicationBuilder MapEndpoints(this WebApplication app)
     {
-        IEnumerable<IEndpoint> endpoints = app.Services.GetRequiredService<
-            IEnumerable<IEndpoint>
-        >();
+        var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
 
-        IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
-
-        foreach (IEndpoint endpoint in endpoints)
+        foreach (var endpoint in endpoints)
         {
-            endpoint.MapEndpoint(builder);
+            endpoint.MapEndpoint(app);
         }
 
         return app;

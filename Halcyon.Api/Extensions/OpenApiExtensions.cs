@@ -64,6 +64,7 @@ public static class OpenApiExtensions
                         {
                             operation.Security = [new() { [scheme] = [] }];
                         }
+
                         return Task.CompletedTask;
                     }
                 );

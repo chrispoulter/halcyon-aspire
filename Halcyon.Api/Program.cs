@@ -13,7 +13,7 @@ builder.Services.AddAuthorization();
 
 builder.AddNpgsqlDbContext<HalcyonDbContext>(
     connectionName: "postgresdb",
-    configureDbContextOptions: (options) => options.UseSnakeCaseNamingConvention()
+    configureDbContextOptions: options => options.UseSnakeCaseNamingConvention()
 );
 builder.AddRabbitMQClient(connectionName: "messaging");
 builder.AddRedisDistributedCache(connectionName: "cache");
