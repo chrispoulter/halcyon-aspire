@@ -1,12 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Halcyon.Api.Extensions;
-
-public interface IEndpoint
-{
-    void MapEndpoint(IEndpointRouteBuilder app);
-}
+namespace Halcyon.Api.Services.Web;
 
 public static class EndpointExtensions
 {

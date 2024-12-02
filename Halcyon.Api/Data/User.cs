@@ -6,23 +6,23 @@ public class User
 {
     public Guid Id { get; set; }
 
-    public required string EmailAddress { get; set; }
+    public string EmailAddress { get; set; }
 
-    public string? Password { get; set; }
+    public string Password { get; set; }
 
     public Guid? PasswordResetToken { get; set; }
 
-    public required string FirstName { get; set; }
+    public string FirstName { get; set; }
 
-    public required string LastName { get; set; }
+    public string LastName { get; set; }
 
     public DateOnly DateOfBirth { get; set; }
 
     public bool IsLockedOut { get; set; }
 
-    public required List<string> Roles { get; set; }
+    public List<string> Roles { get; set; }
 
-    public uint Version { get; set; }
+    public uint Version { get; }
 
-    public required NpgsqlTsVector SearchVector { get; set; }
+    public NpgsqlTsVector SearchVector { get; }
 }

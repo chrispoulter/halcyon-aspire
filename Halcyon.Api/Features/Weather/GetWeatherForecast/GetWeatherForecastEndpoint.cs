@@ -1,4 +1,4 @@
-﻿using Halcyon.Api.Extensions;
+﻿using Halcyon.Api.Services.Web;
 
 namespace Halcyon.Api.Features.Weather.GetWeatherForecast;
 
