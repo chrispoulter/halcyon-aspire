@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .azure
+
+appsettings.Development.json
