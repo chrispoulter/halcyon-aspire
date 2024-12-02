@@ -1,8 +1,10 @@
-﻿namespace Halcyon.Api.Features.Weather.GetWeatherForecast;
+﻿using Halcyon.Api.Extensions;
 
-public static class GetWeatherForcastEndpoint
+namespace Halcyon.Api.Features.Weather.GetWeatherForecast;
+
+public class GetWeatherForcastEndpoint : IEndpoint
 {
-    public static WebApplication MapGetWeatherForecastEndpoint(this WebApplication app)
+    public void MapEndpoint(IEndpointRouteBuilder app)
     {
         string[] summaries =
         [
@@ -34,8 +36,6 @@ public static class GetWeatherForcastEndpoint
                 }
             )
             .WithName("GetWeatherForecast");
-
-        return app;
     }
 }
 
