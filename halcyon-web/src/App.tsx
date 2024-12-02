@@ -1,10 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
+type WeatherForecast = {
+  date: string;
+  temperatureC: number;
+  summary: string;
+  temperatureF: number;
+};
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const [weather, setWeather] = useState<WeatherForecast[] | null>(null);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/weatherforecast`)
+      .then((res) => res.json())
+      .then((data) => setWeather(data));
+  }, []);
 
   return (
     <>
@@ -28,8 +42,18 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      <h1>Weather {import.meta.env.VITE_API_URL}</h1>
+      <ul>
+        {weather?.map((forecast) => (
+          <li key={forecast.date}>
+            <strong>{forecast.date}</strong>: {forecast.summary} (
+            {forecast.temperatureC}°C/{forecast.temperatureF}°F)
+          </li>
+        ))}
+      </ul>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

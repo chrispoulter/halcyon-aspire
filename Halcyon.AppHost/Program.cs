@@ -6,6 +6,7 @@ var apiService = builder.AddProject<Projects.Halcyon_ApiService>("apiservice").W
 
 builder
     .AddNpmApp("webfrontend", "../halcyon-web", scriptName: "dev")
+    .WithEnvironment("VITE_API_URL", apiService.GetEndpoint("https"))
     .WithReference(apiService)
     .WithHttpEndpoint(env: "PORT")
     .WithExternalHttpEndpoints()
