@@ -2,7 +2,7 @@
 
 namespace Halcyon.Api.Features.Weather.GetWeatherForecast;
 
-public class GetWeatherForcastEndpoint : IEndpoint
+public class GetWeatherForecastEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
