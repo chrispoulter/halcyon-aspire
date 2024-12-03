@@ -33,11 +33,12 @@ TypeAdapterConfig.GlobalSettings.Scan(assembly);
 builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddProblemDetails();
 
-builder.Services.AddAuthenticationFromConfig(builder.Configuration);
-builder.Services.AddCorsFromConfig(builder.Configuration);
-builder.Services.AddOpenApiFromConfig(builder.Configuration);
-builder.Services.AddAuthServices(builder.Configuration);
-builder.Services.AddEmailServices(builder.Configuration);
+builder.AddMassTransitWithRabbitMq(connectionName: "RabbitMq", assembly);
+builder.AddAuthenticationFromConfig();
+builder.AddCorsFromConfig();
+builder.AddOpenApiFromConfig();
+builder.AddAuthServices();
+builder.AddEmailServices();
 
 var app = builder.Build();
 

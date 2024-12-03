@@ -2,16 +2,13 @@
 
 public static class EmailExtensions
 {
-    public static IServiceCollection AddEmailServices(
-        this IServiceCollection services,
-        IConfiguration configuration
-    )
+    public static IHostApplicationBuilder AddEmailServices(this IHostApplicationBuilder builder)
     {
-        var emailConfig = configuration.GetSection(EmailSettings.SectionName);
-        services.Configure<EmailSettings>(emailConfig);
-        services.AddSingleton<IEmailService, EmailService>();
-        services.AddSingleton<ITemplateEngine, TemplateEngine>();
+        var emailConfig = builder.Configuration.GetSection(EmailSettings.SectionName);
+        builder.Services.Configure<EmailSettings>(emailConfig);
+        builder.Services.AddSingleton<IEmailService, EmailService>();
+        builder.Services.AddSingleton<ITemplateEngine, TemplateEngine>();
 
-        return services;
+        return builder;
     }
 }

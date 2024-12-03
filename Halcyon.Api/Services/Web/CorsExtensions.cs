@@ -2,15 +2,12 @@
 
 public static class CorsExtensions
 {
-    public static IServiceCollection AddCorsFromConfig(
-        this IServiceCollection services,
-        IConfiguration configuration
-    )
+    public static IHostApplicationBuilder AddCorsFromConfig(this IHostApplicationBuilder builder)
     {
         var corsSettings = new CorsSettings();
-        configuration.GetSection(CorsSettings.SectionName).Bind(corsSettings);
+        builder.Configuration.GetSection(CorsSettings.SectionName).Bind(corsSettings);
 
-        services.AddCors(options =>
+        builder.Services.AddCors(options =>
             options.AddDefaultPolicy(policy =>
                 policy
                     .SetIsOriginAllowedToAllowWildcardSubdomains()
@@ -21,6 +18,6 @@ public static class CorsExtensions
             )
         );
 
-        return services;
+        return builder;
     }
 }

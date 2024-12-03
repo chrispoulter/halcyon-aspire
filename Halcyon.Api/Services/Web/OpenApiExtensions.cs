@@ -7,15 +7,12 @@ namespace Halcyon.Api.Services.Web;
 
 public static class OpenApiExtensions
 {
-    public static IServiceCollection AddOpenApiFromConfig(
-        this IServiceCollection services,
-        IConfiguration configuration
-    )
+    public static IHostApplicationBuilder AddOpenApiFromConfig(this IHostApplicationBuilder builder)
     {
         var openApiSettings = new OpenApiSettings();
-        configuration.Bind(OpenApiSettings.SectionName, openApiSettings);
+        builder.Configuration.Bind(OpenApiSettings.SectionName, openApiSettings);
 
-        services.AddOpenApi(
+        builder.Services.AddOpenApi(
             openApiSettings.Version,
             options =>
             {
@@ -77,7 +74,7 @@ public static class OpenApiExtensions
             }
         );
 
-        return services;
+        return builder;
     }
 
     public static WebApplication MapOpenApiWithSwagger(this WebApplication app)
