@@ -1,5 +1,6 @@
 using FluentValidation;
 using Halcyon.Api.Data;
+using Halcyon.Api.Features;
 using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Database;
 using Halcyon.Api.Services.Email;
@@ -39,6 +40,13 @@ builder.AddCorsFromConfig();
 builder.AddOpenApiFromConfig();
 builder.AddAuthServices();
 builder.AddEmailServices();
+
+builder
+    .Services.AddAuthorizationBuilder()
+    .AddPolicy(
+        nameof(AuthPolicy.IsUserAdministrator),
+        policy => policy.RequireRole(AuthPolicy.IsUserAdministrator)
+    );
 
 var app = builder.Build();
 

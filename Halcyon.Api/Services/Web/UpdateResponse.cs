@@ -1,4 +1,4 @@
-﻿namespace Halcyon.Api.Features;
+﻿namespace Halcyon.Api.Services.Web;
 
 public class UpdateResponse
 {
