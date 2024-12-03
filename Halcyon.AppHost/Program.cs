@@ -28,10 +28,8 @@ var redis = builder
     .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 
-var mailhog = builder
-    .AddContainer("mailhog", "mailhog/mailhog")
-    .WithEndpoint(port: 1025, targetPort: 1025, name: "smtp")
-    .WithHttpEndpoint(port: 8025, targetPort: 8025)
+var maildev = builder
+    .AddMailDev("maildev", httpPort: 1080, smtpPort: 1025)
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
 
@@ -44,7 +42,8 @@ var api = builder
     .WaitFor(rabbitmq)
     .WithReference(redis)
     .WaitFor(redis)
-    .WaitFor(mailhog);
+    .WithReference(maildev)
+    .WaitFor(maildev);
 
 builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")

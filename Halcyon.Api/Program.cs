@@ -23,7 +23,8 @@ var seedConfig = builder.Configuration.GetSection(SeedSettings.SectionName);
 builder.Services.Configure<SeedSettings>(seedConfig);
 builder.Services.AddMigration<HalcyonDbContext, HalcyonDbSeeder>();
 
-builder.AddRabbitMQClient(connectionName: "RabbitMq");
+//builder.AddRabbitMQClient(connectionName: "RabbitMq");
+builder.AddMassTransitWithRabbitMq(connectionName: "RabbitMq", assembly);
 builder.AddRedisDistributedCache(connectionName: "Redis");
 
 #pragma warning disable EXTEXP0018
@@ -34,7 +35,7 @@ TypeAdapterConfig.GlobalSettings.Scan(assembly);
 builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddProblemDetails();
 
-builder.AddMassTransitWithRabbitMq(connectionName: "RabbitMq", assembly);
+builder.ConfigureApiDefaults();
 builder.AddAuthenticationFromConfig();
 builder.AddCorsFromConfig();
 builder.AddOpenApiFromConfig();
