@@ -1,10 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Halcyon.Api.Services.Web;
+namespace Halcyon.Api.Services.Infrastructure;
 
 public static class JsonExtensions
 {
-    public static IHostApplicationBuilder ConfigureJsonDefaults(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder ConfigureJsonDefaults(
+        this IHostApplicationBuilder builder
+    )
     {
         builder.Services.ConfigureHttpJsonOptions(options =>
         {

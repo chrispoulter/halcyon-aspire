@@ -5,7 +5,7 @@ using Halcyon.Api.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Halcyon.Api.Services.Web;
+namespace Halcyon.Api.Services.Infrastructure;
 
 public static class AuthenticationExtensions
 {

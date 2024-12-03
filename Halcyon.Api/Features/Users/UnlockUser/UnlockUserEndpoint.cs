@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Services.Web;
+using Halcyon.Api.Services.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

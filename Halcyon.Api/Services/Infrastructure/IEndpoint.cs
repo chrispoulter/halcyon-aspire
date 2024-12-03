@@ -1,4 +1,4 @@
-﻿namespace Halcyon.Api.Services.Web;
+﻿namespace Halcyon.Api.Services.Infrastructure;
 
 public interface IEndpoint
 {

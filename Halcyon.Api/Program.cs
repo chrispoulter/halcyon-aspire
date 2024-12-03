@@ -4,7 +4,7 @@ using Halcyon.Api.Features;
 using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Database;
 using Halcyon.Api.Services.Email;
-using Halcyon.Api.Services.Web;
+using Halcyon.Api.Services.Infrastructure;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 

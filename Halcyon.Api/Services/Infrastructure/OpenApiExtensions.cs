@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
-namespace Halcyon.Api.Services.Web;
+namespace Halcyon.Api.Services.Infrastructure;
 
 public static class OpenApiExtensions
 {

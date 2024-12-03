@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using MassTransit;
 
-namespace Halcyon.Api.Services.Web;
+namespace Halcyon.Api.Services.Infrastructure;
 
 public static class MessagingExtensions
 {
