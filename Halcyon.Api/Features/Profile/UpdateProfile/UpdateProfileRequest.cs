@@ -1,6 +1,5 @@
 using FluentValidation;
 using Halcyon.Api.Services.Validation;
-using Halcyon.Api.Services.Web;
 
 namespace Halcyon.Api.Features.Profile.UpdateProfile;
 
