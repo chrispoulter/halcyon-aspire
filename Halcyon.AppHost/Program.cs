@@ -1,24 +1,18 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+var postgresPassword = builder.AddParameter("pgPassword", secret: true);
+
 var postgres = builder
-    .AddPostgres(
-        "postgres",
-        builder.AddParameter("pgUsername", secret: true),
-        builder.AddParameter("pgPassword", secret: true),
-        port: 5432
-    )
+    .AddPostgres("postgres", password: postgresPassword, port: 5432)
     .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 
 var database = postgres.AddDatabase("database", databaseName: "halcyon");
 
+var rabbitMqPassword = builder.AddParameter("rmqPassword", secret: true);
+
 var rabbitmq = builder
-    .AddRabbitMQ(
-        "rabbitmq",
-        builder.AddParameter("rmqUsername", secret: true),
-        builder.AddParameter("rmqPassword", secret: true),
-        port: 5672
-    )
+    .AddRabbitMQ("rabbitmq", password: rabbitMqPassword, port: 5672)
     .WithDataVolume(isReadOnly: false)
     .WithManagementPlugin(port: 15672)
     .WithLifetime(ContainerLifetime.Persistent);
@@ -42,7 +36,7 @@ var api = builder
     .WaitFor(rabbitmq)
     .WithReference(redis)
     .WaitFor(redis)
-    .WithReference(maildev)
+    //.WithReference(maildev)
     .WaitFor(maildev);
 
 builder
