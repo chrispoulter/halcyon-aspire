@@ -1,35 +1,23 @@
 ﻿using System.Reflection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Halcyon.Api.Services.Web;
 
 public static class EndpointExtensions
 {
-    public static IServiceCollection AddEndpoints(
-        this IServiceCollection services,
-        Assembly assembly
-    )
+    public static WebApplication MapEndpoints(this WebApplication app, Assembly assembly)
     {
-        var serviceDescriptors = assembly
-            .DefinedTypes.Where(type =>
-                type is { IsAbstract: false, IsInterface: false }
-                && type.IsAssignableTo(typeof(IEndpoint))
-            )
-            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
-            .ToArray();
+        var interfaceType = typeof(IEndpoint);
 
-        services.TryAddEnumerable(serviceDescriptors);
+        var types = assembly
+            .GetTypes()
+            .Where(t => interfaceType.IsAssignableFrom(t) && !t.IsInterface);
 
-        return services;
-    }
-
-    public static IApplicationBuilder MapEndpoints(this WebApplication app)
-    {
-        var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
-
-        foreach (var endpoint in endpoints)
+        foreach (var type in types)
         {
-            endpoint.MapEndpoint(app);
+            if (Activator.CreateInstance(type) is IEndpoint instance)
+            {
+                instance.MapEndpoints(app);
+            }
         }
 
         return app;

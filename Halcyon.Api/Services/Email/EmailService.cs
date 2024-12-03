@@ -5,11 +5,11 @@ using MimeKit.Text;
 
 namespace Halcyon.Api.Services.Email;
 
-public class EmailSender(
+public class EmailService(
     ITemplateEngine templateEngine,
     IOptions<EmailSettings> emailSettings,
-    ILogger<EmailSender> logger
-) : IEmailSender
+    ILogger<EmailService> logger
+) : IEmailService
 {
     private readonly EmailSettings emailSettings = emailSettings.Value;
 

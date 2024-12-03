@@ -1,6 +1,6 @@
 ﻿namespace Halcyon.Api.Services.Email;
 
-public interface IEmailSender
+public interface IEmailService
 {
     Task SendEmailAsync(EmailMessage message, CancellationToken cancellationToken = default);
 }

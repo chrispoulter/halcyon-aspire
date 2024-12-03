@@ -9,7 +9,7 @@ public static class EmailExtensions
     {
         var emailConfig = configuration.GetSection(EmailSettings.SectionName);
         services.Configure<EmailSettings>(emailConfig);
-        services.AddSingleton<IEmailSender, EmailSender>();
+        services.AddSingleton<IEmailService, EmailService>();
         services.AddSingleton<ITemplateEngine, TemplateEngine>();
 
         return services;

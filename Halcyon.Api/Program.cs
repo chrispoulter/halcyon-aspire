@@ -38,7 +38,6 @@ builder.Services.AddCorsFromConfig(builder.Configuration);
 builder.Services.AddOpenApiFromConfig(builder.Configuration);
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddEmailServices(builder.Configuration);
-builder.Services.AddEndpoints(assembly);
 
 var app = builder.Build();
 
@@ -48,7 +47,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapOpenApiWithSwagger();
-app.MapEndpoints();
+app.MapEndpoints(assembly);
 app.MapDefaultEndpoints();
 
 app.Run();
