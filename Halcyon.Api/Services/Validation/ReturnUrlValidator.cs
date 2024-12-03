@@ -1,7 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Text.RegularExpressions;
+using FluentValidation;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.Extensions.Options;
-using System.Text.RegularExpressions;
 
 namespace Halcyon.Api.Services.Validation;
 

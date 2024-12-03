@@ -65,12 +65,10 @@ namespace Halcyon.Api.Migrations
                         .HasColumnName("password_reset_token");
 
                     b.PrimitiveCollection<List<string>>("Roles")
-                        .IsRequired()
                         .HasColumnType("text[]")
                         .HasColumnName("roles");
 
                     b.Property<NpgsqlTsVector>("SearchVector")
-                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("tsvector")
                         .HasColumnName("search_vector")

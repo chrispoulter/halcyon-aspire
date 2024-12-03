@@ -29,10 +29,10 @@ namespace Halcyon.Api.Migrations
                         nullable: false,
                         defaultValue: false
                     ),
-                    roles = table.Column<List<string>>(type: "text[]", nullable: false),
+                    roles = table.Column<List<string>>(type: "text[]", nullable: true),
                     xmin = table.Column<uint>(type: "xid", rowVersion: true, nullable: false),
                     search_vector = table
-                        .Column<NpgsqlTsVector>(type: "tsvector", nullable: false)
+                        .Column<NpgsqlTsVector>(type: "tsvector", nullable: true)
                         .Annotation("Npgsql:TsVectorConfig", "english")
                         .Annotation(
                             "Npgsql:TsVectorProperties",

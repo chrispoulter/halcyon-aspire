@@ -1,9 +1,9 @@
-﻿using Halcyon.Api.Data;
+﻿using System.Security.Claims;
+using System.Text;
+using Halcyon.Api.Data;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Text;
 
 namespace Halcyon.Api.Services.Auth;
 

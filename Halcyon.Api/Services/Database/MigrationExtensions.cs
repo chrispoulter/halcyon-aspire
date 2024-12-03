@@ -12,6 +12,7 @@ public static class MigrationExtensions
     {
         services.AddHostedService<MigrationHostedService<TDbContext>>();
         services.AddScoped<IDbSeeder<TDbContext>, TDbSeeder>();
+
         return services;
     }
 }

@@ -5,25 +5,25 @@ var postgres = builder
     .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 
-var postgresdb = postgres.AddDatabase("postgresdb");
+var database = postgres.AddDatabase("database");
 
 var rabbitmq = builder
-    .AddRabbitMQ("messaging")
+    .AddRabbitMQ("rabbitmq")
     .WithDataVolume(isReadOnly: false)
     .WithManagementPlugin()
     .WithLifetime(ContainerLifetime.Persistent);
 
-var cache = builder
-    .AddRedis("cache")
+var redis = builder
+    .AddRedis("redis")
     .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 
 var api = builder
     .AddProject<Projects.Halcyon_Api>("api")
     .WithExternalHttpEndpoints()
-    .WithReference(postgresdb)
-    .WithReference(cache)
-    .WithReference(rabbitmq);
+    .WithReference(database)
+    .WithReference(rabbitmq)
+    .WithReference(redis);
 
 builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")

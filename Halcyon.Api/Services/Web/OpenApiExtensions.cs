@@ -1,15 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
-namespace Halcyon.Api.Extensions;
+namespace Halcyon.Api.Services.Web;
 
 public static class OpenApiExtensions
 {
-    public static IServiceCollection AddHalcyonOpenApi(this IServiceCollection services)
+    public static IServiceCollection AddOpenApiFromConfig(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
+        var openApiSettings = new OpenApiSettings();
+        configuration.Bind(OpenApiSettings.SectionName, openApiSettings);
+
         services.AddOpenApi(
-            "v1",
+            openApiSettings.Version,
             options =>
             {
                 options.AddDocumentTransformer(
@@ -17,10 +24,9 @@ public static class OpenApiExtensions
                     {
                         document.Info = new()
                         {
-                            Version = "v1",
-                            Title = "Halcyon API",
-                            Description =
-                                "A .NET Core REST API project template. Built with a sense of peace and tranquillity.",
+                            Version = openApiSettings.Version,
+                            Title = openApiSettings.Title,
+                            Description = openApiSettings.Description,
                         };
 
                         document.Servers.Clear();
@@ -74,14 +80,19 @@ public static class OpenApiExtensions
         return services;
     }
 
-    public static WebApplication MapHalcyonOpenApi(this WebApplication app)
+    public static WebApplication MapOpenApiWithSwagger(this WebApplication app)
     {
+        var openApiSettings = app.Services.GetRequiredService<IOptions<OpenApiSettings>>().Value;
+
         app.MapOpenApi();
 
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint($"/openapi/v1.json", "v1");
-            options.DocumentTitle = "Halcyon API";
+            options.SwaggerEndpoint(
+                $"/openapi/{openApiSettings.Version}.json",
+                openApiSettings.Version
+            );
+            options.DocumentTitle = openApiSettings.Title;
             options.RoutePrefix = string.Empty;
         });
 
