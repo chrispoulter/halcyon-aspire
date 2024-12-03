@@ -9,6 +9,9 @@ public static class OpenApiExtensions
 {
     public static IHostApplicationBuilder AddOpenApiFromConfig(this IHostApplicationBuilder builder)
     {
+        var openApiConfig = builder.Configuration.GetSection(OpenApiSettings.SectionName);
+        builder.Services.Configure<OpenApiSettings>(openApiConfig);
+
         var openApiSettings = new OpenApiSettings();
         builder.Configuration.Bind(OpenApiSettings.SectionName, openApiSettings);
 
