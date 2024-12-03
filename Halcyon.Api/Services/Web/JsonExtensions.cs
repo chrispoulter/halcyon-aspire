@@ -2,9 +2,9 @@
 
 namespace Halcyon.Api.Services.Web;
 
-public static class ServiceExtensions
+public static class JsonExtensions
 {
-    public static IHostApplicationBuilder ConfigureApiDefaults(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder ConfigureJsonDefaults(this IHostApplicationBuilder builder)
     {
         builder.Services.ConfigureHttpJsonOptions(options =>
         {

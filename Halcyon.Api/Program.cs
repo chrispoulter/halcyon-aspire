@@ -35,7 +35,7 @@ TypeAdapterConfig.GlobalSettings.Scan(assembly);
 builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddProblemDetails();
 
-builder.ConfigureApiDefaults();
+builder.ConfigureJsonDefaults();
 builder.AddAuthenticationFromConfig();
 builder.AddCorsFromConfig();
 builder.AddOpenApiFromConfig();
