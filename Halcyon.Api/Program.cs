@@ -26,6 +26,7 @@ builder.Services.AddMigration<HalcyonDbContext, HalcyonDbSeeder>();
 //builder.AddRabbitMQClient(connectionName: "RabbitMq");
 builder.AddMassTransitWithRabbitMq(connectionName: "RabbitMq", assembly);
 builder.AddRedisDistributedCache(connectionName: "Redis");
+builder.AddMailKitClient("maildev");
 
 #pragma warning disable EXTEXP0018
 builder.Services.AddHybridCache();

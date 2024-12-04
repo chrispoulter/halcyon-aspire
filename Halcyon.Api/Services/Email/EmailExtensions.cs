@@ -6,7 +6,7 @@ public static class EmailExtensions
     {
         var emailConfig = builder.Configuration.GetSection(EmailSettings.SectionName);
         builder.Services.Configure<EmailSettings>(emailConfig);
-        builder.Services.AddSingleton<IEmailService, EmailService>();
+        builder.Services.AddScoped<IEmailService, EmailService>();
         builder.Services.AddSingleton<ITemplateEngine, TemplateEngine>();
 
         return builder;

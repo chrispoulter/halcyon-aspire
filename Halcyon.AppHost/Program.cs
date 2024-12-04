@@ -36,7 +36,7 @@ var api = builder
     .WaitFor(rabbitmq)
     .WithReference(redis)
     .WaitFor(redis)
-    //.WithReference(maildev)
+    .WithReference(maildev)
     .WaitFor(maildev);
 
 builder

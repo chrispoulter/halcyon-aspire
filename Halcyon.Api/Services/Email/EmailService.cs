@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Net.Mail;
+using MailKit.Client;
 using Microsoft.Extensions.Options;
 using MimeKit;
 using MimeKit.Text;
@@ -6,6 +7,7 @@ using MimeKit.Text;
 namespace Halcyon.Api.Services.Email;
 
 public class EmailService(
+    MailKitClientFactory clientFactory,
     ITemplateEngine templateEngine,
     IOptions<EmailSettings> emailSettings,
     ILogger<EmailService> logger
@@ -30,38 +32,18 @@ public class EmailService(
             cancellationToken
         );
 
-        var email = new MimeMessage(
-            [MailboxAddress.Parse(emailSettings.NoReplyAddress)],
-            [MailboxAddress.Parse(message.To)],
-            subject,
-            new TextPart(TextFormat.Html) { Text = body }
-        );
-
         try
         {
-            using var client = new SmtpClient();
+            var client = await clientFactory.GetSmtpClientAsync(cancellationToken);
 
-            await client.ConnectAsync(
-                emailSettings.SmtpServer,
-                emailSettings.SmtpPort,
-                emailSettings.SmtpSsl,
-                cancellationToken: cancellationToken
-            );
-
-            if (
-                !string.IsNullOrEmpty(emailSettings.SmtpUserName)
-                && !string.IsNullOrEmpty(emailSettings.SmtpPassword)
-            )
+            using var email = new MailMessage(emailSettings.NoReplyAddress, message.To)
             {
-                await client.AuthenticateAsync(
-                    emailSettings.SmtpUserName,
-                    emailSettings.SmtpPassword,
-                    cancellationToken
-                );
-            }
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+            };
 
-            await client.SendAsync(email, cancellationToken);
-            await client.DisconnectAsync(true, cancellationToken);
+            await client.SendAsync(MimeMessage.CreateFromMailMessage(email));
         }
         catch (Exception error)
         {
