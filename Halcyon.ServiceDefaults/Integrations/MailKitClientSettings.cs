@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Net;
 
 namespace MailKit.Client;
 
@@ -16,6 +17,15 @@ public sealed class MailKitClientSettings
     /// The default value is <see langword="null"/>.
     /// </value>
     public Uri? Endpoint { get; set; }
+
+    /// <summary>
+    /// Gets or sets the network credentials that are optionally configurable for SMTP
+    /// server's that require authentication.
+    /// </summary>
+    /// <value>
+    /// The default value is <see langword="null"/>.
+    /// </value>
+    public NetworkCredential? Credentials { get; set; }
 
     /// <summary>
     /// Gets or sets a boolean value that indicates whether the database health check is disabled or not.
@@ -84,6 +94,14 @@ public sealed class MailKitClientSettings
             }
 
             Endpoint = uri;
+
+            if (
+                builder.TryGetValue("Username", out var username)
+                && builder.TryGetValue("Password", out var password)
+            )
+            {
+                Credentials = new(username.ToString(), password.ToString());
+            }
         }
     }
 }
