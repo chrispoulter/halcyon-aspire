@@ -23,7 +23,7 @@ var redis = builder
     .WithLifetime(ContainerLifetime.Persistent);
 
 var maildev = builder
-    .AddMailDev("maildev", httpPort: 1080, smtpPort: 1025)
+    .AddMailDev("mail", httpPort: 1080, smtpPort: 1025)
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
 
