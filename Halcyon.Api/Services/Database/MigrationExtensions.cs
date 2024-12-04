@@ -13,6 +13,12 @@ public static class MigrationExtensions
         services.AddHostedService<MigrationHostedService<TDbContext>>();
         services.AddScoped<IDbSeeder<TDbContext>, TDbSeeder>();
 
+        services
+            .AddOpenTelemetry()
+            .WithTracing(tracing =>
+                tracing.AddSource(MigrationHostedService<TDbContext>.ActivitySourceName)
+            );
+
         return services;
     }
 }

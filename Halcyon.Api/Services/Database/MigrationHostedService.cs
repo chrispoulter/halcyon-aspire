@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Halcyon.Api.Services.Database;
 
@@ -8,8 +9,14 @@ public class MigrationHostedService<TDbContext>(
 ) : IHostedService
     where TDbContext : DbContext
 {
+    public static readonly string ActivitySourceName = "DbMigrations";
+
+    private static readonly ActivitySource ActivitySource = new(ActivitySourceName);
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        using var activity = ActivitySource.StartActivity($"Migrating {typeof(TDbContext).Name}");
+
         logger.LogInformation("Migrating database for {DbContext}", typeof(TDbContext).Name);
 
         using var scope = serviceProvider.CreateScope();
@@ -26,6 +33,8 @@ public class MigrationHostedService<TDbContext>(
                 "An error occurred while migrating database for {DbContext}",
                 typeof(TDbContext).Name
             );
+
+            activity.SetExceptionTags(ex);
         }
 
         logger.LogInformation("Seeding database for {DbContext}", typeof(TDbContext).Name);
@@ -43,6 +52,8 @@ public class MigrationHostedService<TDbContext>(
                 "An error occurred while seeding database for {DbContext}",
                 typeof(TDbContext).Name
             );
+
+            activity.SetExceptionTags(ex);
         }
     }
 
