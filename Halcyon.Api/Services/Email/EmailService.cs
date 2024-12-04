@@ -2,7 +2,6 @@
 using MailKit.Client;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using MimeKit.Text;
 
 namespace Halcyon.Api.Services.Email;
 

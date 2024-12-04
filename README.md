@@ -53,7 +53,8 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
   "ConnectionStrings": {
     "Database": "Host=localhost;Port=5432;Database=halcyon;Username=postgres;Password=password",
     "RabbitMq": "amqp://guest:guest@localhost:5672",
-    "Redis": "localhost"
+    "Redis": "localhost",
+    "Mail": "Endpoint=smtp://localhost:1025"
   },
   "Cors": {
     "AllowedOrigins": [ "http://localhost:3000" ],
@@ -61,11 +62,6 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
     "AllowedHeaders": [ "Content-Type", "Authorization", "Access-Control-Allow-Credentials" ]
   },
   "Email": {
-    "SmtpServer": "localhost",
-    "SmtpPort": 1025,
-    "SmtpSsl": false,
-    "SmtpUserName": null,
-    "SmtpPassword": null,
     "NoReplyAddress": "noreply@example.com"
   },
   "Jwt": {

@@ -23,7 +23,6 @@ var seedConfig = builder.Configuration.GetSection(SeedSettings.SectionName);
 builder.Services.Configure<SeedSettings>(seedConfig);
 builder.Services.AddMigration<HalcyonDbContext, HalcyonDbSeeder>();
 
-//builder.AddRabbitMQClient(connectionName: "RabbitMq");
 builder.AddMassTransitWithRabbitMq(connectionName: "RabbitMq", assembly);
 builder.AddRedisDistributedCache(connectionName: "Redis");
 builder.AddMailKitClient(connectionName: "Mail");
