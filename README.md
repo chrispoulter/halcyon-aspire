@@ -1,6 +1,6 @@
-﻿# Halcyon API
+﻿# Halcyon
 
-A .NET Core REST API project template 👷 Built with a sense of peace and tranquillity 🙏
+A .NET Core web project template 👷 Built with a sense of peace and tranquillity 🙏
 
 ## Features
 
@@ -10,8 +10,6 @@ A .NET Core REST API project template 👷 Built with a sense of peace and tranq
   [https://learn.microsoft.com/en-us/ef/](https://learn.microsoft.com/en-us/ef/)
 - MassTransit
   [https://masstransit.io/](https://masstransit.io/)
-- SignalR
-  [https://learn.microsoft.com/en-us/aspnet/signalr/](https://learn.microsoft.com/en-us/aspnet/signalr/)
 - FluentValidation
   [https://fluentvalidation.net/](https://fluentvalidation.net/)
 - Mapster
