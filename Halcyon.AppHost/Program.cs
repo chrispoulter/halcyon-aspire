@@ -22,8 +22,10 @@ var redis = builder
     .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
 
+var maildevPassword = builder.AddParameter("mdPassword", secret: true);
+
 var maildev = builder
-    .AddMailDev("mail", httpPort: 1080, smtpPort: 1025)
+    .AddMailDev("mail", password: maildevPassword, httpPort: 1080, smtpPort: 1025)
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
 

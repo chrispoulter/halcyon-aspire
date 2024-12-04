@@ -54,7 +54,7 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
     "Database": "Host=localhost;Port=5432;Database=halcyon;Username=postgres;Password=password",
     "RabbitMq": "amqp://guest:guest@localhost:5672",
     "Redis": "localhost",
-    "Mail": "Endpoint=smtp://localhost:1025"
+    "Mail": "Endpoint=smtp://localhost:1025;Username=mail-dev;Password=password"
   },
   "Cors": {
     "AllowedOrigins": [ "http://localhost:3000" ],
