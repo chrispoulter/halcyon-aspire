@@ -1,6 +1,6 @@
 ﻿using Halcyon.Api.Data;
 
-namespace Halcyon.Api.Services.Auth;
+namespace Halcyon.Api.Services.Jwt;
 
 public interface IJwtTokenGenerator
 {

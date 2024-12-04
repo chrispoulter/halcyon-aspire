@@ -1,13 +1,12 @@
-﻿namespace Halcyon.Api.Services.Auth;
+﻿namespace Halcyon.Api.Services.Jwt;
 
-public static class AuthExtensions
+public static class JwtExtensions
 {
-    public static IHostApplicationBuilder AddAuthServices(this IHostApplicationBuilder builder)
+    public static IHostApplicationBuilder AddJwtServices(this IHostApplicationBuilder builder)
     {
         var jwtConfig = builder.Configuration.GetSection(JwtSettings.SectionName);
         builder.Services.Configure<JwtSettings>(jwtConfig);
         builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
-        builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         return builder;
     }

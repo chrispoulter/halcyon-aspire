@@ -1,10 +1,10 @@
 using FluentValidation;
 using Halcyon.Api.Data;
 using Halcyon.Api.Features;
-using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Database;
 using Halcyon.Api.Services.Email;
 using Halcyon.Api.Services.Infrastructure;
+using Halcyon.Api.Services.Jwt;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,7 +39,7 @@ builder.ConfigureJsonDefaults();
 builder.AddAuthenticationFromConfig();
 builder.AddCorsFromConfig();
 builder.AddOpenApiFromConfig();
-builder.AddAuthServices();
+builder.AddJwtServices();
 builder.AddEmailServices();
 
 builder
