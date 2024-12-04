@@ -42,12 +42,12 @@ public class EmailService(
                 IsBodyHtml = true,
             };
 
-            await client.SendAsync(MimeMessage.CreateFromMailMessage(email));
+            await client.SendAsync(MimeMessage.CreateFromMailMessage(email), cancellationToken);
         }
-        catch (Exception error)
+        catch (Exception ex)
         {
             logger.LogError(
-                error,
+                ex,
                 "An error occurred while sending email to {To} with template {Template}",
                 message.To,
                 message.Template
