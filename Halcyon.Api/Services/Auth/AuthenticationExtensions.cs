@@ -1,11 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Halcyon.Api.Services.Jwt;
+using Halcyon.Api.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Halcyon.Api.Services.Infrastructure;
+namespace Halcyon.Api.Services.Auth;
 
 public static class AuthenticationExtensions
 {
@@ -34,6 +34,8 @@ public static class AuthenticationExtensions
                     ),
                 };
             });
+
+        builder.Services.AddAuthorization();
 
         return builder;
     }

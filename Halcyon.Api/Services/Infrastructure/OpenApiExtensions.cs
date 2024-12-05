@@ -6,35 +6,12 @@ namespace Halcyon.Api.Services.Infrastructure;
 
 public static class OpenApiExtensions
 {
-    public const string Version = "v1";
-
-    public const string Title = "Halcyon API";
-
-    public const string Description =
-        "A .NET Core REST API project template. Built with a sense of peace and tranquillity.";
-
     public static IHostApplicationBuilder AddOpenApi(this IHostApplicationBuilder builder)
     {
         builder.Services.AddOpenApi(
-            Version,
+            "v1",
             options =>
             {
-                options.AddDocumentTransformer(
-                    (document, context, cancellationToken) =>
-                    {
-                        document.Info = new()
-                        {
-                            Version = Version,
-                            Title = Title,
-                            Description = Description,
-                        };
-
-                        document.Servers.Clear();
-
-                        return Task.CompletedTask;
-                    }
-                );
-
                 var scheme = new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.Http,
@@ -80,14 +57,13 @@ public static class OpenApiExtensions
         return builder;
     }
 
-    public static WebApplication MapOpenApi(this WebApplication app)
+    public static WebApplication MapOpenApiWithSwagger(this WebApplication app)
     {
-        OpenApiEndpointRouteBuilderExtensions.MapOpenApi(app);
+        app.MapOpenApi();
 
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint($"/openapi/{Version}.json", Version);
-            options.DocumentTitle = Title;
+            options.SwaggerEndpoint($"/openapi/v1.json", "v1");
             options.RoutePrefix = string.Empty;
         });
 

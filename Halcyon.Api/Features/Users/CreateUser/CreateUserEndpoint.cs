@@ -1,4 +1,5 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
 using Mapster;
@@ -12,7 +13,7 @@ public class CreateUserEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapPost("/user", HandleAsync)
-            .RequireAuthorization(nameof(AuthPolicy.IsUserAdministrator))
+            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
             .AddValidationFilter<CreateUserRequest>()
             .WithTags(EndpointTag.Users)
             .Produces<UpdateResponse>()

@@ -1,4 +1,4 @@
-﻿namespace Halcyon.Api.Services.Infrastructure;
+﻿namespace Halcyon.Api.Services.Auth;
 
 public record CurrentUser(Guid Id)
 {

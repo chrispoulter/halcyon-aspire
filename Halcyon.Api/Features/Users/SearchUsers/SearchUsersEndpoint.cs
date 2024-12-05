@@ -1,4 +1,5 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
 using Mapster;
@@ -11,7 +12,7 @@ public class SearchUsersEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapGet("/user", HandleAsync)
-            .RequireAuthorization(nameof(AuthPolicy.IsUserAdministrator))
+            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
             .AddValidationFilter<SearchUsersRequest>()
             .WithTags(EndpointTag.Users)
             .Produces<SearchUsersResponse>()

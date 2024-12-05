@@ -1,6 +1,6 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Infrastructure;
-using Halcyon.Api.Services.Jwt;
 using Halcyon.Api.Services.Validation;
 using Microsoft.EntityFrameworkCore;
 using BC = BCrypt.Net.BCrypt;
