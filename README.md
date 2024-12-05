@@ -54,11 +54,6 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
     "Redis": "localhost",
     "Mail": "Endpoint=smtp://localhost:1025;Username=mail-dev;Password=password"
   },
-  "Cors": {
-    "AllowedOrigins": [ "http://localhost:3000" ],
-    "AllowedMethods": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-    "AllowedHeaders": [ "Content-Type", "Authorization", "Access-Control-Allow-Credentials" ]
-  },
   "Email": {
     "NoReplyAddress": "noreply@example.com"
   },
@@ -67,11 +62,6 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
     "Issuer": "HalcyonApi",
     "Audience": "HalcyonClient",
     "ExpiresIn": 3600
-  },
-  "OpenApi": {
-    "Version": "v1",
-    "Title": "Halcyon API",
-    "Description": "A .NET Core REST API project template. Built with a sense of peace and tranquillity."
   },
   "Seed": {
     "Users": [

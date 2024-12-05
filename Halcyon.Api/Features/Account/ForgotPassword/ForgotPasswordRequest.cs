@@ -17,6 +17,6 @@ public class ForgotPasswordRequestValidator : AbstractValidator<ForgotPasswordRe
     public ForgotPasswordRequestValidator(IOptions<CorsOptions> corsOptions)
     {
         RuleFor(x => x.EmailAddress).NotEmpty().EmailAddress().WithName("Email Address");
-        RuleFor(x => x.SiteUrl).NotEmpty().ReturnUrl(corsOptions).WithName("Site Url");
+        RuleFor(x => x.SiteUrl).NotEmpty().Url().WithName("Site Url");
     }
 }

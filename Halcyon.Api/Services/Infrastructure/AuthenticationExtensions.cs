@@ -9,9 +9,7 @@ namespace Halcyon.Api.Services.Infrastructure;
 
 public static class AuthenticationExtensions
 {
-    public static IHostApplicationBuilder AddAuthenticationFromConfig(
-        this IHostApplicationBuilder builder
-    )
+    public static IHostApplicationBuilder AddAuthentication(this IHostApplicationBuilder builder)
     {
         JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 

@@ -23,7 +23,7 @@ var seedConfig = builder.Configuration.GetSection(SeedSettings.SectionName);
 builder.Services.Configure<SeedSettings>(seedConfig);
 builder.Services.AddMigration<HalcyonDbContext, HalcyonDbSeeder>();
 
-builder.AddMassTransitWithRabbitMq(connectionName: "RabbitMq", assembly);
+builder.AddMassTransit(connectionName: "RabbitMq", assembly);
 builder.AddRedisDistributedCache(connectionName: "Redis");
 builder.AddMailKitClient(connectionName: "Mail");
 
@@ -35,10 +35,10 @@ TypeAdapterConfig.GlobalSettings.Scan(assembly);
 builder.Services.AddValidatorsFromAssembly(assembly);
 builder.Services.AddProblemDetails();
 
-builder.ConfigureJsonDefaults();
-builder.AddAuthenticationFromConfig();
-builder.AddCorsFromConfig();
-builder.AddOpenApiFromConfig();
+builder.ConfigureJsonOptions();
+builder.AddAuthentication();
+builder.AddCors();
+builder.AddOpenApi();
 builder.AddJwtServices();
 builder.AddEmailServices();
 
@@ -56,7 +56,7 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapOpenApiWithSwagger();
+app.MapOpenApi();
 app.MapEndpoints(assembly);
 app.MapDefaultEndpoints();
 

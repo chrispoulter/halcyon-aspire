@@ -1,22 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace Halcyon.Api.Services.Infrastructure;
 
 public static class OpenApiExtensions
 {
-    public static IHostApplicationBuilder AddOpenApiFromConfig(this IHostApplicationBuilder builder)
+    public const string Version = "v1";
+
+    public const string Title = "Halcyon API";
+
+    public const string Description =
+        "A .NET Core REST API project template. Built with a sense of peace and tranquillity.";
+
+    public static IHostApplicationBuilder AddOpenApi(this IHostApplicationBuilder builder)
     {
-        var openApiConfig = builder.Configuration.GetSection(OpenApiSettings.SectionName);
-        builder.Services.Configure<OpenApiSettings>(openApiConfig);
-
-        var openApiSettings = new OpenApiSettings();
-        builder.Configuration.Bind(OpenApiSettings.SectionName, openApiSettings);
-
         builder.Services.AddOpenApi(
-            openApiSettings.Version,
+            Version,
             options =>
             {
                 options.AddDocumentTransformer(
@@ -24,9 +24,9 @@ public static class OpenApiExtensions
                     {
                         document.Info = new()
                         {
-                            Version = openApiSettings.Version,
-                            Title = openApiSettings.Title,
-                            Description = openApiSettings.Description,
+                            Version = Version,
+                            Title = Title,
+                            Description = Description,
                         };
 
                         document.Servers.Clear();
@@ -80,19 +80,14 @@ public static class OpenApiExtensions
         return builder;
     }
 
-    public static WebApplication MapOpenApiWithSwagger(this WebApplication app)
+    public static WebApplication MapOpenApi(this WebApplication app)
     {
-        var openApiSettings = app.Services.GetRequiredService<IOptions<OpenApiSettings>>().Value;
-
-        app.MapOpenApi();
+        OpenApiEndpointRouteBuilderExtensions.MapOpenApi(app);
 
         app.UseSwaggerUI(options =>
         {
-            options.SwaggerEndpoint(
-                $"/openapi/{openApiSettings.Version}.json",
-                openApiSettings.Version
-            );
-            options.DocumentTitle = openApiSettings.Title;
+            options.SwaggerEndpoint($"/openapi/{Version}.json", Version);
+            options.DocumentTitle = Title;
             options.RoutePrefix = string.Empty;
         });
 

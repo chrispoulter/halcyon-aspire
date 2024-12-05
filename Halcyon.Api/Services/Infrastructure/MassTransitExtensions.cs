@@ -5,9 +5,9 @@ using MassTransit.Monitoring;
 
 namespace Halcyon.Api.Services.Infrastructure;
 
-public static class MessagingExtensions
+public static class MassTransitExtensions
 {
-    public static IHostApplicationBuilder AddMassTransitWithRabbitMq(
+    public static IHostApplicationBuilder AddMassTransit(
         this IHostApplicationBuilder builder,
         string connectionName,
         Assembly assembly
