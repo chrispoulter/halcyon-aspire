@@ -43,7 +43,14 @@ public partial class TemplateEngine : ITemplateEngine
             match =>
             {
                 var key = match.Groups[1].Value.Trim();
-                return model.GetType().GetProperty(key).GetValue(model, null).ToString();
+                object value = model;
+
+                foreach (var k in key.Split('.'))
+                {
+                    value = value.GetType().GetProperty(k).GetValue(value, null);
+                }
+
+                return value.ToString();
             }
         );
     }

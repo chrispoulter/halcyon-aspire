@@ -25,9 +25,11 @@ public class EmailService(
             message.Template
         );
 
+        var model = new { message.Data, emailSettings.CdnUrl };
+
         var (body, subject) = await templateEngine.RenderTemplateAsync(
             message.Template,
-            message.Data,
+            model,
             cancellationToken
         );
 

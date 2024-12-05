@@ -55,7 +55,8 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
     "Mail": "Endpoint=smtp://localhost:1025;Username=mail-dev;Password=password"
   },
   "Email": {
-    "NoReplyAddress": "noreply@example.com"
+    "NoReplyAddress": "noreply@example.com",
+    "CdnUrl": "http://localhost:3000"
   },
   "Jwt": {
     "SecurityKey": "super_secret_key_that_should_be_changed",

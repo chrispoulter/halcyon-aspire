@@ -40,7 +40,6 @@ public class ForgotPasswordEndpoint : IEndpoint
             {
                 To = user.EmailAddress,
                 PasswordResetToken = user.PasswordResetToken,
-                SiteUrl = request.SiteUrl,
             };
 
             await publishEndpoint.Publish(message, cancellationToken);

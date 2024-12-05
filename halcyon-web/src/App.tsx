@@ -3,21 +3,15 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 
-type WeatherForecast = {
-  date: string;
-  temperatureC: number;
-  summary: string;
-  temperatureF: number;
-};
 function App() {
   const [count, setCount] = useState(0);
 
-  const [weather, setWeather] = useState<WeatherForecast[] | null>(null);
+  const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/weatherforecast`)
-      .then((res) => res.json())
-      .then((data) => setWeather(data));
+    fetch(`${import.meta.env.VITE_API_URL}/health`)
+      .then((res) => res.text())
+      .then((data) => setResult(data));
   }, []);
 
   return (
@@ -43,15 +37,8 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
 
-      <h1>Weather {import.meta.env.VITE_API_URL}</h1>
-      <ul>
-        {weather?.map((forecast) => (
-          <li key={forecast.date}>
-            <strong>{forecast.date}</strong>: {forecast.summary} (
-            {forecast.temperatureC}°C/{forecast.temperatureF}°F)
-          </li>
-        ))}
-      </ul>
+      <h1>Api {import.meta.env.VITE_API_URL}</h1>
+      <p>{result}</p>
     </>
   );
 }

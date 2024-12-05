@@ -17,7 +17,7 @@ public class SendResetPasswordEmailConsumer(IEmailService emailService)
                 {
                     Template = "ResetPasswordEmail.html",
                     To = message.To,
-                    Data = new { message.PasswordResetToken, message.SiteUrl },
+                    Data = message,
                 },
                 context.CancellationToken
             );
