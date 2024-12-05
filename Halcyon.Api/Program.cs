@@ -38,6 +38,7 @@ builder.ConfigureJsonOptions();
 builder.AddAuthentication();
 builder.AddCors();
 builder.AddOpenApi();
+builder.AddPasswordServices();
 builder.AddJwtServices();
 builder.AddEmailServices();
 
