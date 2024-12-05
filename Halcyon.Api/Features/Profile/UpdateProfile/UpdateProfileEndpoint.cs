@@ -14,7 +14,7 @@ public class UpdateProfileEndpoint : IEndpoint
         app.MapPut("/profile", HandleAsync)
             .RequireAuthorization()
             .AddValidationFilter<UpdateProfileRequest>()
-            .WithTags(EndpointTag.Profile)
+            .WithTags("Profile")
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
