@@ -12,7 +12,7 @@ public class LockUserEndpoint : IEndpoint
     {
         app.MapPut("/user/{id}/lock", HandleAsync)
             .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
-            .WithTags("Users")
+            .WithTags(Tag.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)

@@ -14,7 +14,7 @@ public class UpdateUserEndpoint : IEndpoint
         app.MapPut("/user/{id}", HandleAsync)
             .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
             .AddValidationFilter<UpdateUserRequest>()
-            .WithTags("Users")
+            .WithTags(Tag.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
