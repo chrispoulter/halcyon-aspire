@@ -12,7 +12,7 @@ public class GetProfileEndpoint : IEndpoint
     {
         app.MapGet("/profile", HandleAsync)
             .RequireAuthorization()
-            .WithTags(Tag.Profile)
+            .WithTags(EndpointTag.Profile)
             .Produces<GetProfileResponse>()
             .ProducesProblem(StatusCodes.Status404NotFound);
     }

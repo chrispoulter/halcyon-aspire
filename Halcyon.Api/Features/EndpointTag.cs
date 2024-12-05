@@ -1,6 +1,6 @@
 ﻿namespace Halcyon.Api.Features;
 
-public static class Tag
+public static class EndpointTag
 {
     public const string Account = "Account";
 

@@ -12,7 +12,7 @@ public class UnlockUserEndpoint : IEndpoint
     {
         app.MapPut("/user/{id}/unlock", HandleAsync)
             .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
-            .WithTags(Tag.Users)
+            .WithTags(EndpointTag.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict);

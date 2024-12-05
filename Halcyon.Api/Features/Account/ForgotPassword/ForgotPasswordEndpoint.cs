@@ -13,7 +13,7 @@ public class ForgotPasswordEndpoint : IEndpoint
     {
         app.MapPut("/account/forgot-password", HandleAsync)
             .AddValidationFilter<ForgotPasswordRequest>()
-            .WithTags(Tag.Account)
+            .WithTags(EndpointTag.Account)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

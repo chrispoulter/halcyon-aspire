@@ -14,7 +14,7 @@ public class ChangePasswordEndpoint : IEndpoint
         app.MapPut("/profile/change-password", HandleAsync)
             .RequireAuthorization()
             .AddValidationFilter<ChangePasswordRequest>()
-            .WithTags(Tag.Profile)
+            .WithTags(EndpointTag.Profile)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)

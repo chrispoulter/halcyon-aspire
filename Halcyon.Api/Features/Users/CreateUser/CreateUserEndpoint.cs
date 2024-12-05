@@ -15,7 +15,7 @@ public class CreateUserEndpoint : IEndpoint
         app.MapPost("/user", HandleAsync)
             .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
             .AddValidationFilter<CreateUserRequest>()
-            .WithTags(Tag.Users)
+            .WithTags(EndpointTag.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

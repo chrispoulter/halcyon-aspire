@@ -14,7 +14,7 @@ public class SearchUsersEndpoint : IEndpoint
         app.MapGet("/user", HandleAsync)
             .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
             .AddValidationFilter<SearchUsersRequest>()
-            .WithTags(Tag.Users)
+            .WithTags(EndpointTag.Users)
             .Produces<SearchUsersResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }
