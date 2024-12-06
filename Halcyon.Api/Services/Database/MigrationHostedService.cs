@@ -35,6 +35,8 @@ public class MigrationHostedService<TDbContext>(
             );
 
             activity.SetExceptionTags(ex);
+
+            return;
         }
 
         logger.LogInformation("Seeding database for {DbContext}", typeof(TDbContext).Name);
