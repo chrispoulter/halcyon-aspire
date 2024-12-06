@@ -13,7 +13,7 @@ public class LoginEndpoint : IEndpoint
         app.MapPost("/account/login", HandleAsync)
             .AddValidationFilter<LoginRequest>()
             .WithTags(EndpointTag.Account)
-            .Produces<string>(contentType: "text/plain")
+            .Produces<LoginResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }
 
@@ -55,8 +55,8 @@ public class LoginEndpoint : IEndpoint
             );
         }
 
-        var result = jwtTokenGenerator.GenerateJwtToken(user);
+        var result = new LoginResponse { AccessToken = jwtTokenGenerator.GenerateJwtToken(user) };
 
-        return Results.Content(result);
+        return Results.Ok(result);
     }
 }
