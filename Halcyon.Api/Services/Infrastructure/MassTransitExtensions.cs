@@ -22,7 +22,7 @@ public static class MassTransitExtensions
                 {
                     cfg.Host(builder.Configuration.GetConnectionString(connectionName));
                     cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter(true));
-                    cfg.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(5)));
+                    //cfg.UseMessageRetry(retry => retry.Interval(3, TimeSpan.FromSeconds(5)));
                 }
             );
         });
