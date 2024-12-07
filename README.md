@@ -10,6 +10,8 @@ A .NET Core web project template 👷 Built with a sense of peace and tranquilli
   [https://learn.microsoft.com/en-us/ef/](https://learn.microsoft.com/en-us/ef/)
 - MassTransit
   [https://masstransit.io/](https://masstransit.io/)
+- SignalR
+  [https://learn.microsoft.com/en-us/aspnet/signalr](https://learn.microsoft.com/en-us/aspnet/signalr)
 - FluentValidation
   [https://fluentvalidation.net/](https://fluentvalidation.net/)
 - Mapster

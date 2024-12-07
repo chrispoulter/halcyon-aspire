@@ -12,7 +12,7 @@ public class EmailService(
     ILogger<EmailService> logger
 ) : IEmailService
 {
-    private readonly EmailSettings emailSettings = emailSettings.Value;
+    private readonly EmailSettings _emailSettings = emailSettings.Value;
 
     public async Task SendEmailAsync(
         EmailMessage message,
@@ -25,7 +25,7 @@ public class EmailService(
             message.Template
         );
 
-        var model = new { message.Data, emailSettings.CdnUrl };
+        var model = new { message.Data, _emailSettings.CdnUrl };
 
         var (body, subject) = await templateEngine.RenderTemplateAsync(
             message.Template,
@@ -37,7 +37,7 @@ public class EmailService(
         {
             var client = await clientFactory.GetSmtpClientAsync(cancellationToken);
 
-            using var email = new MailMessage(emailSettings.NoReplyAddress, message.To)
+            using var email = new MailMessage(_emailSettings.NoReplyAddress, message.To)
             {
                 Subject = subject,
                 Body = body,

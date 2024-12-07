@@ -1,0 +1,35 @@
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
+
+namespace Halcyon.Api.Services.SignalR;
+
+public class EventHub : Hub<IEventClient>
+{
+    public const string Pattern = "/hubs/event";
+
+    public override async Task OnConnectedAsync()
+    {
+        var user = Context.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            var roles = user.FindAll(ClaimTypes.Role);
+
+            var groups = roles
+                .Select(role => GetGroupForRole(role.Value))
+                .Append(GetGroupForUser(user.Identity.Name));
+
+            var addToGroup = groups.Select(group =>
+                Groups.AddToGroupAsync(Context.ConnectionId, group)
+            );
+
+            await Task.WhenAll(addToGroup);
+        }
+
+        await base.OnConnectedAsync();
+    }
+
+    public static string GetGroupForUser(object id) => $"USER_{id}";
+
+    public static string GetGroupForRole(string role) => $"ROLE_{role}";
+}

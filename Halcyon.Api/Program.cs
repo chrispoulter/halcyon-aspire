@@ -4,8 +4,11 @@ using Halcyon.Api.Services.Auth;
 using Halcyon.Api.Services.Database;
 using Halcyon.Api.Services.Email;
 using Halcyon.Api.Services.Infrastructure;
+using Halcyon.Api.Services.SignalR;
 using Mapster;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var assembly = typeof(Program).Assembly;
 
@@ -13,10 +16,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.AddNpgsqlDbContext<HalcyonDbContext>(
-    connectionName: "Database",
-    configureDbContextOptions: options => options.UseSnakeCaseNamingConvention()
+builder.Services.AddDbContext<HalcyonDbContext>(
+    (provider, options) =>
+    {
+        options
+            .UseNpgsql(builder.Configuration.GetConnectionString("Database"))
+            .UseSnakeCaseNamingConvention()
+            .AddInterceptors(provider.GetServices<ISaveChangesInterceptor>());
+    }
 );
+
+builder.EnrichNpgsqlDbContext<HalcyonDbContext>();
 
 var seedConfig = builder.Configuration.GetSection(SeedSettings.SectionName);
 builder.Services.Configure<SeedSettings>(seedConfig);
@@ -37,6 +47,7 @@ builder.Services.AddProblemDetails();
 builder.ConfigureJsonOptions();
 builder.AddAuthentication();
 builder.AddCors();
+builder.AddSignalR();
 builder.AddOpenApi();
 builder.AddPasswordServices();
 builder.AddJwtServices();
@@ -51,6 +62,7 @@ app.UseAuthorization();
 
 app.MapOpenApiWithSwagger();
 app.MapEndpoints(assembly);
+app.MapHubs();
 app.MapDefaultEndpoints();
 
 app.Run();

@@ -10,11 +10,13 @@ namespace Halcyon.Api.Services.Auth;
 public class JwtTokenGenerator(TimeProvider timeProvider, IOptions<JwtSettings> jwtSettings)
     : IJwtTokenGenerator
 {
-    private readonly JwtSettings jwtSettings = jwtSettings.Value;
+    private readonly JwtSettings _jwtSettings = jwtSettings.Value;
 
     public string GenerateJwtToken(User user)
     {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecurityKey));
+        var securityKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_jwtSettings.SecurityKey)
+        );
 
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -33,10 +35,10 @@ public class JwtTokenGenerator(TimeProvider timeProvider, IOptions<JwtSettings> 
                     )),
                 ]
             ),
-            Expires = timeProvider.GetUtcNow().AddSeconds(jwtSettings.ExpiresIn).UtcDateTime,
+            Expires = timeProvider.GetUtcNow().AddSeconds(_jwtSettings.ExpiresIn).UtcDateTime,
             SigningCredentials = credentials,
-            Issuer = jwtSettings.Issuer,
-            Audience = jwtSettings.Audience,
+            Issuer = _jwtSettings.Issuer,
+            Audience = _jwtSettings.Audience,
         };
 
         var handler = new JsonWebTokenHandler();
