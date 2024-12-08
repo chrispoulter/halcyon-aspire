@@ -25,24 +25,13 @@ public class EntityChangedConsumer(
                         EventHub.GetGroupForUser(message.Id),
                     };
 
-                    //using (
-                    //    logger.BeginScope(
-                    //        new List<KeyValuePair<string, object>>
-                    //        {
-                    //            new("Id", message.Id),
-                    //            new("Type", message.Type),
-                    //            new("State", message.State),
-                    //            new("Timestamp", message.Timestamp),
-                    //        }
-                    //    )
-                    //)
-                    {
-                        logger.LogInformation(
-                            "Sending entity changed event {Event} to groups {Groups}",
-                            message,
-                            groups
-                        );
-                    }
+                    logger.LogInformation(
+                        "Sending entity changed event to groups {Groups}, EntityType: {EntityType}, EntityState: {EntityState}, EntityId: {EntityId}",
+                        groups,
+                        message.Type,
+                        message.State,
+                        message.Id
+                    );
 
                     await eventHubContext
                         .Clients.Groups(groups)

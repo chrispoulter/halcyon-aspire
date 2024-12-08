@@ -9,6 +9,13 @@ public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
 
     public override async Task OnConnectedAsync()
     {
+        logger.LogInformation(
+            "Connection to {Hub} started, ConnectionId: {ConnectionId}, UserId: {UserId}",
+            nameof(EventHub),
+            Context.ConnectionId,
+            Context.User?.Identity?.Name
+        );
+
         var user = Context.User;
 
         if (user.Identity.IsAuthenticated)
@@ -17,13 +24,10 @@ public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
 
             var groups = roles
                 .Select(role => GetGroupForRole(role.Value))
-                .Append(GetGroupForUser(user.Identity.Name));
+                .Append(GetGroupForUser(user.Identity.Name))
+                .ToArray();
 
-            logger.LogInformation(
-                "Connecting {User} to groups {Groups}",
-                user.Identity.Name,
-                groups
-            );
+            logger.LogInformation("Adding connection to groups {Groups}", groups);
 
             var addToGroup = groups.Select(group =>
                 Groups.AddToGroupAsync(Context.ConnectionId, group)
@@ -33,6 +37,18 @@ public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
         }
 
         await base.OnConnectedAsync();
+    }
+
+    public override Task OnDisconnectedAsync(Exception exception)
+    {
+        logger.LogInformation(
+            "Connection to {Hub} ended, ConnectionId: {ConnectionId}, Exception: {Exception}",
+            nameof(EventHub),
+            Context.ConnectionId,
+            exception
+        );
+
+        return base.OnDisconnectedAsync(exception);
     }
 
     public static string GetGroupForUser(object id) => $"USER_{id}";
