@@ -40,7 +40,7 @@ public class EntityChangedInterceptor(IPublishEndpoint publishEndpoint) : SaveCh
         CancellationToken cancellationToken = default
     )
     {
-        await PublishPendingEventsAsync();
+        await PublishPendingEventsAsync(cancellationToken);
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 
@@ -70,9 +70,9 @@ public class EntityChangedInterceptor(IPublishEndpoint publishEndpoint) : SaveCh
         }
     }
 
-    private async Task PublishPendingEventsAsync()
+    private async Task PublishPendingEventsAsync(CancellationToken cancellationToken = default)
     {
-        await publishEndpoint.PublishBatch(_pendingEvents);
+        await publishEndpoint.PublishBatch(_pendingEvents, cancellationToken);
         _pendingEvents.Clear();
     }
 
