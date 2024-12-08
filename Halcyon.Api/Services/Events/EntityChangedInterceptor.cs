@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Halcyon.Api.Services.SignalR;
+namespace Halcyon.Api.Services.Events;
 
 public class EntityChangedInterceptor(IPublishEndpoint publishEndpoint) : SaveChangesInterceptor
 {

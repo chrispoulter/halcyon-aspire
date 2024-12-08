@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Halcyon.Api.Services.SignalR;
+namespace Halcyon.Api.Services.Events;
 
 public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
 {
@@ -10,9 +10,8 @@ public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
     public override async Task OnConnectedAsync()
     {
         logger.LogInformation(
-            "Connection to {Hub} started, ConnectionId: {ConnectionId}, UserId: {UserId}",
+            "Connection to {Hub} started, UserId: {UserId}",
             nameof(EventHub),
-            Context.ConnectionId,
             Context.User?.Identity?.Name
         );
 
@@ -42,9 +41,8 @@ public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
     public override Task OnDisconnectedAsync(Exception exception)
     {
         logger.LogInformation(
-            "Connection to {Hub} ended, ConnectionId: {ConnectionId}, Exception: {Exception}",
+            "Connection to {Hub} ended, Exception: {Exception}",
             nameof(EventHub),
-            Context.ConnectionId,
             exception
         );
 

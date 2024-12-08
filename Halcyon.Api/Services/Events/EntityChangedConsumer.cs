@@ -2,7 +2,7 @@ using Halcyon.Api.Data;
 using MassTransit;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Halcyon.Api.Services.SignalR;
+namespace Halcyon.Api.Services.Events;
 
 public class EntityChangedConsumer(
     IHubContext<EventHub, IEventClient> eventHubContext,
@@ -26,7 +26,7 @@ public class EntityChangedConsumer(
                     };
 
                     logger.LogInformation(
-                        "Sending entity changed event to groups {Groups}, EntityType: {EntityType}, EntityState: {EntityState}, EntityId: {EntityId}",
+                        "Broadcasting entity changed event, Groups: {Groups}, EntityType: {EntityType}, EntityState: {EntityState}, EntityId: {EntityId}",
                         groups,
                         message.Type,
                         message.State,

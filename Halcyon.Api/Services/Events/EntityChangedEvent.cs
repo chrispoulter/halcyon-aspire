@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Halcyon.Api.Services.SignalR;
+namespace Halcyon.Api.Services.Events;
 
 public class EntityChangedEvent
 {

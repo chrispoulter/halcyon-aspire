@@ -1,4 +1,4 @@
-﻿namespace Halcyon.Api.Services.SignalR;
+﻿namespace Halcyon.Api.Services.Events;
 
 public interface IEventClient
 {

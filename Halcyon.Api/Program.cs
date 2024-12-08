@@ -3,8 +3,8 @@ using Halcyon.Api.Data;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Database;
 using Halcyon.Api.Services.Email;
+using Halcyon.Api.Services.Events;
 using Halcyon.Api.Services.Infrastructure;
-using Halcyon.Api.Services.SignalR;
 using Mapster;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -49,9 +49,9 @@ builder.AddAuthentication();
 builder.AddCors();
 builder.AddSignalR();
 builder.AddOpenApi();
-builder.AddEndpoints(assembly);
 builder.AddAuthenticationServices();
 builder.AddEmailServices();
+builder.AddEventServices();
 
 var app = builder.Build();
 
@@ -61,8 +61,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapOpenApiWithSwagger();
-app.MapEndpoints();
-app.MapHubs();
+app.MapEndpoints(assembly);
+app.MapHubs(assembly);
 app.MapDefaultEndpoints();
 
 app.Run();

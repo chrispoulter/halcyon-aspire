@@ -1,6 +1,6 @@
 ﻿namespace Halcyon.Api.Services.Authorization;
 
-public static class RequireRoleFilterExtensions
+public static class AuthorizationExtensions
 {
     public static RouteHandlerBuilder RequireRole(
         this RouteHandlerBuilder builder,
