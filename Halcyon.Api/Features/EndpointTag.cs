@@ -4,7 +4,7 @@ public static class EndpointTag
 {
     public const string Account = "Account";
 
-    public const string Profile = "Account";
+    public const string Profile = "Profile";
 
     public const string Users = "Users";
 }
