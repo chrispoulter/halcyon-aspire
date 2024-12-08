@@ -1,6 +1,6 @@
 using FluentValidation;
 using Halcyon.Api.Data;
-using Halcyon.Api.Services.Auth;
+using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Database;
 using Halcyon.Api.Services.Email;
 using Halcyon.Api.Services.Infrastructure;
@@ -22,7 +22,7 @@ builder.Services.AddDbContext<HalcyonDbContext>(
         options
             .UseNpgsql(builder.Configuration.GetConnectionString("Database"))
             .UseSnakeCaseNamingConvention()
-            .AddInterceptors(provider.GetServices<ISaveChangesInterceptor>());
+            .AddInterceptors(provider.GetServices<IInterceptor>());
     }
 );
 
@@ -49,8 +49,7 @@ builder.AddAuthentication();
 builder.AddCors();
 builder.AddSignalR();
 builder.AddOpenApi();
-builder.AddPasswordServices();
-builder.AddJwtServices();
+builder.AddAuthenticationServices();
 builder.AddEmailServices();
 
 var app = builder.Build();

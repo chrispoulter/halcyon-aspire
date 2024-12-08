@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace Halcyon.Api.Services.Auth;
+namespace Halcyon.Api.Services.Authentication;
 
 public class PasswordHasher : IPasswordHasher
 {

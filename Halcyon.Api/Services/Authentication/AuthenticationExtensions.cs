@@ -1,11 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Halcyon.Api.Services.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Halcyon.Api.Services.Auth;
+namespace Halcyon.Api.Services.Authentication;
 
 public static class AuthenticationExtensions
 {
@@ -52,6 +51,18 @@ public static class AuthenticationExtensions
             });
 
         builder.Services.AddAuthorization();
+
+        return builder;
+    }
+
+    public static IHostApplicationBuilder AddAuthenticationServices(
+        this IHostApplicationBuilder builder
+    )
+    {
+        var jwtConfig = builder.Configuration.GetSection(JwtSettings.SectionName);
+        builder.Services.Configure<JwtSettings>(jwtConfig);
+        builder.Services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+        builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         return builder;
     }

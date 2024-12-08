@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Services.Auth;
+using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Infrastructure;
 using Mapster;
 using Microsoft.EntityFrameworkCore;

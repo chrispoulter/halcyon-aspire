@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Halcyon.Api.Services.Database;
 
-public static class MigrationExtensions
+public static class DatabaseExtensions
 {
     public static IServiceCollection AddMigration<TDbContext, TDbSeeder>(
         this IServiceCollection services
@@ -20,5 +21,13 @@ public static class MigrationExtensions
             );
 
         return services;
+    }
+
+    public static void SetExceptionTags(this Activity activity, Exception ex)
+    {
+        activity.AddTag("exception.message", ex.Message);
+        activity.AddTag("exception.stacktrace", ex.ToString());
+        activity.AddTag("exception.type", ex.GetType().FullName);
+        activity.SetStatus(ActivityStatusCode.Error);
     }
 }

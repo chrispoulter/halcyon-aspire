@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Halcyon.Api.Services.SignalR;
 
-public class EventHub : Hub<IEventClient>
+public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
 {
     public const string Pattern = "/hubs/event";
 
@@ -18,6 +18,12 @@ public class EventHub : Hub<IEventClient>
             var groups = roles
                 .Select(role => GetGroupForRole(role.Value))
                 .Append(GetGroupForUser(user.Identity.Name));
+
+            logger.LogInformation(
+                "Connecting {User} to groups {Groups}",
+                user.Identity.Name,
+                groups
+            );
 
             var addToGroup = groups.Select(group =>
                 Groups.AddToGroupAsync(Context.ConnectionId, group)

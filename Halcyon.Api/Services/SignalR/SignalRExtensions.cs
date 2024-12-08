@@ -16,7 +16,7 @@ public static class SignalRExtensions
                 options.PayloadSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
-        builder.Services.AddScoped<ISaveChangesInterceptor, EntityChangedInterceptor>();
+        builder.Services.AddScoped<IInterceptor, EntityChangedInterceptor>();
 
         return builder;
     }
