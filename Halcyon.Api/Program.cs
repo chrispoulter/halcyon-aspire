@@ -49,6 +49,7 @@ builder.AddAuthentication();
 builder.AddCors();
 builder.AddSignalR();
 builder.AddOpenApi();
+builder.AddEndpoints(assembly);
 builder.AddAuthenticationServices();
 builder.AddEmailServices();
 
@@ -60,7 +61,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapOpenApiWithSwagger();
-app.MapEndpoints(assembly);
+app.MapEndpoints();
 app.MapHubs();
 app.MapDefaultEndpoints();
 
