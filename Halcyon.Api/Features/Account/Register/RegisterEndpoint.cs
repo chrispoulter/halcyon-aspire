@@ -1,4 +1,5 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Features.Users.CreateUser;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
@@ -40,6 +41,7 @@ public class RegisterEndpoint : IEndpoint
 
         var user = request.Adapt<User>();
         user.Password = passwordHasher.HashPassword(request.Password);
+        user.Raise(new UserCreatedEvent(user.Id), new RegisteredEvent(user.Id));
 
         dbContext.Users.Add(user);
 

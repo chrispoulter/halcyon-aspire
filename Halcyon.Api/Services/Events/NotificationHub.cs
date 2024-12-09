@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Halcyon.Api.Services.Events;
 
-public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
+public class NotificationHub(ILogger<NotificationHub> logger) : Hub<INotificationClient>
 {
-    public const string Pattern = "/hubs/event";
-
     public override async Task OnConnectedAsync()
     {
         logger.LogInformation(
             "Connection to {Hub} started, UserId: {UserId}",
-            nameof(EventHub),
+            nameof(NotificationHub),
             Context.User?.Identity?.Name
         );
 
@@ -42,7 +40,7 @@ public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
     {
         logger.LogInformation(
             "Connection to {Hub} ended, Exception: {Exception}",
-            nameof(EventHub),
+            nameof(NotificationHub),
             exception
         );
 

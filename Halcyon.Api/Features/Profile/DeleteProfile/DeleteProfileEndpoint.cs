@@ -1,4 +1,5 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Features.Users.DeleteUser;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,8 @@ public class DeleteProfileEndpoint : IEndpoint
                 title: "Data has been modified since entities were loaded."
             );
         }
+
+        user.Raise(new UserDeletedEvent(user.Id), new ProfileDeletedEvent(user.Id));
 
         dbContext.Users.Remove(user);
 

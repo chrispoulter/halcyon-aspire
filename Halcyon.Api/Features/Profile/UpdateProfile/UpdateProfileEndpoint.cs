@@ -1,4 +1,5 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Features.Users.UpdateUser;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
@@ -71,6 +72,7 @@ public class UpdateProfileEndpoint : IEndpoint
         }
 
         request.Adapt(user);
+        user.Raise(new UserUpdatedEvent(user.Id), new ProfileUpdatedEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

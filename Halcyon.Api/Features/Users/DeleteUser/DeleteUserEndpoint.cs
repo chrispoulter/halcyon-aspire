@@ -54,6 +54,8 @@ public class DeleteUserEndpoint : IEndpoint
             );
         }
 
+        user.Raise(new UserDeletedEvent(user.Id));
+
         dbContext.Users.Remove(user);
 
         await dbContext.SaveChangesAsync(cancellationToken);
