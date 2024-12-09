@@ -5,8 +5,6 @@ namespace Halcyon.Api.Services.Events;
 
 public class EventHub(ILogger<EventHub> logger) : Hub<IEventClient>
 {
-    public const string Pattern = "/hubs/event";
-
     public override async Task OnConnectedAsync()
     {
         logger.LogInformation(
