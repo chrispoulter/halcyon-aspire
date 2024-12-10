@@ -46,11 +46,6 @@ public class EntityChangedInterceptor(IPublishEndpoint publishEndpoint) : SaveCh
 
     private void CaptureEntityChanges(DbContext context)
     {
-        if (context == null)
-        {
-            return;
-        }
-
         var entries = context
             .ChangeTracker.Entries()
             .Where(e => e.State is EntityState.Added or EntityState.Modified or EntityState.Deleted)
@@ -70,12 +65,6 @@ public class EntityChangedInterceptor(IPublishEndpoint publishEndpoint) : SaveCh
         }
     }
 
-    private async Task PublishPendingEventsAsync(CancellationToken cancellationToken = default)
-    {
-        await publishEndpoint.PublishBatch(_pendingEvents, cancellationToken);
-        _pendingEvents.Clear();
-    }
-
     private static object GetPrimaryKeyValue(EntityEntry entry)
     {
         var keyProperties = entry.Metadata.FindPrimaryKey().Properties;
@@ -91,5 +80,11 @@ public class EntityChangedInterceptor(IPublishEndpoint publishEndpoint) : SaveCh
         }
 
         return keyProperties.Select(p => entry.Property(p.Name).CurrentValue).ToArray();
+    }
+
+    private async Task PublishPendingEventsAsync(CancellationToken cancellationToken = default)
+    {
+        await publishEndpoint.PublishBatch(_pendingEvents, cancellationToken);
+        _pendingEvents.Clear();
     }
 }

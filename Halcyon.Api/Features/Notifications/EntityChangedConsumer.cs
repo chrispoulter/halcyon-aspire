@@ -1,11 +1,12 @@
 using Halcyon.Api.Data;
+using Halcyon.Api.Services.Events;
 using MassTransit;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Halcyon.Api.Services.Events;
+namespace Halcyon.Api.Features.Notifications;
 
 public class EntityChangedConsumer(
-    IHubContext<EventHub, IEventClient> eventHubContext,
+    IHubContext<NotificationHub, INotificationClient> eventHubContext,
     ILogger<EntityChangedConsumer> logger
 ) : IConsumer<Batch<EntityChangedEvent>>
 {
@@ -20,9 +21,9 @@ public class EntityChangedConsumer(
                 case nameof(User):
                     var groups = new[]
                     {
-                        EventHub.GetGroupForRole(Role.SystemAdministrator),
-                        EventHub.GetGroupForRole(Role.UserAdministrator),
-                        EventHub.GetGroupForUser(message.Id),
+                        NotificationHub.GetGroupForRole(Role.SystemAdministrator),
+                        NotificationHub.GetGroupForRole(Role.UserAdministrator),
+                        NotificationHub.GetGroupForUser(message.Id),
                     };
 
                     logger.LogInformation(
