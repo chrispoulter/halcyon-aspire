@@ -9,19 +9,15 @@ public class SendResetPasswordEmailConsumer(IEmailService emailService)
 {
     public async Task Consume(ConsumeContext<Batch<ResetPasswordRequestedEvent>> context)
     {
-        foreach (var item in context.Message)
+        foreach (var message in context.Message.Select(m => m.Message))
         {
-            var message = item.Message;
-
-            await emailService.SendEmailAsync(
-                new()
-                {
-                    Template = "ResetPasswordEmail.html",
-                    To = message.EmailAddress,
-                    Data = new { message.PasswordResetToken },
-                },
-                context.CancellationToken
+            var email = new EmailMessage(
+                "ResetPasswordEmail.html",
+                message.EmailAddress,
+                new { message.PasswordResetToken }
             );
+
+            await emailService.SendEmailAsync(email, context.CancellationToken);
         }
     }
 }

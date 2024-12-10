@@ -12,16 +12,8 @@ public class NotifyUserCreatedConsumer(
 {
     public async Task Consume(ConsumeContext<Batch<UserCreatedEvent>> context)
     {
-        foreach (var item in context.Message)
+        foreach (var message in context.Message.Select(m => m.Message))
         {
-            var message = item.Message;
-
-            logger.LogInformation(
-                "Sending notification for {Event}, Id: {Id}",
-                nameof(UserCreatedEvent),
-                message.Id
-            );
-
             var groups = new[]
             {
                 NotificationHub.GetGroupForRole(Role.SystemAdministrator),
@@ -29,7 +21,13 @@ public class NotifyUserCreatedConsumer(
                 NotificationHub.GetGroupForUser(message.Id),
             };
 
-            var notification = new Notification(nameof(User), "Created", message.Id);
+            logger.LogInformation(
+                "Sending notification for {Event} to {Groups}",
+                nameof(UserUpdatedEvent),
+                groups
+            );
+
+            var notification = new Notification(nameof(UserCreatedEvent), message);
 
             await eventHubContext
                 .Clients.Groups(groups)

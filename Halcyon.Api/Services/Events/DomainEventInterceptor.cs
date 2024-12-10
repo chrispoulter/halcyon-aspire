@@ -11,9 +11,8 @@ public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChan
         InterceptionResult<int> result
     )
     {
-        var ret = base.SavingChanges(eventData, result);
         PublishDomainEvents(eventData.Context).GetAwaiter().GetResult();
-        return ret;
+        return base.SavingChanges(eventData, result);
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
@@ -22,26 +21,10 @@ public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChan
         CancellationToken cancellationToken = default
     )
     {
-        var ret = await base.SavingChangesAsync(eventData, result, cancellationToken);
         await PublishDomainEvents(eventData.Context, cancellationToken);
-        return ret;
+        return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    //public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
-    //{
-    //    PublishDomainEvents(eventData.Context).GetAwaiter().GetResult();
-    //    return base.SavedChanges(eventData, result);
-    //}
-
-    //public override async ValueTask<int> SavedChangesAsync(
-    //    SaveChangesCompletedEventData eventData,
-    //    int result,
-    //    CancellationToken cancellationToken = default
-    //)
-    //{
-    //    await PublishDomainEvents(eventData.Context, cancellationToken);
-    //    return await base.SavedChangesAsync(eventData, result, cancellationToken);
-    //}
 
     private async Task PublishDomainEvents(
         DbContext context,

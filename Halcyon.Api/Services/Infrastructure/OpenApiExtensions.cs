@@ -32,6 +32,7 @@ public static class OpenApiExtensions
                             JwtBearerDefaults.AuthenticationScheme,
                             scheme
                         );
+
                         return Task.CompletedTask;
                     }
                 );
