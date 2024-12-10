@@ -30,9 +30,8 @@ public class HalcyonDbSeeder(
             if (user is null)
             {
                 user = new();
-                user.Raise(new UserCreatedEvent(user.Id));
-
                 dbContext.Users.Add(user);
+                user.Raise(new UserCreatedEvent(user.Id));
             }
             else
             {

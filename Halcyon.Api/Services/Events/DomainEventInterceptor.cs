@@ -6,21 +6,42 @@ namespace Halcyon.Api.Services.Events;
 
 public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChangesInterceptor
 {
-    public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
+    public override InterceptionResult<int> SavingChanges(
+        DbContextEventData eventData,
+        InterceptionResult<int> result
+    )
     {
+        var ret = base.SavingChanges(eventData, result);
         PublishDomainEvents(eventData.Context).GetAwaiter().GetResult();
-        return base.SavedChanges(eventData, result);
+        return ret;
     }
 
-    public override async ValueTask<int> SavedChangesAsync(
-        SaveChangesCompletedEventData eventData,
-        int result,
+    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
         CancellationToken cancellationToken = default
     )
     {
+        var ret = await base.SavingChangesAsync(eventData, result, cancellationToken);
         await PublishDomainEvents(eventData.Context, cancellationToken);
-        return await base.SavedChangesAsync(eventData, result, cancellationToken);
+        return ret;
     }
+
+    //public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
+    //{
+    //    PublishDomainEvents(eventData.Context).GetAwaiter().GetResult();
+    //    return base.SavedChanges(eventData, result);
+    //}
+
+    //public override async ValueTask<int> SavedChangesAsync(
+    //    SaveChangesCompletedEventData eventData,
+    //    int result,
+    //    CancellationToken cancellationToken = default
+    //)
+    //{
+    //    await PublishDomainEvents(eventData.Context, cancellationToken);
+    //    return await base.SavedChangesAsync(eventData, result, cancellationToken);
+    //}
 
     private async Task PublishDomainEvents(
         DbContext context,
@@ -30,6 +51,7 @@ public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChan
         var domainEvents = context
             .ChangeTracker.Entries<Entity>()
             .Select(entry => entry.Entity)
+            .ToList()
             .SelectMany(entity =>
             {
                 var domainEvents = entity.DomainEvents;

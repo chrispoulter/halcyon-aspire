@@ -29,9 +29,11 @@ public class UserUpdatedEventConsumer(
                 NotificationHub.GetGroupForUser(message.Id),
             };
 
+            var notification = new Notification("User", "Updated", message.Id);
+
             await eventHubContext
                 .Clients.Groups(groups)
-                .ReceiveNotification(message, context.CancellationToken);
+                .ReceiveNotification(notification, context.CancellationToken);
         }
     }
 }

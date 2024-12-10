@@ -2,5 +2,5 @@
 
 public interface INotificationClient
 {
-    Task ReceiveNotification(object notification, CancellationToken cancellationToken);
+    Task ReceiveNotification(Notification notification, CancellationToken cancellationToken);
 }

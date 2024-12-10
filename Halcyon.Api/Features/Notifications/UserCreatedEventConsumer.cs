@@ -18,7 +18,7 @@ public class UserEventConsumer(
 
             logger.LogInformation(
                 "Sending notification for {Event}, Id: {Id}",
-                nameof(UserUpdatedEvent),
+                nameof(UserCreatedEvent),
                 message.Id
             );
 
@@ -29,9 +29,11 @@ public class UserEventConsumer(
                 NotificationHub.GetGroupForUser(message.Id),
             };
 
+            var notification = new Notification("User", "Created", message.Id);
+
             await eventHubContext
                 .Clients.Groups(groups)
-                .ReceiveNotification(message, context.CancellationToken);
+                .ReceiveNotification(notification, context.CancellationToken);
         }
     }
 }
