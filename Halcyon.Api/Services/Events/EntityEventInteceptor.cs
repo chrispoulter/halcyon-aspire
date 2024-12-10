@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Halcyon.Api.Services.Events;
 
-public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChangesInterceptor
+public class EntityEventInteceptor(IPublishEndpoint publishEndpoint) : SaveChangesInterceptor
 {
     public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
     {
-        PublishDomainEventsAsync(eventData.Context).GetAwaiter().GetResult();
+        PublishEntityEvents(eventData.Context).GetAwaiter().GetResult();
         return base.SavedChanges(eventData, result);
     }
 
@@ -18,29 +18,29 @@ public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChan
         CancellationToken cancellationToken = default
     )
     {
-        await PublishDomainEventsAsync(eventData.Context, cancellationToken);
+        await PublishEntityEvents(eventData.Context, cancellationToken);
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 
-    private async Task PublishDomainEventsAsync(
+    private async Task PublishEntityEvents(
         DbContext context,
         CancellationToken cancellationToken = default
     )
     {
-        var domainEvents = context
-            .ChangeTracker.Entries<Entity>()
+        var events = context
+            .ChangeTracker.Entries<EntityWithEvents>()
             .Select(entry => entry.Entity)
             .SelectMany(entity =>
             {
-                var domainEvents = entity.DomainEvents;
-                entity.ClearDomainEvents();
-                return domainEvents;
+                var events = entity.Events;
+                entity.ClearEvents();
+                return events;
             })
             .ToList();
 
-        foreach (var domainEvent in domainEvents)
+        foreach (var @event in events)
         {
-            await publishEndpoint.Publish(domainEvent, cancellationToken);
+            await publishEndpoint.Publish(@event, cancellationToken);
         }
     }
 }

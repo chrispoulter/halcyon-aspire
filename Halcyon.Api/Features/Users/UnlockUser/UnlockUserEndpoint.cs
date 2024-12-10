@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Features.Users.UpdateUser;
+using Halcyon.Api.Events;
 using Halcyon.Api.Services.Authorization;
 using Halcyon.Api.Services.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +45,7 @@ public class UnlockUserEndpoint : IEndpoint
         }
 
         user.IsLockedOut = false;
-        user.Raise(new UserUpdatedEvent(user.Id), new UserUnlockedEvent(user.Id));
+        user.Raise(new UserUpdatedEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

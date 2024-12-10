@@ -1,4 +1,4 @@
-﻿namespace Halcyon.Api.Services.Notifications;
+﻿namespace Halcyon.Api.Features.Notifications;
 
 public interface INotificationClient
 {

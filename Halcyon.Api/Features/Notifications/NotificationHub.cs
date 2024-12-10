@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Halcyon.Api.Services.Notifications;
+namespace Halcyon.Api.Features.Notifications;
 
 public class NotificationHub(ILogger<NotificationHub> logger) : Hub<INotificationClient>
 {

@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Features.Users.UpdateUser;
+using Halcyon.Api.Events;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
@@ -40,7 +40,7 @@ public class ResetPasswordEndpoint : IEndpoint
 
         user.Password = passwordHasher.HashPassword(request.NewPassword);
         user.PasswordResetToken = null;
-        user.Raise(new UserUpdatedEvent(user.Id), new PasswordResetEvent(user.Id));
+        user.Raise(new UserUpdatedEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
