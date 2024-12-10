@@ -1,16 +1,16 @@
-﻿using Halcyon.Api.Data;
+using Halcyon.Api.Data;
 using Halcyon.Api.Events;
 using MassTransit;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Halcyon.Api.Features.Notifications;
 
-public class UserEventConsumer(
+public class NotifyUserUpdatedConsumer(
     IHubContext<NotificationHub, INotificationClient> eventHubContext,
-    ILogger<UserEventConsumer> logger
-) : IConsumer<Batch<UserCreatedEvent>>
+    ILogger<NotifyUserUpdatedConsumer> logger
+) : IConsumer<Batch<UserUpdatedEvent>>
 {
-    public async Task Consume(ConsumeContext<Batch<UserCreatedEvent>> context)
+    public async Task Consume(ConsumeContext<Batch<UserUpdatedEvent>> context)
     {
         foreach (var item in context.Message)
         {
@@ -18,7 +18,7 @@ public class UserEventConsumer(
 
             logger.LogInformation(
                 "Sending notification for {Event}, Id: {Id}",
-                nameof(UserCreatedEvent),
+                nameof(UserUpdatedEvent),
                 message.Id
             );
 
@@ -29,7 +29,7 @@ public class UserEventConsumer(
                 NotificationHub.GetGroupForUser(message.Id),
             };
 
-            var notification = new Notification("User", "Created", message.Id);
+            var notification = new Notification(nameof(User), "Updated", message.Id);
 
             await eventHubContext
                 .Clients.Groups(groups)

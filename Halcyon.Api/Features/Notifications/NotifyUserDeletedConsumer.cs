@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Halcyon.Api.Features.Notifications;
 
-public class UserDeletedEventConsumer(
+public class NotifyUserDeletedConsumer(
     IHubContext<NotificationHub, INotificationClient> eventHubContext,
-    ILogger<UserDeletedEventConsumer> logger
+    ILogger<NotifyUserDeletedConsumer> logger
 ) : IConsumer<Batch<UserDeletedEvent>>
 {
     public async Task Consume(ConsumeContext<Batch<UserDeletedEvent>> context)
@@ -29,8 +29,7 @@ public class UserDeletedEventConsumer(
                 NotificationHub.GetGroupForUser(message.Id),
             };
 
-
-            var notification = new Notification("User", "Deleted", message.Id);
+            var notification = new Notification(nameof(User), "Deleted", message.Id);
 
             await eventHubContext
                 .Clients.Groups(groups)
