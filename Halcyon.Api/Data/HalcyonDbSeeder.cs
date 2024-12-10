@@ -40,6 +40,7 @@ public class HalcyonDbSeeder(
 
             seedUser.Adapt(user);
             user.Password = passwordHasher.HashPassword(seedUser.Password);
+            user.IsLockedOut = false;
         }
 
         await dbContext.SaveChangesAsync(cancellationToken);
