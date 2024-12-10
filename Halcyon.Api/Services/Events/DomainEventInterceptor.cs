@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Halcyon.Api.Services.Events;
 
-public class EntityEventInteceptor(IPublishEndpoint publishEndpoint) : SaveChangesInterceptor
+public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChangesInterceptor
 {
     public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
     {
-        PublishEntityEvents(eventData.Context).GetAwaiter().GetResult();
+        PublishDomainEvents(eventData.Context).GetAwaiter().GetResult();
         return base.SavedChanges(eventData, result);
     }
 
@@ -18,29 +18,29 @@ public class EntityEventInteceptor(IPublishEndpoint publishEndpoint) : SaveChang
         CancellationToken cancellationToken = default
     )
     {
-        await PublishEntityEvents(eventData.Context, cancellationToken);
+        await PublishDomainEvents(eventData.Context, cancellationToken);
         return await base.SavedChangesAsync(eventData, result, cancellationToken);
     }
 
-    private async Task PublishEntityEvents(
+    private async Task PublishDomainEvents(
         DbContext context,
         CancellationToken cancellationToken = default
     )
     {
-        var events = context
-            .ChangeTracker.Entries<EntityWithEvents>()
+        var domainEvents = context
+            .ChangeTracker.Entries<Entity>()
             .Select(entry => entry.Entity)
             .SelectMany(entity =>
             {
-                var events = entity.Events;
-                entity.ClearEvents();
-                return events;
+                var domainEvents = entity.DomainEvents;
+                entity.ClearDomainEvents();
+                return domainEvents;
             })
             .ToList();
 
-        foreach (var @event in events)
+        foreach (var domainEvent in domainEvents)
         {
-            await publishEndpoint.Publish(@event, cancellationToken);
+            await publishEndpoint.Publish(domainEvent, cancellationToken);
         }
     }
 }

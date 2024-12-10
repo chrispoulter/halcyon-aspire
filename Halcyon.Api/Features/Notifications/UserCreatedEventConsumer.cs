@@ -17,7 +17,7 @@ public class UserEventConsumer(
             var message = item.Message;
 
             logger.LogInformation(
-                "Broadcasting notification for {Event}, Id: {Id}",
+                "Sending notification for {Event}, Id: {Id}",
                 nameof(UserUpdatedEvent),
                 message.Id
             );
