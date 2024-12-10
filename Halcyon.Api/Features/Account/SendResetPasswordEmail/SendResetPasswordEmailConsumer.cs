@@ -3,12 +3,12 @@ using Halcyon.Api.Features.Account.ForgotPassword;
 using Halcyon.Api.Services.Email;
 using MassTransit;
 
-namespace Halcyon.Api.Features.Account.SendPasswordResetEmail;
+namespace Halcyon.Api.Features.Account.SendResetPasswordEmail;
 
-public class SendPasswordResetEmailConsumer(HalcyonDbContext dbContext, IEmailService emailService)
-    : IConsumer<Batch<PasswordResetRequestedEvent>>
+public class SendResetPasswordEmailConsumer(HalcyonDbContext dbContext, IEmailService emailService)
+    : IConsumer<Batch<ResetPasswordRequestedEvent>>
 {
-    public async Task Consume(ConsumeContext<Batch<PasswordResetRequestedEvent>> context)
+    public async Task Consume(ConsumeContext<Batch<ResetPasswordRequestedEvent>> context)
     {
         foreach (var item in context.Message)
         {
@@ -24,7 +24,7 @@ public class SendPasswordResetEmailConsumer(HalcyonDbContext dbContext, IEmailSe
             await emailService.SendEmailAsync(
                 new()
                 {
-                    Template = "PasswordResetEmail.html",
+                    Template = "ResetPasswordEmail.html",
                     To = user.EmailAddress,
                     Data = new { user.PasswordResetToken },
                 },

@@ -2,17 +2,17 @@
 
 public abstract class Entity
 {
-    private readonly List<object> events = [];
+    private readonly List<object> _domainEvents = [];
 
-    public List<object> Events => [.. events];
+    public List<object> DomainEvents => [.. _domainEvents];
 
-    public void ClearEvents()
+    public void ClearDomainEvents()
     {
-        events.Clear();
+        _domainEvents.Clear();
     }
 
-    public void Raise(params object[] raiseEvents)
+    public void Raise(params object[] domainEvents)
     {
-        events.AddRange(raiseEvents);
+        _domainEvents.AddRange(domainEvents);
     }
 }
