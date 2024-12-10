@@ -23,7 +23,7 @@ public class NotifyUserDeletedConsumer(
 
             logger.LogInformation(
                 "Sending notification for {Event} to {Groups}",
-                nameof(UserUpdatedEvent),
+                nameof(UserDeletedEvent),
                 groups
             );
 

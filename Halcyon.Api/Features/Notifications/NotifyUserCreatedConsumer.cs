@@ -23,7 +23,7 @@ public class NotifyUserCreatedConsumer(
 
             logger.LogInformation(
                 "Sending notification for {Event} to {Groups}",
-                nameof(UserUpdatedEvent),
+                nameof(UserCreatedEvent),
                 groups
             );
 
