@@ -11,21 +11,14 @@ public class SendResetPasswordEmailConsumer(HalcyonDbContext dbContext, IEmailSe
 {
     public async Task Consume(ConsumeContext<Batch<ResetPasswordRequestedEvent>> context)
     {
-        var userIds = context.Message.Select(m => m.Message.Id);
+        var ids = context.Message.Select(m => m.Message.Id);
 
         var users = await dbContext
-            .Users.Where(u => userIds.Contains(u.Id))
-            .ToDictionaryAsync(u => u.Id, context.CancellationToken);
+            .Users.Where(u => ids.Contains(u.Id) && !u.IsLockedOut && u.PasswordResetToken != null)
+            .ToListAsync(context.CancellationToken);
 
-        foreach (var message in context.Message.Select(m => m.Message))
+        foreach (var user in users)
         {
-            var user = users.GetValueOrDefault(message.Id);
-
-            if (user is null || user.IsLockedOut || user.PasswordResetToken is null)
-            {
-                continue;
-            }
-
             var email = new EmailMessage(
                 "ResetPasswordEmail.html",
                 user.EmailAddress,
