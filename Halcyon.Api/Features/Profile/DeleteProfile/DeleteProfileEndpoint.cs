@@ -48,7 +48,7 @@ public class DeleteProfileEndpoint : IEndpoint
         }
 
         dbContext.Users.Remove(user);
-        user.Raise(new UserDeletedEvent(user.Id));
+        user.Raise(new UserDeletedDomainEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

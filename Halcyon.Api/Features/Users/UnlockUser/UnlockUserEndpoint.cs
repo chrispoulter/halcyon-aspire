@@ -45,7 +45,7 @@ public class UnlockUserEndpoint : IEndpoint
         }
 
         user.IsLockedOut = false;
-        user.Raise(new UserUpdatedEvent(user.Id));
+        user.Raise(new UserUpdatedDomainEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

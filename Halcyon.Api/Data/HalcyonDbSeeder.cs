@@ -31,11 +31,11 @@ public class HalcyonDbSeeder(
             {
                 user = new();
                 dbContext.Users.Add(user);
-                user.Raise(new UserCreatedEvent(user.Id));
+                user.Raise(new UserCreatedDomainEvent(user.Id));
             }
             else
             {
-                user.Raise(new UserUpdatedEvent(user.Id));
+                user.Raise(new UserUpdatedDomainEvent(user.Id));
             }
 
             seedUser.Adapt(user);

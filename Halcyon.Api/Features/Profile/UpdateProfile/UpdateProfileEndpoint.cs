@@ -72,7 +72,7 @@ public class UpdateProfileEndpoint : IEndpoint
         }
 
         request.Adapt(user);
-        user.Raise(new UserUpdatedEvent(user.Id));
+        user.Raise(new UserUpdatedDomainEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

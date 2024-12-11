@@ -31,7 +31,10 @@ public class ForgotPasswordEndpoint : IEndpoint
         if (user is not null && !user.IsLockedOut)
         {
             user.PasswordResetToken = Guid.NewGuid();
-            user.Raise(new UserUpdatedEvent(user.Id), new ResetPasswordRequestedEvent(user.Id));
+            user.Raise(
+                new UserUpdatedDomainEvent(user.Id),
+                new ResetPasswordRequestedEvent(user.Id)
+            );
 
             await dbContext.SaveChangesAsync(cancellationToken);
         }

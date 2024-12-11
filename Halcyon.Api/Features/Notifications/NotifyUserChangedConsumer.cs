@@ -8,17 +8,17 @@ public class NotifyUserChangedConsumer(
     IHubContext<NotificationHub, INotificationClient> eventHubContext,
     ILogger<NotifyUserChangedConsumer> logger
 )
-    : IConsumer<Batch<UserCreatedEvent>>,
-        IConsumer<Batch<UserUpdatedEvent>>,
-        IConsumer<Batch<UserDeletedEvent>>
+    : IConsumer<Batch<UserCreatedDomainEvent>>,
+        IConsumer<Batch<UserUpdatedDomainEvent>>,
+        IConsumer<Batch<UserDeletedDomainEvent>>
 {
-    public Task Consume(ConsumeContext<Batch<UserCreatedEvent>> context) =>
+    public Task Consume(ConsumeContext<Batch<UserCreatedDomainEvent>> context) =>
         Consume(context, m => m.Id);
 
-    public Task Consume(ConsumeContext<Batch<UserUpdatedEvent>> context) =>
+    public Task Consume(ConsumeContext<Batch<UserUpdatedDomainEvent>> context) =>
         Consume(context, m => m.Id);
 
-    public Task Consume(ConsumeContext<Batch<UserDeletedEvent>> context) =>
+    public Task Consume(ConsumeContext<Batch<UserDeletedDomainEvent>> context) =>
         Consume(context, m => m.Id);
 
     public async Task Consume<T>(ConsumeContext<Batch<T>> context, Func<T, Guid> getUserIdFn)

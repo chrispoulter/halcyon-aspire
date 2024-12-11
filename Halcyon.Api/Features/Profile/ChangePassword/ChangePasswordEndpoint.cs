@@ -70,7 +70,7 @@ public class ChangePasswordEndpoint : IEndpoint
 
         user.Password = passwordHasher.HashPassword(request.NewPassword);
         user.PasswordResetToken = null;
-        user.Raise(new UserUpdatedEvent(user.Id));
+        user.Raise(new UserUpdatedDomainEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 
