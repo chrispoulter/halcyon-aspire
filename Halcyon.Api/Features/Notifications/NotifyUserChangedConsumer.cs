@@ -13,21 +13,22 @@ public class NotifyUserChangedConsumer(
         IConsumer<Batch<UserDeletedEvent>>
 {
     public Task Consume(ConsumeContext<Batch<UserCreatedEvent>> context) =>
-        Consume(context, e => e.Id);
+        Consume(context, m => m.Id);
 
     public Task Consume(ConsumeContext<Batch<UserUpdatedEvent>> context) =>
-        Consume(context, e => e.Id);
+        Consume(context, m => m.Id);
 
     public Task Consume(ConsumeContext<Batch<UserDeletedEvent>> context) =>
-        Consume(context, e => e.Id);
+        Consume(context, m => m.Id);
 
-    public async Task Consume<T>(ConsumeContext<Batch<T>> context, Func<T, Guid> getUserId)
+    public async Task Consume<T>(ConsumeContext<Batch<T>> context, Func<T, Guid> getUserIdFn)
         where T : class
     {
         foreach (var message in context.Message.Select(m => m.Message))
         {
             var eventType = message.GetType().Name;
-            var userId = getUserId(message);
+
+            var userId = getUserIdFn(message);
 
             var groups = new[]
             {
