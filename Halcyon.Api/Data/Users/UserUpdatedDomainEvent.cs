@@ -1,3 +1,3 @@
 ﻿namespace Halcyon.Api.Data.Users;
 
-public record UserUpdatedDomainEvent(Guid Id) { }
+public record UserUpdatedDomainEvent(Guid UserId) { }

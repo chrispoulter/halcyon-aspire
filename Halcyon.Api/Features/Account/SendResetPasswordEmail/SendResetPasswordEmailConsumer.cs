@@ -11,7 +11,7 @@ public class SendResetPasswordEmailConsumer(HalcyonDbContext dbContext, IEmailSe
 {
     public async Task Consume(ConsumeContext<Batch<ResetPasswordRequestedEvent>> context)
     {
-        var ids = context.Message.Select(m => m.Message.Id);
+        var ids = context.Message.Select(m => m.Message.UserId).Distinct();
 
         var users = await dbContext
             .Users.Where(u => ids.Contains(u.Id) && !u.IsLockedOut && u.PasswordResetToken != null)

@@ -11,22 +11,22 @@ public class NotifyUserDeletedConsumer(
 {
     public async Task Consume(ConsumeContext<Batch<UserDeletedDomainEvent>> context)
     {
-        foreach (var message in context.Message.Select(m => m.Message))
+        foreach (var id in context.Message.Select(m => m.Message.UserId).Distinct())
         {
-            var notification = new Notification("UserDeleted", new { message.Id });
+            var notification = new Notification("UserDeleted", new { id });
 
             var groups = new[]
             {
                 NotificationHub.GetGroupForRole(Roles.SystemAdministrator),
                 NotificationHub.GetGroupForRole(Roles.UserAdministrator),
-                NotificationHub.GetGroupForUser(message.Id),
+                NotificationHub.GetGroupForUser(id),
             };
 
             logger.LogInformation(
                 "Sending notification for {Notification} to {Groups}, UserId: {UserId}",
                 notification.Type,
                 groups,
-                message.Id
+                id
             );
 
             await eventHubContext
