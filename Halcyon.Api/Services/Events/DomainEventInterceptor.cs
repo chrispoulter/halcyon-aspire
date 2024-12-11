@@ -25,7 +25,6 @@ public class DomainEventInterceptor(IPublishEndpoint publishEndpoint) : SaveChan
         return await base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-
     private async Task PublishDomainEvents(
         DbContext context,
         CancellationToken cancellationToken = default

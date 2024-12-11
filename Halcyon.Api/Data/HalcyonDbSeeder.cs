@@ -1,4 +1,4 @@
-﻿using Halcyon.Api.Events;
+﻿using Halcyon.Api.Data.Events;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Database;
 using Mapster;

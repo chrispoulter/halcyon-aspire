@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Events;
+using Halcyon.Api.Data.Events;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +31,7 @@ public class ForgotPasswordEndpoint : IEndpoint
         if (user is not null && !user.IsLockedOut)
         {
             user.PasswordResetToken = Guid.NewGuid();
-            user.Raise(
-                new UserUpdatedEvent(user.Id),
-                new ResetPasswordRequestedEvent(user.EmailAddress, user.PasswordResetToken)
-            );
+            user.Raise(new UserUpdatedEvent(user.Id), new ResetPasswordRequestedEvent(user.Id));
 
             await dbContext.SaveChangesAsync(cancellationToken);
         }

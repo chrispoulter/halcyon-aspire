@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Events;
+using Halcyon.Api.Data.Events;
 using Halcyon.Api.Services.Authorization;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;

@@ -1,3 +1,3 @@
-﻿namespace Halcyon.Api.Events;
+﻿namespace Halcyon.Api.Data.Events;
 
 public record UserUpdatedEvent(Guid Id) { }
