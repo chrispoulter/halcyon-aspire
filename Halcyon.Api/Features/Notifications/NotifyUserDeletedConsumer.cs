@@ -4,16 +4,16 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace Halcyon.Api.Features.Notifications;
 
-public class NotifyUserCreatedConsumer(
+public class NotifyUserDeletedConsumer(
     IHubContext<NotificationHub, INotificationClient> eventHubContext,
-    ILogger<NotifyUserCreatedConsumer> logger
-) : IConsumer<Batch<UserCreatedDomainEvent>>
+    ILogger<NotifyUserDeletedConsumer> logger
+) : IConsumer<Batch<UserDeletedDomainEvent>>
 {
-    public async Task Consume(ConsumeContext<Batch<UserCreatedDomainEvent>> context)
+    public async Task Consume(ConsumeContext<Batch<UserDeletedDomainEvent>> context)
     {
         foreach (var message in context.Message.Select(m => m.Message))
         {
-            var notification = new Notification("UserCreated", new { message.Id });
+            var notification = new Notification("UserDeleted", new { message.Id });
 
             var groups = new[]
             {
