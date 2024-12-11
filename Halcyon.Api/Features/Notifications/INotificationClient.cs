@@ -1,6 +1,4 @@
-﻿using Halcyon.Api.Services.Events;
-
-namespace Halcyon.Api.Features.Notifications;
+﻿namespace Halcyon.Api.Features.Notifications;
 
 public interface INotificationClient
 {
