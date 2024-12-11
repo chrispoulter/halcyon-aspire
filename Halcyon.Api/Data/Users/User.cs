@@ -1,7 +1,7 @@
 ﻿using Halcyon.Api.Services.Events;
 using NpgsqlTypes;
 
-namespace Halcyon.Api.Data;
+namespace Halcyon.Api.Data.Users;
 
 public class User : Entity
 {

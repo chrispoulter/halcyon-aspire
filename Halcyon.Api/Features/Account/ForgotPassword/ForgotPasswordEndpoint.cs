@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Data.Events;
+using Halcyon.Api.Data.Users;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ public class ForgotPasswordEndpoint : IEndpoint
     {
         app.MapPut("/account/forgot-password", HandleAsync)
             .AddValidationFilter<ForgotPasswordRequest>()
-            .WithTags(EndpointTag.Account)
+            .WithTags(Tags.Account)
             .Produces(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

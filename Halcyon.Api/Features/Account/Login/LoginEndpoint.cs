@@ -12,7 +12,7 @@ public class LoginEndpoint : IEndpoint
     {
         app.MapPost("/account/login", HandleAsync)
             .AddValidationFilter<LoginRequest>()
-            .WithTags(EndpointTag.Account)
+            .WithTags(Tags.Account)
             .Produces<LoginResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Data.Events;
+using Halcyon.Api.Data.Users;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Authorization;
 using Halcyon.Api.Services.Infrastructure;
@@ -14,9 +14,9 @@ public class CreateUserEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapPost("/user", HandleAsync)
-            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
+            .RequireRole(Roles.SystemAdministrator, Roles.UserAdministrator)
             .AddValidationFilter<CreateUserRequest>()
-            .WithTags(EndpointTag.Users)
+            .WithTags(Tags.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

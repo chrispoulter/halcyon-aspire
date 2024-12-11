@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Data.Events;
+using Halcyon.Api.Data.Users;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Authorization;
 using Halcyon.Api.Services.Infrastructure;
@@ -13,8 +13,8 @@ public class LockUserEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapPut("/user/{id}/lock", HandleAsync)
-            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
-            .WithTags(EndpointTag.Users)
+            .RequireRole(Roles.SystemAdministrator, Roles.UserAdministrator)
+            .WithTags(Tags.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)

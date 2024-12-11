@@ -1,5 +1,5 @@
 ﻿using Halcyon.Api.Data;
-using Halcyon.Api.Data.Events;
+using Halcyon.Api.Data.Users;
 using Halcyon.Api.Services.Authentication;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
@@ -13,7 +13,7 @@ public class ResetPasswordEndpoint : IEndpoint
     {
         app.MapPut("/account/reset-password", HandleAsync)
             .AddValidationFilter<ResetPasswordRequest>()
-            .WithTags(EndpointTag.Account)
+            .WithTags(Tags.Account)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

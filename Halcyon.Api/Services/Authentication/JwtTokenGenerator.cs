@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text;
-using Halcyon.Api.Data;
+using Halcyon.Api.Data.Users;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
