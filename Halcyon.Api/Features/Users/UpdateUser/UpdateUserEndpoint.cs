@@ -1,4 +1,5 @@
 ﻿using Halcyon.Api.Data;
+using Halcyon.Api.Data.Users;
 using Halcyon.Api.Services.Authorization;
 using Halcyon.Api.Services.Infrastructure;
 using Halcyon.Api.Services.Validation;
@@ -12,9 +13,9 @@ public class UpdateUserEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapPut("/user/{id}", HandleAsync)
-            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
+            .RequireRole(Roles.SystemAdministrator, Roles.UserAdministrator)
             .AddValidationFilter<UpdateUserRequest>()
-            .WithTags(EndpointTag.Users)
+            .WithTags(Tags.Users)
             .Produces<UpdateResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
@@ -68,6 +69,7 @@ public class UpdateUserEndpoint : IEndpoint
         }
 
         request.Adapt(user);
+        user.Raise(new UserUpdatedDomainEvent(user.Id));
 
         await dbContext.SaveChangesAsync(cancellationToken);
 

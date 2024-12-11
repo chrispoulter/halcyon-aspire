@@ -27,10 +27,8 @@ public static class SignalRExtensions
 
     public static WebApplication MapHubs(this WebApplication app, Assembly assembly)
     {
-        var hubType = typeof(Hub);
-
         var hubs = assembly.DefinedTypes.Where(type =>
-            type is { IsAbstract: false, IsInterface: false } && hubType.IsAssignableFrom(type)
+            type is { IsAbstract: false, IsInterface: false } && typeof(Hub).IsAssignableFrom(type)
         );
 
         foreach (var hub in hubs)

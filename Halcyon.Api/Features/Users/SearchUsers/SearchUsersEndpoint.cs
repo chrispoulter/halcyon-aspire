@@ -12,9 +12,9 @@ public class SearchUsersEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapGet("/user", HandleAsync)
-            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
+            .RequireRole(Roles.SystemAdministrator, Roles.UserAdministrator)
             .AddValidationFilter<SearchUsersRequest>()
-            .WithTags(EndpointTag.Users)
+            .WithTags(Tags.Users)
             .Produces<SearchUsersResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest);
     }

@@ -1,6 +1,6 @@
-﻿namespace Halcyon.Api.Data;
+﻿namespace Halcyon.Api.Features;
 
-public static class Role
+public static class Roles
 {
     public const string SystemAdministrator = "SYSTEM_ADMINISTRATOR";
 

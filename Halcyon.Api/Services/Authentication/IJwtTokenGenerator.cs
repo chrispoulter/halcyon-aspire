@@ -1,4 +1,4 @@
-﻿using Halcyon.Api.Data;
+﻿using Halcyon.Api.Data.Users;
 
 namespace Halcyon.Api.Services.Authentication;
 

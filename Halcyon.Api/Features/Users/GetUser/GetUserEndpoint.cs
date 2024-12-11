@@ -11,8 +11,8 @@ public class GetUserEndpoint : IEndpoint
     public void MapEndpoints(IEndpointRouteBuilder app)
     {
         app.MapGet("/user/{id}", HandleAsync)
-            .RequireRole(Role.SystemAdministrator, Role.UserAdministrator)
-            .WithTags(EndpointTag.Users)
+            .RequireRole(Roles.SystemAdministrator, Roles.UserAdministrator)
+            .WithTags(Tags.Users)
             .Produces<GetUserResponse>()
             .ProducesProblem(StatusCodes.Status404NotFound);
     }
