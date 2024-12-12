@@ -14,10 +14,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID_MAIN }}
+      AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
       AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
       AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-      AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME_MAIN }}
+      AZURE_ENV_NAME: ${{ vars.AZURE_ENV_NAME }}
       AZURE_LOCATION: ${{ vars.AZURE_LOCATION }}
       AZURE_DEV_COLLECT_TELEMETRY: no
 
@@ -45,7 +45,7 @@ jobs:
       - name: Provision Infrastructure
         run: azd provision --no-prompt
         env:
-          AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG_MAIN }}
+          AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
 
       - name: Deploy Application
         run: azd deploy --no-prompt
