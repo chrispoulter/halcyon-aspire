@@ -9,7 +9,7 @@ function App() {
   const [result, setResult] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/health`)
+    fetch('/api/health')
       .then((res) => res.text())
       .then((data) => setResult(data));
   }, []);
