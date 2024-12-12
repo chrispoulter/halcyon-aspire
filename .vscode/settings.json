@@ -1,6 +1,5 @@
 {
   "files.exclude": {
-    "**/.azure": true,
     "**/.vs": true,
     "**/bin": true,
     "**/dist": true,

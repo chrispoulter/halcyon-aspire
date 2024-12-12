@@ -65,4 +65,9 @@ app.MapEndpoints(assembly);
 app.MapHubs(assembly);
 app.MapDefaultEndpoints();
 
+app.Logger.LogInformation("Database Connection String {Database}", builder.Configuration.GetConnectionString("Database"));
+app.Logger.LogInformation("RabbitMq Connection String {RabbitMq}", builder.Configuration.GetConnectionString("RabbitMq"));
+app.Logger.LogInformation("Redis Connection String {Redis}", builder.Configuration.GetConnectionString("Redis"));
+app.Logger.LogInformation("Mail Connection String {Mail}", builder.Configuration.GetConnectionString("Mail"));
+
 app.Run();
