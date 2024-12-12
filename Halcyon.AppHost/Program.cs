@@ -4,8 +4,12 @@ var postgresPassword = builder.AddParameter("pgPassword", secret: true);
 
 var postgres = builder
     .AddPostgres("postgres", password: postgresPassword, port: 5432)
-    .WithDataVolume(isReadOnly: false)
     .WithLifetime(ContainerLifetime.Persistent);
+
+if (builder.ExecutionContext.IsRunMode)
+{
+    postgres.WithDataVolume(isReadOnly: true);
+}
 
 var database = postgres.AddDatabase("database", databaseName: "halcyon");
 
