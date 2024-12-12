@@ -44,10 +44,10 @@ var api = builder
 var web = builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
     .WithEnvironment("VITE_API_URL", api.GetEndpoint("https"))
-    .WithHttpEndpoint(port: 5173, env: "PORT", isProxied: false)
+    .WithHttpEndpoint(port: 5173, targetPort: 80, env: "PORT")
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
 
 api.WithEnvironment("Email__CdnUrl", web.GetEndpoint("http"));
 
-builder.Build().Run(); 
+builder.Build().Run();
