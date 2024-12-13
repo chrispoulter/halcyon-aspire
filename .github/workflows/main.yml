@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  build-and-publish:
     runs-on: ubuntu-latest
     env:
       AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
@@ -28,14 +28,10 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
 
-      - name: Install dependencies
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build
-
-      - name: Test
-        run: dotnet test
+      - name: Build and test
+        run: |
+          dotnet build
+          dotnet test
 
       # - name: Install azd
       #   uses: Azure/setup-azd@v1.0.0
