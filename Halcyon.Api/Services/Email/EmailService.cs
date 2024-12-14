@@ -1,7 +1,7 @@
-﻿using System.Net.Mail;
-using MailKit.Client;
+﻿using MailKit.Client;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using MimeKit.Text;
 
 namespace Halcyon.Api.Services.Email;
 
@@ -33,18 +33,17 @@ public class EmailService(
             cancellationToken
         );
 
+        var email = new MimeMessage(
+            [MailboxAddress.Parse(_emailSettings.NoReplyAddress)],
+            [MailboxAddress.Parse(message.To)],
+            subject,
+            new TextPart(TextFormat.Html) { Text = body }
+        );
+
         try
         {
             var client = await clientFactory.GetSmtpClientAsync(cancellationToken);
-
-            using var email = new MailMessage(_emailSettings.NoReplyAddress, message.To)
-            {
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true,
-            };
-
-            await client.SendAsync(MimeMessage.CreateFromMailMessage(email), cancellationToken);
+            await client.SendAsync(email, cancellationToken);
         }
         catch (Exception ex)
         {

@@ -7,8 +7,6 @@ using Halcyon.Api.Services.Events;
 using Halcyon.Api.Services.Infrastructure;
 using Mapster;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var assembly = typeof(Program).Assembly;
 
@@ -16,25 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-builder.Services.AddDbContext<HalcyonDbContext>(
-    (provider, options) =>
-    {
-        options
-            .UseNpgsql(builder.Configuration.GetConnectionString("Database"))
-            .UseSnakeCaseNamingConvention()
-            .AddInterceptors(provider.GetServices<IInterceptor>());
-    }
-);
-
-builder.EnrichNpgsqlDbContext<HalcyonDbContext>();
+builder.AddDbContext<HalcyonDbContext>(connectionName: "Database");
+builder.AddMassTransit(connectionName: "RabbitMq", assembly);
+builder.AddRedisDistributedCache(connectionName: "Redis");
+builder.AddMailKitClient(connectionName: "Mail");
 
 var seedConfig = builder.Configuration.GetSection(SeedSettings.SectionName);
 builder.Services.Configure<SeedSettings>(seedConfig);
 builder.Services.AddMigration<HalcyonDbContext, HalcyonDbSeeder>();
-
-builder.AddMassTransit(connectionName: "RabbitMq", assembly);
-builder.AddRedisDistributedCache(connectionName: "Redis");
-builder.AddMailKitClient(connectionName: "Mail");
 
 #pragma warning disable EXTEXP0018
 builder.Services.AddHybridCache();
