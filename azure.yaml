@@ -4,5 +4,5 @@ name: halcyon
 services:  
   app:
     language: dotnet
-    project: ./Halcyon.AppHost/Halcyon.AppHost.csproj
+    project: ./src/Halcyon.AppHost/Halcyon.AppHost.csproj
     host: containerapp

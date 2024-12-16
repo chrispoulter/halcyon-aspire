@@ -46,7 +46,7 @@ dotnet restore
 
 ### Update local configuration _(optional)_
 
-In the `Halcyon.Api` directory of the project, create a new `appsettings.Development.json` file. This file will override settings in `appsettings.json` during local development. This file is ignored by Git, so the secrets will not be committed to the repository.
+In the `src/Halcyon.Api` directory of the project, create a new `appsettings.Development.json` file. This file will override settings in `appsettings.json` during local development. This file is ignored by Git, so the secrets will not be committed to the repository.
 
 ```
 {
@@ -91,7 +91,7 @@ In the `Halcyon.Api` directory of the project, create a new `appsettings.Develop
 ### Run the application
 
 ```
-dotnet run --project "Halcyon.AppHost/Halcyon.AppHost.csproj"
+dotnet run --project "src/Halcyon.AppHost/Halcyon.AppHost.csproj"
 ```
 
 ### Access the API
