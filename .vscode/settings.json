@@ -5,5 +5,8 @@
     "**/dist": true,
     "**/node_modules": true,
     "**/obj": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
   }
 }

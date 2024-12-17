@@ -11,11 +11,12 @@ export default defineConfig(({ mode }) => {
             port: parseInt(env.VITE_PORT),
             proxy: {
                 '/api': {
-                    target: process.env.services__api__https__0 ||
+                    target:
+                        process.env.services__api__https__0 ||
                         process.env.services__api__http__0,
                     changeOrigin: true,
-                    rewrite: (path) => path.replace(/^\/api/, ''),
-                    secure: false,
+                    rewrite: path => path.replace(/^\/api/, ''),
+                    secure: false
                 }
             }
         },
@@ -25,5 +26,5 @@ export default defineConfig(({ mode }) => {
                 input: './index.html'
             }
         }
-    }
-})
+    };
+});
