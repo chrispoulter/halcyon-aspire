@@ -1,7 +1,4 @@
 import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
 
 function App() {
     const [count, setCount] = useState(0);
@@ -15,35 +12,24 @@ function App() {
     }, []);
 
     return (
-        <>
-            <div>
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img
-                        src={reactLogo}
-                        className="logo react"
-                        alt="React logo"
-                    />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount(count => count + 1)}>
+        <main className="mx-auto mb-8 max-w-screen-md border-b border-gray-200 px-4 pb-8 dark:border-gray-700">
+            <h1 className="mb-5 text-2xl font-bold dark:text-white">
+                Vite + React
+            </h1>
+            <p className="mb-3 text-gray-500 dark:text-gray-400">
+                <button
+                    className="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    onClick={() => setCount(count => count + 1)}
+                >
                     count is {count}
                 </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
             </p>
 
-            <h1>Api {import.meta.env.VITE_API_URL}</h1>
-            <p>{result}</p>
-        </>
+            <h2 className="mb-3 text-xl font-bold dark:text-white">
+                Api {import.meta.env.VITE_API_URL}
+            </h2>
+            <p className="mb-3 text-gray-500 dark:text-gray-400">{result}</p>
+        </main>
     );
 }
 
