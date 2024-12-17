@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import Button from '@/components/Button';
+import { ThemeProvider } from '@/components/theme-provider';
+import { ModeToggle } from '@/components/mode-toggle';
+import Button from '@/components/button2';
 
 function App() {
     const [count, setCount] = useState(0);
@@ -13,21 +15,25 @@ function App() {
     }, []);
 
     return (
-        <main className="mx-auto mb-8 max-w-screen-md border-b border-gray-200 px-4 pb-8 dark:border-gray-700">
-            <h1 className="mb-5 text-2xl font-bold dark:text-white">
-                Vite + React
-            </h1>
-            <p className="mb-3 text-gray-500 dark:text-gray-400">
-                <Button onClick={() => setCount(count => count + 1)}>
-                    count is {count}
-                </Button>
-            </p>
+        <ThemeProvider>
+            <main className="mx-auto mb-8 max-w-screen-md border-b border-gray-200 px-4 pb-8 dark:border-gray-700">
+                <h1 className="mb-5 text-2xl font-bold dark:text-white">
+                    Vite + React <ModeToggle />
+                </h1>
+                <p className="mb-3 text-gray-500 dark:text-gray-400">
+                    <Button onClick={() => setCount(count => count + 1)}>
+                        count is {count}
+                    </Button>
+                </p>
 
-            <h2 className="mb-3 text-xl font-bold dark:text-white">
-                Api {import.meta.env.VITE_API_URL}
-            </h2>
-            <p className="mb-3 text-gray-500 dark:text-gray-400">{result}</p>
-        </main>
+                <h2 className="mb-3 text-xl font-bold dark:text-white">
+                    Api {import.meta.env.VITE_API_URL}
+                </h2>
+                <p className="mb-3 text-gray-500 dark:text-gray-400">
+                    {result}
+                </p>
+            </main>
+        </ThemeProvider>
     );
 }
 
