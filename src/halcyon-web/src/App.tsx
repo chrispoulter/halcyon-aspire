@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ThemeProvider } from '@/components/theme-provider';
 import { ModeToggle } from '@/components/mode-toggle';
-import Button from '@/components/button2';
+import { Button } from '@/components/button';
 
 function App() {
     const [count, setCount] = useState(0);
