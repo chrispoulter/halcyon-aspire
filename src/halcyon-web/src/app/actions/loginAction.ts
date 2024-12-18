@@ -3,7 +3,7 @@
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
 
-const schema = z.object({
+const actionSchema = z.object({
     emailAddress: z
         .string({ message: 'Email Address is a required field' })
         .min(1, 'Email Address is a required field')
@@ -18,7 +18,7 @@ export async function loginAction(data: unknown) {
         .getTracer('halcyon-web')
         .startActiveSpan('forgotPasswordAction', async (span) => {
             try {
-                const request = schema.safeParse(data);
+                const request = actionSchema.safeParse(data);
 
                 if (!request.success) {
                     return {

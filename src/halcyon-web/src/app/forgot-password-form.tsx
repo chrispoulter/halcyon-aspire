@@ -23,7 +23,7 @@ import {
     CardContent,
 } from '@/components/ui/card';
 
-const ForgotPasswordFormSchema = z.object({
+const formSchema = z.object({
     emailAddress: z
         .string({ message: 'Email Address is a required field' })
         .min(1, 'Email Address is a required field')
@@ -35,14 +35,14 @@ type ForgotPasswordFormProps = {
 };
 
 export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
-    const form = useForm<z.infer<typeof ForgotPasswordFormSchema>>({
-        resolver: zodResolver(ForgotPasswordFormSchema),
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
         defaultValues: {
             emailAddress: '',
         },
     });
 
-    async function onSubmit(data: z.infer<typeof ForgotPasswordFormSchema>) {
+    async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await forgotPasswordAction(data);
         console.log('result', result);
 
