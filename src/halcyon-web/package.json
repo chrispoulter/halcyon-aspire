@@ -9,7 +9,7 @@
         "preview": "vite preview",
         "lint": "eslint .",
         "format": "prettier --write .",
-        "prepare": "husky"
+        "prepare": "cd ../ && husky ./halcyon-web/.husky"
     },
     "dependencies": {
         "clsx": "2.1.1",
