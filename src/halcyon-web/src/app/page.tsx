@@ -38,6 +38,7 @@ export default async function Home() {
                 </p>
 
                 <ForgotPasswordForm className="[&:not(:first-child)]:mt-6" />
+
                 <LoginForm className="[&:not(:first-child)]:mt-6" />
             </div>
         </div>
