@@ -1,10 +1,17 @@
 'use client';
 
+import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { toast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from '@/components/ui/card';
 import {
     Form,
     FormControl,
@@ -14,6 +21,7 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { loginAction } from './actions/loginAction';
 
 const LoginFormSchema = z.object({
@@ -26,7 +34,11 @@ const LoginFormSchema = z.object({
         .min(1, 'Password is a required field'),
 });
 
-export function LoginForm() {
+type LoginFormProps = {
+    className?: string;
+};
+
+export function LoginForm({ className }: LoginFormProps) {
     const form = useForm<z.infer<typeof LoginFormSchema>>({
         resolver: zodResolver(LoginFormSchema),
         defaultValues: {
@@ -52,44 +64,73 @@ export function LoginForm() {
     }
 
     return (
-        <Form {...form}>
-            <form
-                noValidate
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="w-2/3 space-y-6"
-            >
-                <FormField
-                    control={form.control}
-                    name="emailAddress"
-                    render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Email Address</FormLabel>
-                                <FormControl>
-                                    <Input type="email" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                    <Input type="password" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </>
-                    )}
-                />
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
+        <Card className={className}>
+            <CardHeader>
+                <CardTitle className="text-2xl">Login</CardTitle>
+                <CardDescription>
+                    Enter your email below to login to your account.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Form {...form}>
+                    <form
+                        noValidate
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6"
+                    >
+                        <FormField
+                            control={form.control}
+                            name="emailAddress"
+                            render={({ field }) => (
+                                <>
+                                    <FormItem>
+                                        <FormLabel>Email Address</FormLabel>
+                                        <FormControl>
+                                            <Input type="email" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                </>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <>
+                                    <FormItem>
+                                        <div className="flex items-center">
+                                            <FormLabel>Password</FormLabel>
+                                            <Link
+                                                href="/account/forgot-password"
+                                                className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                                            >
+                                                Forgot your password?
+                                            </Link>
+                                        </div>
+                                        <FormControl>
+                                            <Input type="password" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                </>
+                            )}
+                        />
+                        <Button type="submit" className="w-full">
+                            Login
+                        </Button>
+                    </form>
+                </Form>
+                <div className="mt-4 text-center text-sm">
+                    Don&apos;t have an account?{' '}
+                    <Link
+                        href="/account/register"
+                        className="underline underline-offset-4"
+                    >
+                        Sign up
+                    </Link>
+                </div>
+            </CardContent>
+        </Card>
     );
 }

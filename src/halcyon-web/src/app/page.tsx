@@ -37,8 +37,8 @@ export default async function Home() {
                     <ModeToggle />
                 </p>
 
-                <ForgotPasswordForm />
-                <LoginForm />
+                <ForgotPasswordForm className="[&:not(:first-child)]:mt-6" />
+                <LoginForm className="[&:not(:first-child)]:mt-6" />
             </div>
         </div>
     );

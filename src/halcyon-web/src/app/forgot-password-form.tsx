@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,6 +15,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { forgotPasswordAction } from './actions/forgotPasswordAction';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from '@/components/ui/card';
 
 const ForgotPasswordFormSchema = z.object({
     emailAddress: z
@@ -24,7 +30,11 @@ const ForgotPasswordFormSchema = z.object({
         .email('Email Address must be a valid email'),
 });
 
-export function ForgotPasswordForm() {
+type ForgotPasswordFormProps = {
+    className?: string;
+};
+
+export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
     const form = useForm<z.infer<typeof ForgotPasswordFormSchema>>({
         resolver: zodResolver(ForgotPasswordFormSchema),
         defaultValues: {
@@ -49,30 +59,42 @@ export function ForgotPasswordForm() {
     }
 
     return (
-        <Form {...form}>
-            <form
-                noValidate
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="w-2/3 space-y-6"
-            >
-                <FormField
-                    control={form.control}
-                    name="emailAddress"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email Address</FormLabel>
-                            <FormControl>
-                                <Input type="email" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                                This is the email address you registered with.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <Button type="submit">Submit</Button>
-            </form>
-        </Form>
+        <Card className={className}>
+            <CardHeader>
+                <CardTitle className="text-2xl">Forgot Password</CardTitle>
+                <CardDescription>
+                    Request a password reset link by providing your email
+                    address.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Form {...form}>
+                    <form
+                        noValidate
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6"
+                    >
+                        <FormField
+                            control={form.control}
+                            name="emailAddress"
+                            render={({ field }) => (
+                                <>
+                                    <FormItem>
+                                        <FormLabel>Email Address</FormLabel>
+                                        <FormControl>
+                                            <Input type="email" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                </>
+                            )}
+                        />
+                        <Button type="submit" className="w-full">
+                            Request Reset
+                        </Button>
+                    </form>
+                </Form>
+            </CardContent>
+        </Card>
     );
 }
