@@ -2,7 +2,7 @@
   "files.exclude": {
     "**/.vs": true,
     "**/bin": true,
-    "**/dist": true,
+    "**/.next": true,
     "**/node_modules": true,
     "**/obj": true
   },
