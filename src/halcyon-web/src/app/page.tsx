@@ -6,8 +6,8 @@ export const dynamic = 'force-dynamic';
 
 async function fetchApiHealth() {
     return await trace
-        .getTracer('nextjs-example')
-        .startActiveSpan('fetchGithubStars', async (span) => {
+        .getTracer('halcyon-web')
+        .startActiveSpan('fetchApiHealth', async (span) => {
             try {
                 const response = await fetch(
                     `${process.env.services__api__http__0}/health`

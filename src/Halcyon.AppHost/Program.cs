@@ -43,6 +43,7 @@ var api = builder
 
 var web = builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
+    .WithEnvironment("NODE_TLS_REJECT_UNAUTHORIZED", "0")
     .WithHttpEndpoint(port: 3000, env: "PORT", isProxied: false)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile()
