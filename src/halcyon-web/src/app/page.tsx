@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 export const dynamic = 'force-dynamic'
 
 export default async function Home() {
-    const data = await fetch(`${process.env.API_URL}/health`)
+    const data = await fetch(`${process.env.services__api__http__0}/health`)
     const healthy = await data.text()
 
     return (
