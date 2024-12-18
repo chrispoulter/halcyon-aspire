@@ -1,11 +1,26 @@
-import { ModeToggle } from '@/components/mode-toggle'
-import { Button } from '@/components/ui/button'
+import { ModeToggle } from '@/components/mode-toggle';
+import { Button } from '@/components/ui/button';
+import { trace } from '@opentelemetry/api';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
+
+async function fetchApiHealth() {
+    return await trace
+        .getTracer('nextjs-example')
+        .startActiveSpan('fetchGithubStars', async (span) => {
+            try {
+                const response = await fetch(
+                    `${process.env.services__api__http__0}/health`
+                );
+                return await response.text();
+            } finally {
+                span.end();
+            }
+        });
+}
 
 export default async function Home() {
-    const data = await fetch(`${process.env.services__api__http__0}/health`)
-    const healthy = await data.text()
+    const healthy = await fetchApiHealth();
 
     return (
         <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
@@ -25,5 +40,5 @@ export default async function Home() {
                 </p>
             </div>
         </div>
-    )
+    );
 }
