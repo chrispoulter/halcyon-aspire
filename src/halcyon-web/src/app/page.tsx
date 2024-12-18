@@ -1,6 +1,6 @@
-import { ModeToggle } from '@/components/mode-toggle';
-import { Button } from '@/components/ui/button';
 import { trace } from '@opentelemetry/api';
+import { ModeToggle } from '@/components/mode-toggle';
+import { ForgotPasswordForm } from '@/components/forgot-password-form';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,11 +33,10 @@ export default async function Home() {
                     realized the error of his ways and repealed the joke tax.
                 </p>
                 <p className="leading-7 [&:not(:first-child)]:mt-6">
-                    <Button>Click me</Button>
-                </p>
-                <p className="leading-7 [&:not(:first-child)]:mt-6">
                     <ModeToggle />
                 </p>
+
+                <ForgotPasswordForm />
             </div>
         </div>
     );
