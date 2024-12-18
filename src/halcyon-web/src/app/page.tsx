@@ -1,16 +1,17 @@
 import { trace } from '@opentelemetry/api';
 import { ModeToggle } from '@/components/mode-toggle';
-import { ForgotPasswordForm } from '@/components/forgot-password-form';
+import { ForgotPasswordForm } from '@/app/forgot-password-form';
+import { LoginForm } from './login-form';
 
 export const dynamic = 'force-dynamic';
 
-async function fetchApiHealth() {
+async function getApiHealth() {
     return await trace
         .getTracer('halcyon-web')
-        .startActiveSpan('fetchApiHealth', async (span) => {
+        .startActiveSpan('getApiHealth', async (span) => {
             try {
                 const response = await fetch(
-                    `${process.env.services__api__http__0}/health`
+                    `${process.env.services__api__https__0}/health`
                 );
                 return await response.text();
             } finally {
@@ -20,13 +21,13 @@ async function fetchApiHealth() {
 }
 
 export default async function Home() {
-    const healthy = await fetchApiHealth();
+    const health = await getApiHealth();
 
     return (
         <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
             <div className="w-full max-w-sm">
                 <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                    Taxing Laughter: The Joke Tax Chronicles {healthy}
+                    Taxing Laughter: The Joke Tax Chronicles {health}
                 </h1>
                 <p className="leading-7 [&:not(:first-child)]:mt-6">
                     The king, seeing how much happier his subjects were,
@@ -37,6 +38,7 @@ export default async function Home() {
                 </p>
 
                 <ForgotPasswordForm />
+                <LoginForm />
             </div>
         </div>
     );
