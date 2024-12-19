@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { forgotPasswordAction } from '@/app/actions/forgotPasswordAction';
 import { toast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
@@ -15,13 +14,8 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
     emailAddress: z
@@ -48,53 +42,35 @@ export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
 
         toast({
             title: 'Instructions as to how to reset your password have been sent to you via email.',
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">
-                        {JSON.stringify(result, null, 2)}
-                    </code>
-                </pre>
-            ),
         });
     }
 
     return (
-        <Card className={className}>
-            <CardHeader>
-                <CardTitle className="text-2xl">Forgot Password</CardTitle>
-                <CardDescription>
-                    Request a password reset link by providing your email
-                    address.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Form {...form}>
-                    <form
-                        noValidate
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-6"
-                    >
-                        <FormField
-                            control={form.control}
-                            name="emailAddress"
-                            render={({ field }) => (
-                                <>
-                                    <FormItem>
-                                        <FormLabel>Email Address</FormLabel>
-                                        <FormControl>
-                                            <Input type="email" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                </>
-                            )}
-                        />
-                        <Button type="submit" className="w-full">
-                            Request Reset
-                        </Button>
-                    </form>
-                </Form>
-            </CardContent>
-        </Card>
+        <Form {...form}>
+            <form
+                noValidate
+                onSubmit={form.handleSubmit(onSubmit)}
+                className={cn('space-y-6', className)}
+            >
+                <FormField
+                    control={form.control}
+                    name="emailAddress"
+                    render={({ field }) => (
+                        <>
+                            <FormItem>
+                                <FormLabel>Email Address</FormLabel>
+                                <FormControl>
+                                    <Input type="email" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        </>
+                    )}
+                />
+                <Button type="submit" className="w-full">
+                    Request Reset
+                </Button>
+            </form>
+        </Form>
     );
 }

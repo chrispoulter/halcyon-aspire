@@ -1,19 +1,17 @@
 export function Footer() {
     return (
-        <footer className="border-t">
-            <div className="mx-auto flex max-w-screen-sm items-center justify-between gap-2 text-balance px-6 py-2 text-center text-sm text-muted-foreground">
-                <span>
-                    &copy;{' '}
-                    <a
-                        href="http://www.chrispoulter.com"
-                        className="underline underline-offset-4 hover:text-primary"
-                    >
-                        Chris Poulter
-                    </a>{' '}
-                    2024
-                </span>
-                <span>v1.0.0</span>
+        <footer className="mx-auto max-w-screen-sm p-6 flex gap-6 justify-between">
+            <div className="leading-7">
+                &copy;{' '}
+                <a
+                    href="http://www.chrispoulter.com"
+                    className="font-medium text-primary underline underline-offset-4"
+                >
+                    Chris Poulter
+                </a>{' '}
+                2024
             </div>
+            <div className="leading-7">v1.0.0</div>
         </footer>
     );
 }

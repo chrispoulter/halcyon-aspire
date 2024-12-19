@@ -7,8 +7,16 @@ export const metadata: Metadata = {
 
 export default async function ForgotPassword() {
     return (
-        <main className="mx-auto max-w-screen-sm p-6 md:p-10">
-            <ForgotPasswordForm />
+        <main className="mx-auto max-w-screen-sm p-6">
+            <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+                Forgot Password
+            </h1>
+
+            <p className="mt-6 leading-7">
+                Request a password reset link by providing your email address.
+            </p>
+
+            <ForgotPasswordForm className="mt-6" />
         </main>
     );
 }
