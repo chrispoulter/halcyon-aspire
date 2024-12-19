@@ -59,7 +59,13 @@ export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
                         <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                                <Input type="email" {...field} />
+                                <Input
+                                    {...field}
+                                    type="email"
+                                    maxLength={254}
+                                    autoComplete="username"
+                                    required
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

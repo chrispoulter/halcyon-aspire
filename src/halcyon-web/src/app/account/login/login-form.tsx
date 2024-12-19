@@ -63,7 +63,13 @@ export function LoginForm({ className }: LoginFormProps) {
                         <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                                <Input type="email" {...field} />
+                                <Input
+                                    {...field}
+                                    type="email"
+                                    maxLength={254}
+                                    autoComplete="username"
+                                    required
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -76,7 +82,13 @@ export function LoginForm({ className }: LoginFormProps) {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <Input type="password" {...field} />
+                                <Input
+                                    {...field}
+                                    type="password"
+                                    maxLength={50}
+                                    autoComplete="current-password"
+                                    required
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

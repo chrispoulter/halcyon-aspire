@@ -97,7 +97,13 @@ export function RegisterForm({ className }: RegisterFormProps) {
                         <FormItem>
                             <FormLabel>Email Address</FormLabel>
                             <FormControl>
-                                <Input type="email" {...field} />
+                                <Input
+                                    {...field}
+                                    type="email"
+                                    maxLength={254}
+                                    autoComplete="username"
+                                    required
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -111,7 +117,13 @@ export function RegisterForm({ className }: RegisterFormProps) {
                             <FormItem className="flex-1">
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
-                                    <Input type="password" {...field} />
+                                    <Input
+                                        {...field}
+                                        type="password"
+                                        maxLength={50}
+                                        autoComplete="new-password"
+                                        required
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -124,7 +136,13 @@ export function RegisterForm({ className }: RegisterFormProps) {
                             <FormItem className="flex-1">
                                 <FormLabel>Confirm Password</FormLabel>
                                 <FormControl>
-                                    <Input type="password" {...field} />
+                                    <Input
+                                        {...field}
+                                        type="password"
+                                        maxLength={50}
+                                        autoComplete="new-password"
+                                        required
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -139,7 +157,12 @@ export function RegisterForm({ className }: RegisterFormProps) {
                             <FormItem className="flex-1">
                                 <FormLabel>First Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        maxLength={50}
+                                        autoComplete="given-name"
+                                        required
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -152,7 +175,12 @@ export function RegisterForm({ className }: RegisterFormProps) {
                             <FormItem className="flex-1">
                                 <FormLabel>Last Name</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input
+                                        {...field}
+                                        maxLength={50}
+                                        autoComplete="family-name"
+                                        required
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -166,7 +194,12 @@ export function RegisterForm({ className }: RegisterFormProps) {
                         <FormItem>
                             <FormLabel>Date Of Birth</FormLabel>
                             <FormControl>
-                                <Input {...field} />
+                                <Input
+                                    {...field}
+                                    type="date"
+                                    autoComplete="bday"
+                                    required
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
