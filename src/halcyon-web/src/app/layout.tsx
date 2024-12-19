@@ -14,7 +14,10 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-    title: 'Halcyon',
+    title: {
+        template: '%s // Halcyon',
+        default: 'Halcyon',
+    },
     description:
         'A Next.js web project template. Built with a sense of peace and tranquillity.',
     keywords: [
@@ -22,10 +25,10 @@ export const metadata: Metadata = {
         'react',
         'typescript',
         'app-router',
+        'shadcn-ui',
         'zod',
         'react-hook-form',
         'tailwindcss',
-        'shadcn-ui',
         'docker',
         'eslint',
         'prettier',
@@ -52,7 +55,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <Header />
-                    <main>{children}</main>
+                    {children}
                     <Footer />
                     <Toaster />
                 </ThemeProvider>
