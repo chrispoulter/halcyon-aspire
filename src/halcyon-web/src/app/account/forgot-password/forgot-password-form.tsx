@@ -1,17 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { forgotPasswordAction } from '@/app/actions/forgotPasswordAction';
 import { toast } from '@/hooks/use-toast';
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
@@ -21,38 +15,39 @@ import {
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { loginAction } from './actions/loginAction';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from '@/components/ui/card';
 
 const formSchema = z.object({
     emailAddress: z
         .string({ message: 'Email Address is a required field' })
         .min(1, 'Email Address is a required field')
         .email('Email Address must be a valid email'),
-    password: z
-        .string({ message: 'Password is a required field' })
-        .min(1, 'Password is a required field'),
 });
 
-type LoginFormProps = {
+type ForgotPasswordFormProps = {
     className?: string;
 };
 
-export function LoginForm({ className }: LoginFormProps) {
+export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             emailAddress: '',
-            password: '',
         },
     });
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
-        const result = await loginAction(data);
+        const result = await forgotPasswordAction(data);
         console.log('result', result);
 
         toast({
-            title: 'You have been successfully logged in.',
+            title: 'Instructions as to how to reset your password have been sent to you via email.',
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                     <code className="text-white">
@@ -66,9 +61,10 @@ export function LoginForm({ className }: LoginFormProps) {
     return (
         <Card className={className}>
             <CardHeader>
-                <CardTitle className="text-2xl">Login</CardTitle>
+                <CardTitle className="text-2xl">Forgot Password</CardTitle>
                 <CardDescription>
-                    Enter your email below to login to your account.
+                    Request a password reset link by providing your email
+                    address.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -93,43 +89,11 @@ export function LoginForm({ className }: LoginFormProps) {
                                 </>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <>
-                                    <FormItem>
-                                        <div className="flex items-center">
-                                            <FormLabel>Password</FormLabel>
-                                            <Link
-                                                href="/account/forgot-password"
-                                                className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                                            >
-                                                Forgot your password?
-                                            </Link>
-                                        </div>
-                                        <FormControl>
-                                            <Input type="password" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                </>
-                            )}
-                        />
                         <Button type="submit" className="w-full">
-                            Login
+                            Request Reset
                         </Button>
                     </form>
                 </Form>
-                <div className="mt-4 text-center text-sm">
-                    Don&apos;t have an account?{' '}
-                    <Link
-                        href="/account/register"
-                        className="underline underline-offset-4"
-                    >
-                        Sign up
-                    </Link>
-                </div>
             </CardContent>
         </Card>
     );
