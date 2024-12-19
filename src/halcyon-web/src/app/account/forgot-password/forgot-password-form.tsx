@@ -56,15 +56,13 @@ export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
                     control={form.control}
                     name="emailAddress"
                     render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Email Address</FormLabel>
-                                <FormControl>
-                                    <Input type="email" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </>
+                        <FormItem>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl>
+                                <Input type="email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                     )}
                 />
                 <Button type="submit" className="w-full">

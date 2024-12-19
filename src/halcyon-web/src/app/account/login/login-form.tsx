@@ -60,31 +60,26 @@ export function LoginForm({ className }: LoginFormProps) {
                     control={form.control}
                     name="emailAddress"
                     render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Email Address</FormLabel>
-                                <FormControl>
-                                    <Input type="email" {...field} />
-                                </FormControl>
-
-                                <FormMessage />
-                            </FormItem>
-                        </>
+                        <FormItem>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl>
+                                <Input type="email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                     )}
                 />
                 <FormField
                     control={form.control}
                     name="password"
                     render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Password</FormLabel>
-                                <FormControl>
-                                    <Input type="password" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </>
+                        <FormItem>
+                            <FormLabel>Password</FormLabel>
+                            <FormControl>
+                                <Input type="password" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                     )}
                 />
                 <Button type="submit" className="w-full">

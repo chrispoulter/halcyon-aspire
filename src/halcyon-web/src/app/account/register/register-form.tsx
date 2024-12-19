@@ -94,91 +94,82 @@ export function RegisterForm({ className }: RegisterFormProps) {
                     control={form.control}
                     name="emailAddress"
                     render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Email Address</FormLabel>
-                                <FormControl>
-                                    <Input type="email" {...field} />
-                                </FormControl>
-
-                                <FormMessage />
-                            </FormItem>
-                        </>
+                        <FormItem>
+                            <FormLabel>Email Address</FormLabel>
+                            <FormControl>
+                                <Input type="email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <>
-                            <FormItem>
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <FormField
+                        control={form.control}
+                        name="password"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
                                 <FormLabel>Password</FormLabel>
                                 <FormControl>
                                     <Input type="password" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        </>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="confirmPassword"
-                    render={({ field }) => (
-                        <>
-                            <FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
                                 <FormLabel>Confirm Password</FormLabel>
                                 <FormControl>
                                     <Input type="password" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        </>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                        <>
-                            <FormItem>
+                        )}
+                    />
+                </div>
+                <div className="flex flex-col gap-6 sm:flex-row">
+                    <FormField
+                        control={form.control}
+                        name="firstName"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
                                 <FormLabel>First Name</FormLabel>
                                 <FormControl>
                                     <Input {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        </>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="lastName"
-                    render={({ field }) => (
-                        <>
-                            <FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="lastName"
+                        render={({ field }) => (
+                            <FormItem className="flex-1">
                                 <FormLabel>Last Name</FormLabel>
                                 <FormControl>
                                     <Input {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        </>
-                    )}
-                />
+                        )}
+                    />
+                </div>
                 <FormField
                     control={form.control}
                     name="dateOfBirth"
                     render={({ field }) => (
-                        <>
-                            <FormItem>
-                                <FormLabel>Date Of Birth</FormLabel>
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </>
+                        <FormItem>
+                            <FormLabel>Date Of Birth</FormLabel>
+                            <FormControl>
+                                <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
                     )}
                 />
                 <Button type="submit" className="w-full">
