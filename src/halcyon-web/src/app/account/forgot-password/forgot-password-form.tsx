@@ -68,7 +68,7 @@ export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
                     )}
                 />
                 <Button type="submit" className="w-full">
-                    Request Reset
+                    Submit
                 </Button>
             </form>
         </Form>

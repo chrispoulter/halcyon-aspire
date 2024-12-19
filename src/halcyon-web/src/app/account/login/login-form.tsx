@@ -88,7 +88,7 @@ export function LoginForm({ className }: LoginFormProps) {
                     )}
                 />
                 <Button type="submit" className="w-full">
-                    Login
+                    Submit
                 </Button>
             </form>
         </Form>

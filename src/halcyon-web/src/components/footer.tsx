@@ -1,6 +1,6 @@
 export function Footer() {
     return (
-        <footer className="mx-auto max-w-screen-sm p-6 flex gap-6 justify-between">
+        <footer className="mx-auto flex max-w-screen-sm justify-between gap-6 p-6">
             <div className="leading-7">
                 &copy;{' '}
                 <a
