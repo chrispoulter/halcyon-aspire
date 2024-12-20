@@ -245,7 +245,7 @@ export function UpdateUserForm({ user, className }: UpdateUserFormProps) {
                 <Button asChild variant="secondary" className="w-full">
                     <Link href="/user">Cancel</Link>
                 </Button>
-                {user.isLocked ? (
+                {user.isLockedOut ? (
                     <UnlockUserButton user={user} className="w-full" />
                 ) : (
                     <LockUserButton user={user} className="w-full" />

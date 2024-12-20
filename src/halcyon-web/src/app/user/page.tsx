@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { AlertCircle } from 'lucide-react';
 import { searchUsersAction } from '@/app/actions/searchUsersAction';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
 
 export const metadata: Metadata = {
     title: 'Users',
@@ -42,10 +43,29 @@ export default async function ChangePassword({}) {
                     href={`/user/${user.id}`}
                     className="mt-6 block border p-6"
                 >
-                    <span className="block font-semibold leading-7">
+                    <div className="block font-semibold leading-7">
                         {user.firstName} {user.lastName}
-                    </span>
-                    <span className="block leading-7">{user.emailAddress}</span>
+                    </div>
+                    <div className="block leading-7">{user.emailAddress}</div>
+                    <div className="flex flex-col gap-2">
+                        {user.isLockedOut && (
+                            <Badge
+                                variant="destructive"
+                                className="justify-center"
+                            >
+                                Locked
+                            </Badge>
+                        )}
+                        {user.roles?.map((role) => (
+                            <Badge
+                                key={role}
+                                variant="secondary"
+                                className="justify-center"
+                            >
+                                {role}
+                            </Badge>
+                        ))}
+                    </div>
                 </Link>
             ))}
         </main>
