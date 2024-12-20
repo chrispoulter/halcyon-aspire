@@ -5,6 +5,10 @@ import { z } from 'zod';
 import { isInPast } from '@/lib/dates';
 
 const actionSchema = z.object({
+    id: z
+        .string({ message: 'Id is a required field' })
+        .min(1, 'Id is a required field')
+        .uuid('Id must be a valid UUID'),
     emailAddress: z
         .string({ message: 'Email Address is a required field' })
         .min(1, 'Email Address is a required field')
@@ -30,10 +34,10 @@ const actionSchema = z.object({
     version: z.string({ message: 'Version must be a string' }),
 });
 
-export async function updateProfileAction(data: unknown) {
+export async function updateUserAction(data: unknown) {
     return await trace
         .getTracer('halcyon-web')
-        .startActiveSpan('updateProfileAction', async (span) => {
+        .startActiveSpan('updateUserAction', async (span) => {
             try {
                 const request = actionSchema.safeParse(data);
 
@@ -43,15 +47,17 @@ export async function updateProfileAction(data: unknown) {
                     };
                 }
 
+                const { id, ...rest } = request.data;
+
                 const response = await fetch(
-                    `${process.env.services__api__https__0}/profile`,
+                    `${process.env.services__api__https__0}/user/${id}`,
                     {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
                             Authorization: `Bearer ${process.env.API_TOKEN}`,
                         },
-                        body: JSON.stringify(request.data),
+                        body: JSON.stringify(rest),
                     }
                 );
 

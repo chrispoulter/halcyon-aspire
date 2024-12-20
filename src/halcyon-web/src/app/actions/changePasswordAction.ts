@@ -11,6 +11,7 @@ const actionSchema = z.object({
         .string({ message: 'New Password is a required field' })
         .min(8, 'New Password must be at least 8 characters')
         .max(50, 'New Password must be no more than 50 characters'),
+    version: z.string({ message: 'Version must be a string' }),
 });
 
 export async function changePasswordAction(data: unknown) {
