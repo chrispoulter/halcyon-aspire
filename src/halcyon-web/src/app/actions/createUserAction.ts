@@ -15,6 +15,10 @@ const actionSchema = z.object({
         .min(1, 'Email Address is a required field')
         .max(254, 'Password must be no more than 254 characters')
         .email('Email Address must be a valid email'),
+    password: z
+        .string({ message: 'Password must be a valid string' })
+        .min(8, 'Password must be at least 8 characters')
+        .max(50, 'Password must be no more than 50 characters'),
     firstName: z
         .string({
             message: 'Confirm Password is a required field',
@@ -41,10 +45,10 @@ const actionSchema = z.object({
     version: z.string({ message: 'Version must be a valid string' }).optional(),
 });
 
-export async function updateUserAction(data: unknown) {
+export async function createUserAction(data: unknown) {
     return await trace
         .getTracer('halcyon-web')
-        .startActiveSpan('updateUserAction', async (span) => {
+        .startActiveSpan('createUserAction', async (span) => {
             try {
                 const request = actionSchema.safeParse(data);
 
@@ -54,17 +58,15 @@ export async function updateUserAction(data: unknown) {
                     };
                 }
 
-                const { id, ...rest } = request.data;
-
                 const response = await fetch(
-                    `${process.env.services__api__https__0}/user/${id}`,
+                    `${process.env.services__api__https__0}/user`,
                     {
-                        method: 'PUT',
+                        method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             Authorization: `Bearer ${process.env.API_TOKEN}`,
                         },
-                        body: JSON.stringify(rest),
+                        body: JSON.stringify(request.data),
                     }
                 );
 

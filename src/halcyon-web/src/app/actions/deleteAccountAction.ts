@@ -4,7 +4,7 @@ import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
 
 const actionSchema = z.object({
-    version: z.string({ message: 'Version must be a string' }),
+    version: z.string({ message: 'Version must be a valid string' }).optional(),
 });
 
 export async function deleteAccountAction(data: unknown) {

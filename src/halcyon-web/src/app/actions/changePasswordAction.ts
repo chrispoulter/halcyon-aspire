@@ -5,13 +5,13 @@ import { z } from 'zod';
 
 const actionSchema = z.object({
     currentPassword: z
-        .string({ message: 'Current Password is a required field' })
+        .string({ message: 'Current Password must be a valid string' })
         .min(1, 'Current Password is a required field'),
     newPassword: z
-        .string({ message: 'New Password is a required field' })
+        .string({ message: 'New Password must be a valid string' })
         .min(8, 'New Password must be at least 8 characters')
         .max(50, 'New Password must be no more than 50 characters'),
-    version: z.string({ message: 'Version must be a string' }),
+    version: z.string({ message: 'Version must be a valid string' }).optional(),
 });
 
 export async function changePasswordAction(data: unknown) {

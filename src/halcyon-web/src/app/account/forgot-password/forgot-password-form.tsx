@@ -19,7 +19,7 @@ import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
     emailAddress: z
-        .string({ message: 'Email Address is a required field' })
+        .string({ message: 'Email Address must be a valid string' })
         .min(1, 'Email Address is a required field')
         .email('Email Address must be a valid email'),
 });
