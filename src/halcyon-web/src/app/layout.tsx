@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Open_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
@@ -33,6 +33,17 @@ export const metadata: Metadata = {
         'eslint',
         'prettier',
     ],
+    applicationName: 'Halcyon',
+    appleWebApp: {
+        title: 'Halcyon',
+    },
+    formatDetection: {
+        telephone: false,
+    },
+};
+
+export const viewport: Viewport = {
+    themeColor: '#111827',
 };
 
 export default function RootLayout({
