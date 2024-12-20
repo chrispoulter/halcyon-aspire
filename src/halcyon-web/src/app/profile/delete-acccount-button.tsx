@@ -16,16 +16,12 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 
 type DeleteAccountButtonProps = {
-    version?: string;
     className?: string;
 };
 
-export function DeleteAccountButton({
-    version,
-    className,
-}: DeleteAccountButtonProps) {
+export function DeleteAccountButton({ className }: DeleteAccountButtonProps) {
     async function onDelete() {
-        const result = await deleteAccountAction({ version });
+        const result = await deleteAccountAction({});
         console.log('result', result);
 
         toast({

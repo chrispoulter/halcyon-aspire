@@ -2,6 +2,15 @@
 
 import { trace } from '@opentelemetry/api';
 
+export type GetProfileResponse = {
+    id: string;
+    emailAddress: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    version: string;
+};
+
 export async function getProfileAction() {
     return await trace
         .getTracer('halcyon-web')
@@ -15,7 +24,7 @@ export async function getProfileAction() {
                         },
                     }
                 );
-                return await response.json();
+                return (await response.json()) as GetProfileResponse;
             } finally {
                 span.end();
             }
