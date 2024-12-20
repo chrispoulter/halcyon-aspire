@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
+import { AlertCircle } from 'lucide-react';
 import { getProfileAction } from '@/app/actions/getProfileAction';
 import { UpdateProfileForm } from '@/app/profile/update-profile/update-profile-form';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 export const metadata: Metadata = {
     title: 'Update Profile',
@@ -8,6 +10,20 @@ export const metadata: Metadata = {
 
 export default async function UpdateProfile() {
     const profile = await getProfileAction();
+
+    if ('errors' in profile) {
+        return (
+            <main className="mx-auto max-w-screen-sm p-6">
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                        {JSON.stringify(profile.errors)}
+                    </AlertDescription>
+                </Alert>
+            </main>
+        );
+    }
 
     return (
         <main className="mx-auto max-w-screen-sm p-6">

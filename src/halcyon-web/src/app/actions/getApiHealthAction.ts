@@ -10,6 +10,15 @@ export async function getApiHealthAction() {
                 const response = await fetch(
                     `${process.env.services__api__https__0}/health`
                 );
+
+                if (!response.ok) {
+                    return {
+                        errors: [
+                            'An error occurred while processing your request',
+                        ],
+                    };
+                }
+
                 return await response.text();
             } finally {
                 span.end();

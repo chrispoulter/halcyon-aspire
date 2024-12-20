@@ -6,7 +6,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { GetUserResponse } from '@/app/actions/getUserAction';
 import { updateUserAction } from '@/app/actions/updateUserAction';
-import { toast } from '@/hooks/use-toast';
+import { DeleteUserButton } from '@/app/user/[id]/delete-user-button';
+import { LockUserButton } from '@/app/user/[id]/lock-user-button';
+import { UnlockUserButton } from '@/app/user/[id]/unlock-user-button';
 import {
     Form,
     FormControl,
@@ -19,13 +21,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { toast } from '@/hooks/use-toast';
 import { Role } from '@/lib/auth';
 import { isInPast } from '@/lib/dates';
 import { cn } from '@/lib/utils';
-import { Delete } from 'lucide-react';
-import { DeleteUserButton } from './delete-user-button';
-import { LockUserButton } from './lock-user-button';
-import { UnlockUserButton } from './unlock-user-button';
 
 const formSchema = z.object({
     emailAddress: z

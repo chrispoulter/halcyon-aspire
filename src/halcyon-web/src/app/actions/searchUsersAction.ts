@@ -2,6 +2,20 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
+import { Role } from '@/lib/auth';
+
+type SearchUsersResponse = {
+    items: {
+        id: string;
+        emailAddress: string;
+        firstName: string;
+        lastName: string;
+        isLockedOut: boolean;
+        roles?: Role[];
+    }[];
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+};
 
 enum UserSort {
     EMAIL_ADDRESS_ASC = 'EMAIL_ADDRESS_ASC',
@@ -39,7 +53,7 @@ export async function searchUsersAction(data: unknown) {
                     };
                 }
 
-                const params = Object.entries(request)
+                const params = Object.entries(request.data)
                     .map((pair) => pair.map(encodeURIComponent).join('='))
                     .join('&');
 
@@ -61,7 +75,7 @@ export async function searchUsersAction(data: unknown) {
                     };
                 }
 
-                return await response.json();
+                return (await response.json()) as SearchUsersResponse;
             } finally {
                 span.end();
             }

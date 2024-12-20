@@ -24,6 +24,15 @@ export async function getProfileAction() {
                         },
                     }
                 );
+
+                if (!response.ok) {
+                    return {
+                        errors: [
+                            'An error occurred while processing your request',
+                        ],
+                    };
+                }
+
                 return (await response.json()) as GetProfileResponse;
             } finally {
                 span.end();

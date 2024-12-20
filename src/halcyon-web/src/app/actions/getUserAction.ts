@@ -52,7 +52,7 @@ export async function getUserAction(data: unknown) {
                     };
                 }
 
-                return await response.json();
+                return (await response.json()) as GetUserResponse;
             } finally {
                 span.end();
             }

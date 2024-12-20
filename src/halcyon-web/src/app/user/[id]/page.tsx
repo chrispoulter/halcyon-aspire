@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
+import { AlertCircle } from 'lucide-react';
 import { getUserAction } from '@/app/actions/getUserAction';
 import { UpdateUserForm } from '@/app/user/[id]/update-user-form';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 
 export const metadata: Metadata = {
     title: 'Update User',
@@ -13,6 +15,20 @@ export default async function ResetPassword({
 }) {
     const id = (await params).id;
     const user = await getUserAction({ id });
+
+    if ('errors' in user) {
+        return (
+            <main className="mx-auto max-w-screen-sm p-6">
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                        {JSON.stringify(user.errors)}
+                    </AlertDescription>
+                </Alert>
+            </main>
+        );
+    }
 
     return (
         <main className="mx-auto max-w-screen-sm p-6">

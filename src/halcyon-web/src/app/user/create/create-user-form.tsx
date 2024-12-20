@@ -5,7 +5,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { createUserAction } from '@/app/actions/createUserAction';
-import { toast } from '@/hooks/use-toast';
 import {
     Form,
     FormControl,
@@ -18,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { toast } from '@/hooks/use-toast';
 import { Role } from '@/lib/auth';
 import { isInPast } from '@/lib/dates';
 import { cn } from '@/lib/utils';

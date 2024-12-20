@@ -1,8 +1,10 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { AlertCircle } from 'lucide-react';
 import { getProfileAction } from '@/app/actions/getProfileAction';
-import { Button } from '@/components/ui/button';
 import { DeleteAccountButton } from '@/app/profile/delete-acccount-button';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { toLocaleString } from '@/lib/dates';
 
 export const metadata: Metadata = {
@@ -11,6 +13,20 @@ export const metadata: Metadata = {
 
 export default async function Profile() {
     const profile = await getProfileAction();
+
+    if ('errors' in profile) {
+        return (
+            <main className="mx-auto max-w-screen-sm p-6">
+                <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                        {JSON.stringify(profile.errors)}
+                    </AlertDescription>
+                </Alert>
+            </main>
+        );
+    }
 
     return (
         <main className="mx-auto max-w-screen-sm p-6">
