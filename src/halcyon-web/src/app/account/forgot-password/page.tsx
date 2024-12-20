@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default async function ForgotPassword() {
     return (
         <main className="mx-auto max-w-screen-sm p-6">
-            <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+            <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">
                 Forgot Password
             </h1>
 

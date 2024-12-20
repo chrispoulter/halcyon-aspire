@@ -4,6 +4,14 @@ export function now() {
     return now;
 }
 
+export function toLocaleString(value: string) {
+    return new Date(`${value}T00:00:00.000Z`).toLocaleString('en', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
+}
+
 export function toDate(value: string) {
     const isoString = `${value}T00:00:00.000Z`;
     const date = new Date(isoString);
