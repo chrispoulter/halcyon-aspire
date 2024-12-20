@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { RegisterForm } from '@/app/account/register/register-form';
 import Link from 'next/link';
+import { RegisterForm } from '@/app/account/register/register-form';
 
 export const metadata: Metadata = {
     title: 'Register',
@@ -14,7 +14,7 @@ export default async function Login() {
             </h1>
 
             <p className="mt-6 leading-7">
-                Create a new account to access the full range of features
+                Register for a new account to access the full range of features
                 available on this site.
             </p>
 
