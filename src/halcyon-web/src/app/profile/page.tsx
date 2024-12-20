@@ -2,17 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { getProfileAction } from '@/app/actions/getProfileAction';
 import { Button } from '@/components/ui/button';
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { DeleteAccountButton } from '@/app/profile/delete-acccount-button';
 import { toLocaleString } from '@/lib/dates';
 
 export const metadata: Metadata = {
@@ -70,27 +60,7 @@ export default async function Profile() {
                 be removed. Please be certain.
             </p>
 
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant="destructive" className="mt-6">
-                        Delete Account
-                    </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Account</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Are you sure you want to delete your account? All of
-                            your data will be permanently removed. This action
-                            cannot be undone.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction>Delete</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
+            <DeleteAccountButton className="mt-6" />
         </main>
     );
 }
