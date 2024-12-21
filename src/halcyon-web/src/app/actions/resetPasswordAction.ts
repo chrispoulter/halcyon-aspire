@@ -49,6 +49,8 @@ export async function resetPasswordAction(data: unknown) {
                         ],
                     };
                 }
+
+                return await response.json();
             } finally {
                 span.end();
             }

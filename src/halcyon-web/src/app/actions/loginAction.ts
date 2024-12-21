@@ -21,7 +21,7 @@ export type LoginResponse = {
 export async function loginAction(data: unknown) {
     return await trace
         .getTracer('halcyon-web')
-        .startActiveSpan('forgotPasswordAction', async (span) => {
+        .startActiveSpan('loginAction', async (span) => {
             try {
                 const request = actionSchema.safeParse(data);
 
@@ -30,6 +30,8 @@ export async function loginAction(data: unknown) {
                         errors: request.error.flatten().fieldErrors,
                     };
                 }
+
+                console.log(`${process.env.services__api__https__0}/account/login`)
 
                 const response = await fetch(
                     `${process.env.services__api__https__0}/account/login`,

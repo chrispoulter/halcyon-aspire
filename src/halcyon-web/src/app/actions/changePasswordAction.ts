@@ -2,6 +2,7 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
+import { verifySession } from '@/lib/dal';
 
 const actionSchema = z.object({
     currentPassword: z
@@ -19,6 +20,16 @@ export async function changePasswordAction(data: unknown) {
         .getTracer('halcyon-web')
         .startActiveSpan('changePasswordAction', async (span) => {
             try {
+                const session = await verifySession();
+
+                if (!session) {
+                    return {
+                        errors: [
+                            'Authenication is required to perform this action',
+                        ],
+                    };
+                }
+
                 const request = actionSchema.safeParse(data);
 
                 if (!request.success) {
