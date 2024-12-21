@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 export default async function ChangePassword({}) {
     const result = await searchUsersAction({
-        page: 1,
-        size: 10,
-        sort: 'NAME_ASC',
-        search: '',
+        // page: 1,
+        // size: 10,
+        // sort: 'NAME_ASC',
+        // search: '',
     });
 
     if ('errors' in result) {

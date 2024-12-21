@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     title: 'Register',
 };
 
-export default async function Login() {
+export default async function Register() {
     return (
         <main className="mx-auto max-w-screen-sm p-6">
             <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight">

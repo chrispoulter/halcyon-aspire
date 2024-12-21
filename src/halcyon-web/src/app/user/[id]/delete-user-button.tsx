@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { GetUserResponse } from '@/app/actions/getUserAction';
 import { deleteUserAction } from '@/app/actions/deleteUserAction';
 import {
@@ -22,13 +23,17 @@ type DeleteUserButtonProps = {
 };
 
 export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
+    const router = useRouter();
+
     async function onDelete() {
         const result = await deleteUserAction({ id: user.id });
-        console.log('result', result);
 
         toast({
             title: 'User successfully deleted.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/user');
     }
     return (
         <AlertDialog>

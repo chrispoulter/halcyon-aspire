@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -29,6 +30,8 @@ type ForgotPasswordFormProps = {
 };
 
 export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -38,11 +41,13 @@ export function ForgotPasswordForm({ className }: ForgotPasswordFormProps) {
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await forgotPasswordAction(data);
-        console.log('result', result);
 
         toast({
             title: 'Instructions as to how to reset your password have been sent to you via email.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/account/login');
     }
 
     return (

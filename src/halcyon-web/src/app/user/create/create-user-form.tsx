@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -74,6 +75,8 @@ type CreateUserFormProps = {
 };
 
 export function CreateUserForm({ className }: CreateUserFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -89,11 +92,13 @@ export function CreateUserForm({ className }: CreateUserFormProps) {
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await createUserAction(data);
-        console.log('result', result);
 
         toast({
             title: 'User successfully created.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/user');
     }
 
     return (

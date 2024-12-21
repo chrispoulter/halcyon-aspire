@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -45,6 +46,8 @@ export function ResetPasswordForm({
     token,
     className,
 }: ResetPasswordFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -56,11 +59,13 @@ export function ResetPasswordForm({
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await resetPasswordAction({ ...data, token });
-        console.log('result', result);
 
         toast({
             title: 'Your password has been reset.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/account/login');
     }
 
     return (

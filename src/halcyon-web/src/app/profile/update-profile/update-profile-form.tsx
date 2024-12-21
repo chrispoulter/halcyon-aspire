@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -54,6 +55,8 @@ export function UpdateProfileForm({
     profile,
     className,
 }: UpdateProfileFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         values: profile,
@@ -61,11 +64,13 @@ export function UpdateProfileForm({
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await updateProfileAction(data);
-        console.log('result', result);
 
         toast({
             title: 'Your profile has been updated.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/profile');
     }
 
     return (

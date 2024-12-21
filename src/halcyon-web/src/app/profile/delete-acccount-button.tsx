@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { deleteAccountAction } from '@/app/actions/deleteAccountAction';
 import {
     AlertDialog,
@@ -20,13 +21,17 @@ type DeleteAccountButtonProps = {
 };
 
 export function DeleteAccountButton({ className }: DeleteAccountButtonProps) {
+    const router = useRouter();
+
     async function onDelete() {
         const result = await deleteAccountAction({});
-        console.log('result', result);
 
         toast({
             title: 'Your account has been deleted.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/');
     }
     return (
         <AlertDialog>

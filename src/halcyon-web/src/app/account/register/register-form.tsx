@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -62,6 +63,8 @@ type RegisterFormProps = {
 };
 
 export function RegisterForm({ className }: RegisterFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -76,11 +79,13 @@ export function RegisterForm({ className }: RegisterFormProps) {
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await registerAction(data);
-        console.log('result', result);
 
         toast({
             title: 'User successfully registered.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/account/login');
     }
 
     return (

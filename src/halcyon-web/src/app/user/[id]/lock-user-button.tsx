@@ -24,10 +24,10 @@ type LockUserButtonProps = {
 export function LockUserButton({ user, className }: LockUserButtonProps) {
     async function onLock() {
         const result = await lockUserAction({ id: user.id });
-        console.log('result', result);
 
         toast({
             title: 'User successfully locked.',
+            description: JSON.stringify(result),
         });
     }
     return (

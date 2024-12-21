@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -41,6 +42,8 @@ type ChangePasswordFormProps = {
 };
 
 export function ChangePasswordForm({ className }: ChangePasswordFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -52,11 +55,13 @@ export function ChangePasswordForm({ className }: ChangePasswordFormProps) {
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await changePasswordAction(data);
-        console.log('result', result);
 
         toast({
             title: 'Your password has been changed.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/profile');
     }
 
     return (

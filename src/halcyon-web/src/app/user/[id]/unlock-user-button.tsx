@@ -24,10 +24,10 @@ type UnlockUserButtonProps = {
 export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
     async function onUnlock() {
         const result = await unlockUserAction({ id: user.id });
-        console.log('result', result);
 
         toast({
             title: 'User successfully unlocked.',
+            description: JSON.stringify(result),
         });
     }
     return (

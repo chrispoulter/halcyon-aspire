@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -32,6 +33,8 @@ type LoginFormProps = {
 };
 
 export function LoginForm({ className }: LoginFormProps) {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -42,11 +45,13 @@ export function LoginForm({ className }: LoginFormProps) {
 
     async function onSubmit(data: z.infer<typeof formSchema>) {
         const result = await loginAction(data);
-        console.log('result', result);
 
         toast({
             title: 'You have been successfully logged in.',
+            description: JSON.stringify(result),
         });
+
+        router.push('/');
     }
 
     return (
