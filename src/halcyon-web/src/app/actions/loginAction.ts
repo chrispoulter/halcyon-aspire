@@ -1,5 +1,6 @@
 'use server';
 
+import { createSession } from '@/lib/session';
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
 
@@ -12,6 +13,10 @@ const actionSchema = z.object({
         .string({ message: 'Password must be a valid string' })
         .min(1, 'Password is a required field'),
 });
+
+export type LoginResponse = {
+    accessToken: string;
+};
 
 export async function loginAction(data: unknown) {
     return await trace
@@ -45,7 +50,11 @@ export async function loginAction(data: unknown) {
                     };
                 }
 
-                return await response.json();
+                const result = (await response.json()) as LoginResponse;
+
+                await createSession(result.accessToken);
+
+                return result;
             } finally {
                 span.end();
             }

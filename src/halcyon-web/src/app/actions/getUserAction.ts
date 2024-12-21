@@ -3,6 +3,7 @@
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
 import { Role } from '@/lib/auth';
+import { verifySession } from '@/lib/dal';
 
 export type GetUserResponse = {
     id: string;
@@ -27,6 +28,16 @@ export async function getUserAction(data: unknown) {
         .getTracer('halcyon-web')
         .startActiveSpan('getUserAction', async (span) => {
             try {
+                const session = await verifySession();
+
+                if (!session) {
+                    return {
+                        errors: [
+                            'Authenication is required to perform this action',
+                        ],
+                    };
+                }
+
                 const request = actionSchema.safeParse(data);
 
                 if (!request.success) {
@@ -39,7 +50,7 @@ export async function getUserAction(data: unknown) {
                     `${process.env.services__api__https__0}/user/${request.data.id}`,
                     {
                         headers: {
-                            Authorization: `Bearer ${process.env.API_TOKEN}`,
+                            Authorization: `Bearer ${session.accessToken}`,
                         },
                     }
                 );

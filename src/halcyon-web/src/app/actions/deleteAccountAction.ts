@@ -2,6 +2,7 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
+import { verifySession } from '@/lib/dal';
 
 const actionSchema = z.object({
     version: z.string({ message: 'Version must be a valid string' }).optional(),
@@ -12,6 +13,16 @@ export async function deleteAccountAction(data: unknown) {
         .getTracer('halcyon-web')
         .startActiveSpan('deleteAccountAction', async (span) => {
             try {
+                const session = await verifySession();
+
+                if (!session) {
+                    return {
+                        errors: [
+                            'Authenication is required to perform this action',
+                        ],
+                    };
+                }
+
                 const request = actionSchema.safeParse(data);
 
                 if (!request.success) {
@@ -26,7 +37,7 @@ export async function deleteAccountAction(data: unknown) {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
-                            Authorization: `Bearer ${process.env.API_TOKEN}`,
+                            Authorization: `Bearer ${session.accessToken}`,
                         },
                         body: JSON.stringify(request.data),
                     }

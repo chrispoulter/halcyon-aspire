@@ -33,7 +33,7 @@ export async function changePasswordAction(data: unknown) {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
-                            Authorization: `Bearer ${process.env.API_TOKEN}`,
+                            Authorization: `Bearer ${session.accessToken}`,
                         },
                         body: JSON.stringify(request.data),
                     }

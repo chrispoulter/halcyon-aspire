@@ -1,6 +1,7 @@
 'use server';
 
 import { trace } from '@opentelemetry/api';
+import { verifySession } from '@/lib/dal';
 
 export type GetProfileResponse = {
     id: string;
@@ -16,11 +17,21 @@ export async function getProfileAction() {
         .getTracer('halcyon-web')
         .startActiveSpan('getProfileAction', async (span) => {
             try {
+                const session = await verifySession();
+
+                if (!session) {
+                    return {
+                        errors: [
+                            'Authenication is required to perform this action',
+                        ],
+                    };
+                }
+
                 const response = await fetch(
                     `${process.env.services__api__https__0}/profile`,
                     {
                         headers: {
-                            Authorization: `Bearer ${process.env.API_TOKEN}`,
+                            Authorization: `Bearer ${session.accessToken}`,
                         },
                     }
                 );
