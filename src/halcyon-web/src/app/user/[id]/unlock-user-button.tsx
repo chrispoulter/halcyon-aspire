@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { GetUserResponse } from '@/app/actions/getUserAction';
 import { unlockUserAction } from '@/app/actions/unlockUserAction';
 import {
@@ -22,6 +23,8 @@ type UnlockUserButtonProps = {
 };
 
 export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
+    const router = useRouter();
+
     async function onUnlock() {
         const result = await unlockUserAction({ id: user.id });
 
@@ -29,6 +32,8 @@ export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
             title: 'User successfully unlocked.',
             description: JSON.stringify(result),
         });
+
+        router.refresh();
     }
     return (
         <AlertDialog>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { GetUserResponse } from '@/app/actions/getUserAction';
 import { lockUserAction } from '@/app/actions/lockUserAction';
 import {
@@ -22,6 +23,8 @@ type LockUserButtonProps = {
 };
 
 export function LockUserButton({ user, className }: LockUserButtonProps) {
+    const router = useRouter();
+
     async function onLock() {
         const result = await lockUserAction({ id: user.id });
 
@@ -29,6 +32,8 @@ export function LockUserButton({ user, className }: LockUserButtonProps) {
             title: 'User successfully locked.',
             description: JSON.stringify(result),
         });
+
+        router.refresh();
     }
     return (
         <AlertDialog>
