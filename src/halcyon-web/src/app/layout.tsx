@@ -34,16 +34,13 @@ export const metadata: Metadata = {
         'prettier',
     ],
     applicationName: 'Halcyon',
-    appleWebApp: {
-        title: 'Halcyon',
-    },
     formatDetection: {
         telephone: false,
     },
 };
 
 export const viewport: Viewport = {
-    themeColor: '#111827',
+    themeColor: '#09090b',
 };
 
 export default function RootLayout({
