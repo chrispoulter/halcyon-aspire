@@ -31,8 +31,6 @@ export async function loginAction(data: unknown) {
                     };
                 }
 
-                console.log(`${process.env.services__api__https__0}/account/login`)
-
                 const response = await fetch(
                     `${process.env.services__api__https__0}/account/login`,
                     {
