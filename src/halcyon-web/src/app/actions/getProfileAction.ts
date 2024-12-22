@@ -19,14 +19,6 @@ export async function getProfileAction() {
             try {
                 const session = await verifySession();
 
-                if (!session) {
-                    return {
-                        errors: [
-                            'Authenication is required to perform this action',
-                        ],
-                    };
-                }
-
                 const response = await fetch(
                     `${process.env.services__api__https__0}/profile`,
                     {

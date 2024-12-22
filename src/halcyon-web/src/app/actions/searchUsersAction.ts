@@ -46,15 +46,10 @@ export async function searchUsersAction(data: unknown) {
         .getTracer('halcyon-web')
         .startActiveSpan('searchUsersAction', async (span) => {
             try {
-                const session = await verifySession();
-
-                if (!session) {
-                    return {
-                        errors: [
-                            'Authenication is required to perform this action',
-                        ],
-                    };
-                }
+                const session = await verifySession([
+                    Role.SYSTEM_ADMINISTRATOR,
+                    Role.USER_ADMINISTRATOR,
+                ]);
 
                 const request = actionSchema.safeParse(data);
 

@@ -38,14 +38,6 @@ export async function updateProfileAction(data: unknown) {
             try {
                 const session = await verifySession();
 
-                if (!session) {
-                    return {
-                        errors: [
-                            'Authenication is required to perform this action',
-                        ],
-                    };
-                }
-
                 const request = actionSchema.safeParse(data);
 
                 if (!request.success) {

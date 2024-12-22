@@ -2,6 +2,7 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
+import { Role } from '@/lib/auth';
 import { verifySession } from '@/lib/dal';
 
 const actionSchema = z.object({
@@ -17,15 +18,10 @@ export async function lockUserAction(data: unknown) {
         .getTracer('halcyon-web')
         .startActiveSpan('lockUserAction', async (span) => {
             try {
-                const session = await verifySession();
-
-                if (!session) {
-                    return {
-                        errors: [
-                            'Authenication is required to perform this action',
-                        ],
-                    };
-                }
+                const session = await verifySession([
+                    Role.SYSTEM_ADMINISTRATOR,
+                    Role.USER_ADMINISTRATOR,
+                ]);
 
                 const request = actionSchema.safeParse(data);
 

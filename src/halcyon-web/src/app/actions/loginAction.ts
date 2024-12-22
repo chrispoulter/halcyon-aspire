@@ -2,6 +2,7 @@
 
 import { createSession } from '@/lib/session';
 import { trace } from '@opentelemetry/api';
+import { jwtVerify } from 'jose';
 import { z } from 'zod';
 
 const actionSchema = z.object({
@@ -17,6 +18,17 @@ const actionSchema = z.object({
 export type LoginResponse = {
     accessToken: string;
 };
+
+type JwtPayload = {
+    sub: string;
+    email: string;
+    given_name: string;
+    family_name: string;
+    roles: string | string[];
+};
+
+const securityKey = process.env.JWT_SECURITY_KEY;
+const encodedSecurityKey = new TextEncoder().encode(securityKey);
 
 export async function loginAction(data: unknown) {
     return await trace
@@ -52,7 +64,26 @@ export async function loginAction(data: unknown) {
 
                 const result = (await response.json()) as LoginResponse;
 
-                await createSession(result.accessToken);
+                const { payload } = await jwtVerify<JwtPayload>(
+                    result.accessToken,
+                    encodedSecurityKey,
+                    {
+                        audience: process.env.JWT_AUDIENCE,
+                        issuer: process.env.JWT_ISSUER,
+                    }
+                );
+
+                await createSession({
+                    accessToken: result.accessToken,
+                    id: payload.sub,
+                    emailAddress: payload.email,
+                    firstName: payload.given_name,
+                    lastName: payload.family_name,
+                    roles:
+                        typeof payload.roles === 'string'
+                            ? [payload.roles]
+                            : payload.roles || [],
+                });
 
                 return result;
             } finally {
