@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 export default {
@@ -10,6 +11,9 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['var(--font-sans)', ...fontFamily.sans],
+            },
             colors: {
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',

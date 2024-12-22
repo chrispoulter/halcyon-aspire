@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from 'next';
+import { Open_Sans as FontSans } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
+import { cn } from '@/lib/utils';
 
 import './globals.css';
+
+const fontSans = FontSans({
+    subsets: ['latin'],
+    variable: '--font-sans',
+});
 
 export const metadata: Metadata = {
     title: {
@@ -46,7 +53,12 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className="min-h-screen bg-background font-sans antialiased">
+            <body
+                className={cn(
+                    'min-h-screen bg-background font-sans antialiased',
+                    fontSans.variable
+                )}
+            >
                 <ThemeProvider
                     attribute="class"
                     defaultTheme="system"
