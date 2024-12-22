@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { User, LogOut, Users, Settings } from 'lucide-react';
+import { createHash } from 'crypto';
+import { User, LogOut, Settings } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -36,12 +36,16 @@ export function UserMenu({ session, onLogout }: UserMenu) {
         );
     }
 
+    const hashedEmail = createHash('sha256')
+        .update(session.emailAddress)
+        .digest('hex');
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Avatar>
                     <AvatarImage
-                        src="https://github.com/shadcn.png"
+                        src={`https://www.gravatar.com/avatar/${hashedEmail}?d=mp`}
                         alt={`${session.firstName} ${session.lastName}`}
                     />
                     <AvatarFallback>{`${session.firstName[0]} ${session.lastName[0]}`}</AvatarFallback>
@@ -81,7 +85,7 @@ export function UserMenu({ session, onLogout }: UserMenu) {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                             <Link href="/user">
-                                <Settings  />
+                                <Settings />
                                 <span>User Management</span>
                             </Link>
                         </DropdownMenuItem>
