@@ -9,13 +9,21 @@ export const metadata: Metadata = {
     title: 'Users',
 };
 
-export default async function ChangePassword({}) {
-    const result = await searchUsersAction({
-        // page: 1,
-        // size: 10,
-        // sort: 'NAME_ASC',
-        // search: '',
-    });
+type SearchParams = Promise<{
+    page: string;
+    size: string;
+    sort: string;
+    search: string;
+}>;
+
+export default async function UserSearch({
+    searchParams,
+}: {
+    searchParams: SearchParams;
+}) {
+    const { page, size, sort, search } = await searchParams;
+
+    const result = await searchUsersAction({ page, size, sort, search });
 
     if ('errors' in result) {
         return (

@@ -5,12 +5,10 @@ export const metadata: Metadata = {
     title: 'Reset Password',
 };
 
-export default async function ResetPassword({
-    params,
-}: {
-    params: Promise<{ token: string }>;
-}) {
-    const token = (await params).token;
+type Params = Promise<{ token: string }>;
+
+export default async function ResetPassword({ params }: { params: Params }) {
+    const { token } = await params;
 
     return (
         <main className="mx-auto max-w-screen-sm p-6">

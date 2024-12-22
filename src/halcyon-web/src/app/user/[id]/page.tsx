@@ -8,12 +8,10 @@ export const metadata: Metadata = {
     title: 'Update User',
 };
 
-export default async function ResetPassword({
-    params,
-}: {
-    params: Promise<{ id: string }>;
-}) {
-    const id = (await params).id;
+type Params = Promise<{ id: string }>;
+
+export default async function ResetPassword({ params }: { params: Params }) {
+    const { id } = await params;
     const user = await getUserAction({ id });
 
     if ('errors' in user) {
