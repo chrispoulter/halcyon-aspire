@@ -2,8 +2,8 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
-import { Role } from '@/lib/auth';
-import { verifySession } from '@/lib/dal';
+import { Role } from '@/lib/definitions';
+import { verifySession } from '@/lib/session';
 
 const actionSchema = z.object({
     id: z

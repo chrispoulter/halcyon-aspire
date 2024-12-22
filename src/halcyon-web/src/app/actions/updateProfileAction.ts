@@ -2,8 +2,8 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
-import { verifySession } from '@/lib/dal';
-import { isInPast } from '@/lib/dates';
+import { verifySession } from '@/lib/session';
+import { isInPast } from '@/lib/utils';
 
 const actionSchema = z.object({
     emailAddress: z

@@ -2,7 +2,7 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
-import { verifySession } from '@/lib/dal';
+import { verifySession } from '@/lib/session';
 
 const actionSchema = z.object({
     currentPassword: z

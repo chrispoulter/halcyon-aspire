@@ -1,7 +1,7 @@
 'use server';
 
 import { trace } from '@opentelemetry/api';
-import { verifySession } from '@/lib/dal';
+import { verifySession } from '@/lib/session';
 
 export type GetProfileResponse = {
     id: string;

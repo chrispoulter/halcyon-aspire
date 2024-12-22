@@ -2,7 +2,7 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
-import { isInPast } from '@/lib/dates';
+import { isInPast } from '@/lib/utils';
 
 const actionSchema = z
     .object({

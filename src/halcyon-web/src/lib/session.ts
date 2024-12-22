@@ -1,13 +1,15 @@
 import 'server-only';
 
+import { cache } from 'react';
 import { cookies } from 'next/headers';
+import { redirect, unauthorized } from 'next/navigation';
 import { SignJWT, jwtVerify } from 'jose';
-import { SessionPayload } from '@/lib/definitions';
+import { Role, SessionPayload } from '@/lib/definitions';
 
 const secretKey = process.env.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function encrypt(payload: SessionPayload) {
+async function encrypt(payload: SessionPayload) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
@@ -15,7 +17,9 @@ export async function encrypt(payload: SessionPayload) {
         .sign(encodedKey);
 }
 
-export async function decrypt(session: string | undefined = '') {
+async function decrypt(
+    session: string | undefined = ''
+): Promise<SessionPayload | undefined> {
     try {
         const { payload } = await jwtVerify<SessionPayload>(
             session,
@@ -48,3 +52,26 @@ export async function deleteSession() {
     const cookieStore = await cookies();
     cookieStore.delete('session');
 }
+
+export const getSession = cache(async () => {
+    const cookie = (await cookies()).get('session')?.value;
+    return await decrypt(cookie);
+});
+
+export const verifySession = cache(async (roles?: Role[]) => {
+    const session = await getSession();
+
+    if (!session?.accessToken) {
+        redirect('/account/login?dal=1');
+    }
+
+    if (!roles) {
+        return session;
+    }
+
+    if (!roles.some((value) => session.roles?.includes(value))) {
+        return unauthorized();
+    }
+
+    return session;
+});

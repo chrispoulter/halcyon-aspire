@@ -1,22 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, Users, Settings } from 'lucide-react';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SessionPayload } from '@/lib/definitions';
+import { Role, SessionPayload } from '@/lib/definitions';
 
 type UserMenu = {
-    session: SessionPayload;
+    session?: SessionPayload;
     onLogout: () => void;
 };
 
@@ -63,14 +64,32 @@ export function UserMenu({ session, onLogout }: UserMenu) {
                         </Badge>
                     ))}
                 </DropdownMenuLabel>
+
                 <DropdownMenuSeparator />
+
                 <DropdownMenuItem asChild>
                     <Link href="/profile">
                         <User />
-                        <span>Profile</span>
+                        <span>My Account</span>
                     </Link>
                 </DropdownMenuItem>
+
+                {[Role.SYSTEM_ADMINISTRATOR, Role.USER_ADMINISTRATOR].some(
+                    (value) => session.roles?.includes(value)
+                ) && (
+                    <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <Link href="/user">
+                                <Settings  />
+                                <span>User Management</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    </>
+                )}
+
                 <DropdownMenuSeparator />
+
                 <DropdownMenuItem onClick={onLogout}>
                     <LogOut />
                     <span>Log out</span>
