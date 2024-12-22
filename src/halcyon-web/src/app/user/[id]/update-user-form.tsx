@@ -23,8 +23,8 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
+import { isInPast } from '@/lib/dates';
 import { Role } from '@/lib/definitions';
-import { isInPast } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 const formSchema = z.object({

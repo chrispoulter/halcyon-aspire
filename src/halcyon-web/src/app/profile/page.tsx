@@ -5,7 +5,7 @@ import { getProfileAction } from '@/app/actions/getProfileAction';
 import { DeleteAccountButton } from '@/app/profile/delete-acccount-button';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { toLocaleString } from '@/lib/utils';
+import { toLocaleString } from '@/lib/dates';
 
 export const metadata: Metadata = {
     title: 'My Account',

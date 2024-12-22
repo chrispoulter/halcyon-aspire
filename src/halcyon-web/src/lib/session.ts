@@ -61,7 +61,7 @@ export const getSession = cache(async () => {
 export const verifySession = cache(async (roles?: Role[]) => {
     const session = await getSession();
 
-    if (!session?.accessToken) {
+    if (!session) {
         redirect('/account/login?dal=1');
     }
 

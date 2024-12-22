@@ -2,9 +2,9 @@
 
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
+import { isInPast } from '@/lib/dates';
 import { Role } from '@/lib/definitions';
 import { verifySession } from '@/lib/session';
-import { isInPast } from '@/lib/utils';
 
 const actionSchema = z.object({
     id: z

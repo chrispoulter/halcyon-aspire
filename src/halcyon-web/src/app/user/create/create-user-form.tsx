@@ -20,7 +20,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { toast } from '@/hooks/use-toast';
 import { Role } from '@/lib/definitions';
-import { isInPast } from '@/lib/utils';
+import { isInPast } from '@/lib/dates';
 import { cn } from '@/lib/utils';
 
 const formSchema = z

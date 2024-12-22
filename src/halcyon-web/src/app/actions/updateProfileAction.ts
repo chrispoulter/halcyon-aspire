@@ -3,7 +3,7 @@
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
 import { verifySession } from '@/lib/session';
-import { isInPast } from '@/lib/utils';
+import { isInPast } from '@/lib/dates';
 
 const actionSchema = z.object({
     emailAddress: z
