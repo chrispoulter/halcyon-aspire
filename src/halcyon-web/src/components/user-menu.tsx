@@ -37,7 +37,7 @@ export function UserMenu({ session, onLogout }: UserMenu) {
     }
 
     const hashedEmail = createHash('sha256')
-        .update(session.emailAddress)
+        .update(session.emailAddress.trim().toLowerCase())
         .digest('hex');
 
     return (
