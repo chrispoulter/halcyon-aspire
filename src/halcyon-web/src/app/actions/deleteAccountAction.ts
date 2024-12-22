@@ -3,6 +3,7 @@
 import { trace } from '@opentelemetry/api';
 import { z } from 'zod';
 import { verifySession } from '@/lib/dal';
+import { deleteSession } from '@/lib/session';
 
 const actionSchema = z.object({
     version: z.string({ message: 'Version must be a valid string' }).optional(),
@@ -50,6 +51,8 @@ export async function deleteAccountAction(data: unknown) {
                         ],
                     };
                 }
+
+                deleteSession();
 
                 return await response.json();
             } finally {

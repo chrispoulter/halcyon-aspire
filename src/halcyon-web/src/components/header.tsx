@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { LogOut, User } from 'lucide-react';
+import { logoutAction } from '@/app/actions/logoutAction';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,9 +17,7 @@ import {
 import { ModeToggle } from '@/components/mode-toggle';
 
 export function Header() {
-    const onLogout = () => {
-        console.log('logging out');
-    };
+    const onLogout = logoutAction;
 
     return (
         <header className="mx-auto flex max-w-screen-sm items-center justify-between gap-2 p-6">
