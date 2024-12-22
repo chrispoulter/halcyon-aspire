@@ -3,11 +3,16 @@ import 'server-only';
 import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { redirect, unauthorized } from 'next/navigation';
+import { SessionPayload } from '@/lib/definitions';
 import { decrypt } from '@/lib/session';
 
-export const verifySession = cache(async (roles?: string[]) => {
+export const getSession = cache(async () => {
     const cookie = (await cookies()).get('session')?.value;
-    const session = await decrypt(cookie);
+    return (await decrypt(cookie)) as SessionPayload | undefined;
+});
+
+export const verifySession = cache(async (roles?: string[]) => {
+    const session = await getSession();
 
     if (!session?.accessToken) {
         redirect('/account/login?dal=1');
