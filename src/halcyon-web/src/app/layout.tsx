@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import './globals.css';
 
 const openSans = Open_Sans({
-    variable: '--font-open-sans',
+    variable: '--font-sans',
     subsets: ['latin'],
 });
 
