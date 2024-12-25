@@ -1,3 +1,5 @@
+using Projects;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 var postgresPassword = builder.AddParameter("pgPassword", secret: true);
@@ -29,8 +31,15 @@ var maildev = builder
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
 
+var jwtSecurityKey = builder.AddParameter("jwtSecurityKey", secret: true);
+var jwtIssuer = builder.AddParameter("jwtIssuer");
+var jwtAudience = builder.AddParameter("jwtAudience");
+
 var api = builder
-    .AddProject<Projects.Halcyon_Api>("api")
+    .AddProject<Halcyon_Api>("api")
+    .WithEnvironment("Jwt__SecurityKey", jwtSecurityKey)
+    .WithEnvironment("Jwt__Issuer", jwtIssuer)
+    .WithEnvironment("Jwt__Audience", jwtAudience)
     .WithExternalHttpEndpoints()
     .WithReference(database)
     .WaitFor(database)
@@ -41,9 +50,15 @@ var api = builder
     .WithReference(maildev)
     .WaitFor(maildev);
 
+var sessionSecret = builder.AddParameter("sessionSecret", secret: true);
+
 var web = builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
     .WithEnvironment("NODE_TLS_REJECT_UNAUTHORIZED", "0")
+    .WithEnvironment("JWT_SECURITY_KEY", jwtSecurityKey)
+    .WithEnvironment("JWT_ISSUER", jwtIssuer)
+    .WithEnvironment("JWT_AUDIENCE", jwtAudience)
+    .WithEnvironment("SESSION_SECRET", sessionSecret)
     .WithHttpEndpoint(port: 3000, env: "PORT", isProxied: false)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile()
