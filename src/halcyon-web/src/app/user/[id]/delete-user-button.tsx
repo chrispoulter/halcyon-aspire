@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { GetUserResponse } from '@/app/actions/getUserAction';
-import { deleteUserAction } from '@/app/actions/deleteUserAction';
+import { Loader2 } from 'lucide-react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -15,31 +13,29 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
 
 type DeleteUserButtonProps = {
-    user: GetUserResponse;
+    onDelete: () => void;
+    loading?: boolean;
+    disabled?: boolean;
     className?: string;
 };
 
-export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
-    const router = useRouter();
-
-    async function onDelete() {
-        const result = await deleteUserAction({ id: user.id });
-
-        toast({
-            title: 'User successfully deleted.',
-            description: JSON.stringify(result),
-        });
-
-        router.push('/user');
-    }
+export function DeleteUserButton({
+    onDelete,
+    loading,
+    disabled,
+    className,
+}: DeleteUserButtonProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="destructive" className={className}>
-                    Delete
+                <Button
+                    variant="destructive"
+                    disabled={loading || disabled}
+                    className={className}
+                >
+                    {loading ? <Loader2 className="animate-spin" /> : 'Delete'}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -53,8 +49,11 @@ export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={onDelete}>
-                        Delete
+                    <AlertDialogAction
+                        disabled={loading || disabled}
+                        onClick={onDelete}
+                    >
+                        Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

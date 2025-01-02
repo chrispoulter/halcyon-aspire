@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { GetUserResponse } from '@/app/actions/getUserAction';
-import { lockUserAction } from '@/app/actions/lockUserAction';
+import { Loader2 } from 'lucide-react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -15,31 +13,29 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
 
 type LockUserButtonProps = {
-    user: GetUserResponse;
+    onLock: () => void;
+    loading?: boolean;
+    disabled?: boolean;
     className?: string;
 };
 
-export function LockUserButton({ user, className }: LockUserButtonProps) {
-    const router = useRouter();
-
-    async function onLock() {
-        const result = await lockUserAction({ id: user.id });
-
-        toast({
-            title: 'User successfully locked.',
-            description: JSON.stringify(result),
-        });
-
-        router.refresh();
-    }
+export function LockUserButton({
+    onLock,
+    loading,
+    disabled,
+    className,
+}: LockUserButtonProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="outline" className={className}>
-                    Lock
+                <Button
+                    variant="secondary"
+                    disabled={loading || disabled}
+                    className={className}
+                >
+                    {loading ? <Loader2 className="animate-spin" /> : 'Lock'}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -52,7 +48,12 @@ export function LockUserButton({ user, className }: LockUserButtonProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={onLock}>Lock</AlertDialogAction>
+                    <AlertDialogAction
+                        disabled={loading || disabled}
+                        onClick={onLock}
+                    >
+                        Continue
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

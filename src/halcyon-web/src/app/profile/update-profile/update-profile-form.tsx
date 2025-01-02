@@ -5,32 +5,24 @@ import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { GetProfileResponse } from '@/app/actions/getProfileAction';
-import { updateProfileAction } from '@/app/actions/updateProfileAction';
-import { toast } from '@/hooks/use-toast';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
+import type { GetProfileResponse } from '@/app/profile/profile-types';
+import { updateProfileAction } from '@/app/profile/actions/update-profile-action';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
+import { DateFormField } from '@/components/date-form-field';
+import { TextFormField } from '@/components/text-form-field';
+import { ServerActionErrorMessage } from '@/components/server-action-error';
+import { toast } from '@/hooks/use-toast';
+import { isServerActionSuccess } from '@/lib/action-types';
 import { isInPast } from '@/lib/dates';
-import { cn } from '@/lib/utils';
 
-const formSchema = z.object({
+const schema = z.object({
     emailAddress: z
         .string({ message: 'Email Address must be a valid string' })
-        .min(1, 'Email Address is a required field')
-        .max(254, 'Password must be no more than 254 characters')
         .email('Email Address must be a valid email'),
     firstName: z
-        .string({
-            message: 'Confirm Password is a required field',
-        })
+        .string({ message: 'Last Name must be a valid string' })
         .min(1, 'First Name is a required field')
         .max(50, 'First Name must be no more than 50 characters'),
     lastName: z
@@ -41,126 +33,112 @@ const formSchema = z.object({
         .string({
             message: 'Date of Birth must be a valid string',
         })
-        .min(1, 'Date Of Birth is a required field')
         .date('Date Of Birth must be a valid date')
         .refine(isInPast, { message: 'Date Of Birth must be in the past' }),
 });
 
+type UpdateProfileFormValues = z.infer<typeof schema>;
+
 type UpdateProfileFormProps = {
     profile: GetProfileResponse;
-    className?: string;
 };
 
-export function UpdateProfileForm({
-    profile,
-    className,
-}: UpdateProfileFormProps) {
+export function UpdateProfileForm({ profile }: UpdateProfileFormProps) {
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<UpdateProfileFormValues>({
+        resolver: zodResolver(schema),
         values: profile,
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
+    async function onSubmit(data: UpdateProfileFormValues) {
         const result = await updateProfileAction(data);
 
+        if (!isServerActionSuccess(result)) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: <ServerActionErrorMessage result={result} />,
+            });
+
+            return;
+        }
+
         toast({
-            title: 'Your profile has been updated.',
-            description: JSON.stringify(result),
+            title: 'Success',
+            description: 'Your profile has been updated.',
         });
 
         router.push('/profile');
     }
+
+    const { isSubmitting } = form.formState;
 
     return (
         <Form {...form}>
             <form
                 noValidate
                 onSubmit={form.handleSubmit(onSubmit)}
-                className={cn('space-y-6', className)}
+                className="space-y-6"
             >
-                <FormField
-                    control={form.control}
-                    name="emailAddress"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email Address</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    type="email"
-                                    maxLength={254}
-                                    autoComplete="username"
-                                    required
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                <TextFormField<UpdateProfileFormValues>
+                    field="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
+                    required
+                    disabled={isSubmitting}
                 />
+
                 <div className="flex flex-col gap-6 sm:flex-row">
-                    <FormField
-                        control={form.control}
-                        name="firstName"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>First Name</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        maxLength={50}
-                                        autoComplete="given-name"
-                                        required
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                    <TextFormField<UpdateProfileFormValues>
+                        field="firstName"
+                        label="First Name"
+                        maxLength={50}
+                        autoComplete="given-name"
+                        required
+                        disabled={isSubmitting}
+                        className="flex-1"
                     />
-                    <FormField
-                        control={form.control}
-                        name="lastName"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Last Name</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        {...field}
-                                        maxLength={50}
-                                        autoComplete="family-name"
-                                        required
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                    <TextFormField<UpdateProfileFormValues>
+                        field="lastName"
+                        label="Last Name"
+                        maxLength={50}
+                        autoComplete="family-name"
+                        required
+                        disabled={isSubmitting}
+                        className="flex-1"
                     />
                 </div>
-                <FormField
-                    control={form.control}
-                    name="dateOfBirth"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Date Of Birth</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    type="date"
-                                    autoComplete="bday"
-                                    required
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+
+                <DateFormField<UpdateProfileFormValues>
+                    field="dateOfBirth"
+                    label="Date Of Birth"
+                    autoComplete={['bday-day', 'bday-month', 'bday-year']}
+                    required
+                    disabled={isSubmitting}
                 />
-                <Button asChild variant="secondary" className="w-full">
-                    <Link href="/profile">Cancel</Link>
-                </Button>
-                <Button type="submit" className="w-full">
-                    Submit
-                </Button>
+
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button asChild variant="outline">
+                        <Link href="/profile" className="min-w-32">
+                            Cancel
+                        </Link>
+                    </Button>
+
+                    <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="min-w-32"
+                    >
+                        {isSubmitting ? (
+                            <Loader2 className="animate-spin" />
+                        ) : (
+                            'Submit'
+                        )}
+                    </Button>
+                </div>
             </form>
         </Form>
     );

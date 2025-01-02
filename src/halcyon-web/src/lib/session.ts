@@ -2,18 +2,19 @@ import 'server-only';
 
 import { cache } from 'react';
 import { cookies } from 'next/headers';
-import { redirect, unauthorized } from 'next/navigation';
+import { forbidden, redirect } from 'next/navigation';
 import { SignJWT, jwtVerify } from 'jose';
-import { Role, SessionPayload } from '@/lib/definitions';
+import { config } from '@/lib/config';
+import type { Role, SessionPayload } from '@/lib/session-types';
 
-const secretKey = process.env.SESSION_SECRET;
+const secretKey = config.SESSION_SECRET;
 const encodedKey = new TextEncoder().encode(secretKey);
 
 async function encrypt(payload: SessionPayload) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime('1h')
+        .setExpirationTime('7d')
         .sign(encodedKey);
 }
 
@@ -62,7 +63,7 @@ export const verifySession = cache(async (roles?: Role[]) => {
     const session = await getSession();
 
     if (!session) {
-        redirect('/account/login?dal=1');
+        redirect('/account/login');
     }
 
     if (!roles) {
@@ -70,7 +71,7 @@ export const verifySession = cache(async (roles?: Role[]) => {
     }
 
     if (!roles.some((value) => session.roles?.includes(value))) {
-        return unauthorized();
+        forbidden();
     }
 
     return session;

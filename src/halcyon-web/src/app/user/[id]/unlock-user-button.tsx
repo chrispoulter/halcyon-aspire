@@ -1,8 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { GetUserResponse } from '@/app/actions/getUserAction';
-import { unlockUserAction } from '@/app/actions/unlockUserAction';
+import { Loader2 } from 'lucide-react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -15,31 +13,29 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
 
 type UnlockUserButtonProps = {
-    user: GetUserResponse;
+    onUnlock: () => void;
+    loading?: boolean;
+    disabled?: boolean;
     className?: string;
 };
 
-export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
-    const router = useRouter();
-
-    async function onUnlock() {
-        const result = await unlockUserAction({ id: user.id });
-
-        toast({
-            title: 'User successfully unlocked.',
-            description: JSON.stringify(result),
-        });
-
-        router.refresh();
-    }
+export function UnlockUserButton({
+    onUnlock,
+    loading,
+    disabled,
+    className,
+}: UnlockUserButtonProps) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant="outline" className={className}>
-                    Unlock
+                <Button
+                    variant="secondary"
+                    disabled={loading || disabled}
+                    className={className}
+                >
+                    {loading ? <Loader2 className="animate-spin" /> : 'Unlock'}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -52,8 +48,11 @@ export function UnlockUserButton({ user, className }: UnlockUserButtonProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={onUnlock}>
-                        Unlock
+                    <AlertDialogAction
+                        disabled={loading || disabled}
+                        onClick={onUnlock}
+                    >
+                        Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

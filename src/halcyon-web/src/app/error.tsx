@@ -30,7 +30,7 @@ export default function Error({
                 Sorry, something went wrong. Please try again later.
             </p>
 
-            <Button className="w-full" variant="secondary" onClick={reset}>
+            <Button onClick={reset} className="w-full min-w-32 sm:w-auto">
                 Try Again
             </Button>
         </main>

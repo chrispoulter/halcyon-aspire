@@ -4,104 +4,95 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { loginAction } from '@/app/actions/loginAction';
-import { toast } from '@/hooks/use-toast';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Loader2 } from 'lucide-react';
+import { loginAction } from '@/app/account/actions/login-action';
+import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { TextFormField } from '@/components/text-form-field';
+import { ServerActionErrorMessage } from '@/components/server-action-error';
+import { toast } from '@/hooks/use-toast';
+import { isServerActionSuccess } from '@/lib/action-types';
 
-const formSchema = z.object({
+const schema = z.object({
     emailAddress: z
         .string({ message: 'Email Address must be a valid string' })
-        .min(1, 'Email Address is a required field')
         .email('Email Address must be a valid email'),
     password: z
         .string({ message: 'Password must be a valid string' })
         .min(1, 'Password is a required field'),
 });
 
-type LoginFormProps = {
-    className?: string;
-};
+type LoginFormValues = z.infer<typeof schema>;
 
-export function LoginForm({ className }: LoginFormProps) {
+export function LoginForm() {
     const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<LoginFormValues>({
+        resolver: zodResolver(schema),
         defaultValues: {
             emailAddress: '',
             password: '',
         },
     });
 
-    async function onSubmit(data: z.infer<typeof formSchema>) {
+    async function onSubmit(data: LoginFormValues) {
         const result = await loginAction(data);
 
-        toast({
-            title: 'You have been successfully logged in.',
-            description: JSON.stringify(result),
-        });
+        if (!isServerActionSuccess(result)) {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: <ServerActionErrorMessage result={result} />,
+            });
+
+            return;
+        }
 
         router.push('/');
     }
+
+    const { isSubmitting } = form.formState;
 
     return (
         <Form {...form}>
             <form
                 noValidate
                 onSubmit={form.handleSubmit(onSubmit)}
-                className={cn('space-y-6', className)}
+                className="space-y-6"
             >
-                <FormField
-                    control={form.control}
-                    name="emailAddress"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Email Address</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    type="email"
-                                    maxLength={254}
-                                    autoComplete="username"
-                                    required
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+                <TextFormField<LoginFormValues>
+                    field="emailAddress"
+                    label="Email Address"
+                    type="email"
+                    maxLength={254}
+                    autoComplete="username"
+                    required
+                    disabled={isSubmitting}
                 />
-                <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    type="password"
-                                    maxLength={50}
-                                    autoComplete="current-password"
-                                    required
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
+
+                <TextFormField<LoginFormValues>
+                    field="password"
+                    label="Password"
+                    type="password"
+                    maxLength={50}
+                    autoComplete="current-password"
+                    required
+                    disabled={isSubmitting}
                 />
-                <Button type="submit" className="w-full">
-                    Submit
-                </Button>
+
+                <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
+                    <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="min-w-32"
+                    >
+                        {isSubmitting ? (
+                            <Loader2 className="animate-spin" />
+                        ) : (
+                            'Submit'
+                        )}
+                    </Button>
+                </div>
             </form>
         </Form>
     );

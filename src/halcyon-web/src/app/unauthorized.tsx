@@ -1,24 +1,28 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { logoutAction } from '@/app/account/actions/logout-action';
 import { Button } from '@/components/ui/button';
 
 export const metadata: Metadata = {
-    title: 'Access Denied',
+    title: 'Unauthorized',
 };
 
 export default function Unauthorized() {
     return (
         <main className="mx-auto max-w-screen-sm space-y-6 p-6">
             <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                Access Denied
+                Unauthorized
             </h1>
 
             <p className="leading-7">
-                Sorry, you do not have access to this resource.
+                Sorry, there was a problem with your session. Please log out and
+                log back in.
             </p>
 
-            <Button asChild className="w-full" variant="secondary">
-                <Link href="/user">Home</Link>
+            <Button
+                className="w-full min-w-32 sm:w-auto"
+                onClick={logoutAction}
+            >
+                Log out
             </Button>
         </main>
     );
