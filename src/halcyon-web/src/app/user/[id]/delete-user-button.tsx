@@ -1,6 +1,10 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useAction } from 'next-safe-action/hooks';
 import { Loader2 } from 'lucide-react';
+import { deleteUserAction } from '@/app/user/actions/delete-user-action';
+import { GetUserResponse } from '@/app/user/user-types';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -13,29 +17,55 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { ServerActionErrorMessage } from '@/components/server-action-error';
+import { toast } from '@/hooks/use-toast';
 
 type DeleteUserButtonProps = {
-    onDelete: () => void;
-    loading?: boolean;
-    disabled?: boolean;
+    user: GetUserResponse;
     className?: string;
 };
 
-export function DeleteUserButton({
-    onDelete,
-    loading,
-    disabled,
-    className,
-}: DeleteUserButtonProps) {
+export function DeleteUserButton({ user, className }: DeleteUserButtonProps) {
+    const router = useRouter();
+
+    const { execute, isPending } = useAction(deleteUserAction, {
+        onSuccess: () => {
+            toast({
+                title: 'Success',
+                description: 'User successfully deleted.',
+            });
+
+            router.push('/user');
+        },
+        onError: ({ error }) => {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: <ServerActionErrorMessage result={error} />,
+            });
+        },
+    });
+
+    function onDelete() {
+        execute({
+            id: user.id,
+            version: user.version,
+        });
+    }
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <Button
                     variant="destructive"
-                    disabled={loading || disabled}
+                    disabled={isPending}
                     className={className}
                 >
-                    {loading ? <Loader2 className="animate-spin" /> : 'Delete'}
+                    {isPending ? (
+                        <Loader2 className="animate-spin" />
+                    ) : (
+                        'Delete'
+                    )}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -49,10 +79,7 @@ export function DeleteUserButton({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                        disabled={loading || disabled}
-                        onClick={onDelete}
-                    >
+                    <AlertDialogAction disabled={isPending} onClick={onDelete}>
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>

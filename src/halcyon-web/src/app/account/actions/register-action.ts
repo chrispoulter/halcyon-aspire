@@ -2,9 +2,9 @@
 
 import { z } from 'zod';
 import type { RegisterResponse } from '@/app/account/account-types';
-import { ServerActionResult } from '@/lib/action-types';
 import { apiClient } from '@/lib/api-client';
 import { isInPast } from '@/lib/dates';
+import { actionClient } from '@/lib/safe-action';
 
 const schema = z
     .object({
@@ -31,28 +31,20 @@ const schema = z
                 message: 'Date of Birth must be a valid string',
             })
             .date('Date Of Birth must be a valid date')
-            .refine(isInPast, { message: 'Date Of Birth must be in the past' }),
+            .refine(isInPast, {
+                message: 'Date Of Birth must be in the past',
+            }),
     })
     .refine((data) => data.password === data.confirmPassword, {
         message: 'Passwords do not match',
         path: ['confirmPassword'],
     });
 
-type RegisterActionValues = z.infer<typeof schema>;
-
-export async function registerAction(
-    input: RegisterActionValues
-): Promise<ServerActionResult<RegisterResponse>> {
-    const parsedInput = await schema.safeParseAsync(input);
-
-    if (!parsedInput.success) {
-        return {
-            validationErrors: parsedInput.error.flatten(),
-        };
-    }
-
-    return await apiClient.post<RegisterResponse>(
-        '/account/register',
-        parsedInput.data
-    );
-}
+export const registerAction = actionClient
+    .schema(schema)
+    .action(async ({ parsedInput }) => {
+        return await apiClient.post<RegisterResponse>(
+            '/account/register',
+            parsedInput
+        );
+    });

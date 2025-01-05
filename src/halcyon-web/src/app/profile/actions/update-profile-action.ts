@@ -2,10 +2,9 @@
 
 import { z } from 'zod';
 import type { UpdateProfileResponse } from '@/app/profile/profile-types';
-import { ServerActionResult } from '@/lib/action-types';
 import { apiClient } from '@/lib/api-client';
 import { isInPast } from '@/lib/dates';
-import { verifySession } from '@/lib/session';
+import { authActionClient } from '@/lib/safe-action';
 
 const schema = z.object({
     emailAddress: z
@@ -25,29 +24,17 @@ const schema = z.object({
         })
         .date('Date Of Birth must be a valid date')
         .refine(isInPast, { message: 'Date Of Birth must be in the past' }),
-    version: z.string({ message: 'Version must be a valid string' }).optional(),
+    version: z.number({ message: 'Version must be a valid number' }).optional(),
 });
 
-type UpdateProfileActionValues = z.infer<typeof schema>;
-
-export async function updateProfileAction(
-    input: UpdateProfileActionValues
-): Promise<ServerActionResult<UpdateProfileResponse>> {
-    const { accessToken } = await verifySession();
-
-    const parsedInput = await schema.safeParseAsync(input);
-
-    if (!parsedInput.success) {
-        return {
-            validationErrors: parsedInput.error.flatten(),
-        };
-    }
-
-    return await apiClient.put<UpdateProfileResponse>(
-        '/profile',
-        parsedInput.data,
-        {
-            Authorization: `Bearer ${accessToken}`,
-        }
-    );
-}
+export const updateProfileAction = authActionClient()
+    .schema(schema)
+    .action(async ({ parsedInput, ctx: { accessToken } }) => {
+        return await apiClient.put<UpdateProfileResponse>(
+            '/profile',
+            parsedInput,
+            {
+                Authorization: `Bearer ${accessToken}`,
+            }
+        );
+    });

@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 import type { ResetPasswordResponse } from '@/app/account/account-types';
-import { ServerActionResult } from '@/lib/action-types';
 import { apiClient } from '@/lib/api-client';
+import { actionClient } from '@/lib/safe-action';
 
 const schema = z.object({
     token: z
@@ -18,21 +18,11 @@ const schema = z.object({
         .max(50, 'New Password must be no more than 50 characters'),
 });
 
-type ResetPasswordActionValues = z.infer<typeof schema>;
-
-export async function resetPasswordAction(
-    input: ResetPasswordActionValues
-): Promise<ServerActionResult<ResetPasswordResponse>> {
-    const parsedInput = await schema.safeParseAsync(input);
-
-    if (!parsedInput.success) {
-        return {
-            validationErrors: parsedInput.error.flatten(),
-        };
-    }
-
-    return await apiClient.put<ResetPasswordResponse>(
-        '/account/reset-password',
-        parsedInput.data
-    );
-}
+export const resetPasswordAction = actionClient
+    .schema(schema)
+    .action(async ({ parsedInput }) => {
+        return await apiClient.put<ResetPasswordResponse>(
+            '/account/reset-password',
+            parsedInput
+        );
+    });

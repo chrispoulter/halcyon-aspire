@@ -2,9 +2,8 @@
 
 import { z } from 'zod';
 import { type SearchUsersResponse, UserSort } from '@/app/user/user-types';
-import { ServerActionResult } from '@/lib/action-types';
 import { apiClient } from '@/lib/api-client';
-import { verifySession } from '@/lib/session';
+import { authActionClient } from '@/lib/safe-action';
 import { Role } from '@/lib/session-types';
 
 const schema = z.object({
@@ -23,25 +22,12 @@ const schema = z.object({
         .optional(),
 });
 
-type SearchUsersActionValues = z.infer<typeof schema>;
+const roles = [Role.SYSTEM_ADMINISTRATOR, Role.USER_ADMINISTRATOR];
 
-export async function searchUsersAction(
-    input: SearchUsersActionValues
-): Promise<ServerActionResult<SearchUsersResponse>> {
-    const { accessToken } = await verifySession([
-        Role.SYSTEM_ADMINISTRATOR,
-        Role.USER_ADMINISTRATOR,
-    ]);
-
-    const parsedInput = await schema.safeParseAsync(input);
-
-    if (!parsedInput.success) {
-        return {
-            validationErrors: parsedInput.error.flatten(),
-        };
-    }
-
-    return await apiClient.get<SearchUsersResponse>('/user', parsedInput.data, {
-        Authorization: `Bearer ${accessToken}`,
+export const searchUsersAction = authActionClient(roles)
+    .schema(schema)
+    .action(async ({ parsedInput, ctx: { accessToken } }) => {
+        return await apiClient.get<SearchUsersResponse>('/user', parsedInput, {
+            Authorization: `Bearer ${accessToken}`,
+        });
     });
-}

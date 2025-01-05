@@ -3,8 +3,11 @@ import Link from 'next/link';
 import { getProfileAction } from '@/app/profile/actions/get-profile-action';
 import { DeleteAccountButton } from '@/app/profile/delete-account-button';
 import { Button } from '@/components/ui/button';
-import { ServerActionError } from '@/components/server-action-error';
-import { isServerActionSuccess } from '@/lib/action-types';
+import {
+    isServerActionSuccess,
+    ServerActionError,
+} from '@/components/server-action-error';
+
 import { toLocaleString } from '@/lib/dates';
 
 export const metadata: Metadata = {
@@ -76,7 +79,10 @@ export default async function Profile() {
                 be removed. Please be certain.
             </p>
 
-            <DeleteAccountButton className="w-full min-w-32 sm:w-auto" />
+            <DeleteAccountButton
+                profile={profile}
+                className="w-full min-w-32 sm:w-auto"
+            />
         </main>
     );
 }

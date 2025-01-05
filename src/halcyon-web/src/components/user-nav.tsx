@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { createHash } from 'crypto';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useAction } from 'next-safe-action/hooks';
+import { logoutAction } from '@/app/account/actions/logout-action';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,14 +13,30 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { UserAvatar } from '@/components/user-avatar';
+import { ServerActionErrorMessage } from '@/components/server-action-error';
+import { toast } from '@/hooks/use-toast';
 import { type SessionPayload, roles } from '@/lib/session-types';
 
 type UserNavProps = {
     session?: SessionPayload;
-    onLogout: () => void;
 };
 
-export function UserNav({ session, onLogout }: UserNavProps) {
+export function UserNav({ session }: UserNavProps) {
+    const { execute, isPending } = useAction(logoutAction, {
+        onError: ({ error }) => {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: <ServerActionErrorMessage result={error} />,
+            });
+        },
+    });
+
+    function onLogout() {
+        execute();
+    }
+
     if (!session) {
         return (
             <Button asChild variant="secondary">
@@ -29,21 +45,11 @@ export function UserNav({ session, onLogout }: UserNavProps) {
         );
     }
 
-    const hashedEmail = createHash('sha256')
-        .update(session.emailAddress.trim().toLowerCase())
-        .digest('hex');
-
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-10 w-10 rounded-full">
-                    <Avatar>
-                        <AvatarImage
-                            src={`https://www.gravatar.com/avatar/${hashedEmail}?d=404`}
-                            alt={`${session.firstName} ${session.lastName}`}
-                        />
-                        <AvatarFallback>{`${session.firstName[0]} ${session.lastName[0]}`}</AvatarFallback>
-                    </Avatar>
+                    <UserAvatar session={session} />
                     <span className="sr-only">Toggle profile menu</span>
                 </Button>
             </DropdownMenuTrigger>
@@ -51,10 +57,10 @@ export function UserNav({ session, onLogout }: UserNavProps) {
                 <DropdownMenuLabel className="space-y-2">
                     <div className="space-y-0.5">
                         <div className="truncate text-sm font-medium">
-                            {session.firstName} {session.lastName}
+                            {session.given_name} {session.family_name}
                         </div>
                         <div className="truncate text-sm text-muted-foreground">
-                            {session.emailAddress}
+                            {session.email}
                         </div>
                     </div>
                     <div className="flex flex-col gap-2">
@@ -78,7 +84,9 @@ export function UserNav({ session, onLogout }: UserNavProps) {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem onClick={onLogout}>Log out</DropdownMenuItem>
+                <DropdownMenuItem onClick={onLogout} disabled={isPending}>
+                    Log out
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

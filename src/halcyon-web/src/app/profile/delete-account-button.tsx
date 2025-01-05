@@ -1,9 +1,10 @@
 'use client';
 
-import { useTransition } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAction } from 'next-safe-action/hooks';
 import { Loader2 } from 'lucide-react';
 import { deleteAccountAction } from '@/app/profile/actions/delete-account-action';
+import { GetProfileResponse } from '@/app/profile/profile-types';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -18,37 +19,39 @@ import {
 import { Button } from '@/components/ui/button';
 import { ServerActionErrorMessage } from '@/components/server-action-error';
 import { toast } from '@/hooks/use-toast';
-import { isServerActionSuccess } from '@/lib/action-types';
 
 type DeleteAccountButtonProps = {
+    profile: GetProfileResponse;
     className?: string;
 };
 
-export function DeleteAccountButton({ className }: DeleteAccountButtonProps) {
+export function DeleteAccountButton({
+    profile,
+    className,
+}: DeleteAccountButtonProps) {
     const router = useRouter();
 
-    const [isDeleting, startDeleting] = useTransition();
-
-    async function onDelete() {
-        startDeleting(async () => {
-            const result = await deleteAccountAction({});
-
-            if (!isServerActionSuccess(result)) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: <ServerActionErrorMessage result={result} />,
-                });
-
-                return;
-            }
-
+    const { execute, isPending } = useAction(deleteAccountAction, {
+        onSuccess: () => {
             toast({
                 title: 'Success',
                 description: 'Your account has been deleted.',
             });
 
             router.push('/');
+        },
+        onError: ({ error }) => {
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: <ServerActionErrorMessage result={error} />,
+            });
+        },
+    });
+
+    function onDelete() {
+        execute({
+            version: profile.version,
         });
     }
 
@@ -57,10 +60,10 @@ export function DeleteAccountButton({ className }: DeleteAccountButtonProps) {
             <AlertDialogTrigger asChild>
                 <Button
                     variant="destructive"
-                    disabled={isDeleting}
+                    disabled={isPending}
                     className={className}
                 >
-                    {isDeleting ? (
+                    {isPending ? (
                         <Loader2 className="animate-spin" />
                     ) : (
                         'Delete Account'
@@ -78,7 +81,7 @@ export function DeleteAccountButton({ className }: DeleteAccountButtonProps) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction disabled={isDeleting} onClick={onDelete}>
+                    <AlertDialogAction disabled={isPending} onClick={onDelete}>
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
