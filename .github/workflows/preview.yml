@@ -24,9 +24,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
+                  
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
+
+      - name: Determine Version
+        run: |
+          dotnet tool restore
+          dotnet gitversion /output buildserver
 
       - name: Build and test
         run: |
