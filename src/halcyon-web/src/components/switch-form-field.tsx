@@ -10,44 +10,36 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 type SwitchFormFieldProps<TFieldValues extends FieldValues> = {
-    field: FieldPath<TFieldValues>;
+    name: FieldPath<TFieldValues>;
     options: Record<string, { title: string; description: string }>;
     disabled?: boolean;
 };
 
 export function SwitchFormField<TFieldValues extends FieldValues>({
-    field,
+    name,
     options,
     disabled,
 }: SwitchFormFieldProps<TFieldValues>) {
-    const form = useFormContext<TFieldValues>();
+    const { control } = useFormContext<TFieldValues>();
 
     return (
         <FormField
-            control={form.control}
-            name={field}
-            render={({ field }) => {
-                const currentValue = field.value || [];
-
+            control={control}
+            name={name}
+            render={({ field: { value = [] as string[], onChange } }) => {
                 return (
                     <>
                         {Object.entries(options).map(
                             ([key, { title, description }]) => {
-                                const checked = field.value?.includes(key);
+                                const checked = value.includes(key);
 
                                 function onCheckChanged(checked: boolean) {
                                     if (checked) {
-                                        return field.onChange([
-                                            ...currentValue,
-                                            key,
-                                        ]);
+                                        return onChange([...value, key]);
                                     }
 
-                                    return field.onChange(
-                                        currentValue.filter(
-                                            (currentRole: string) =>
-                                                currentRole !== key
-                                        )
+                                    return onChange(
+                                        value.filter((item) => item !== key)
                                     );
                                 }
 

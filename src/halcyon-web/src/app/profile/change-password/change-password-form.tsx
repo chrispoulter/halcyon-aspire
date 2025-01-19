@@ -6,11 +6,11 @@ import { useAction } from 'next-safe-action/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Loader2 } from 'lucide-react';
 import type { GetProfileResponse } from '@/app/profile/profile-types';
 import { changePasswordAction } from '@/app/profile/actions/change-password-action';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
+import { LoadingButton } from '@/components/loading-button';
 import { TextFormField } from '@/components/text-form-field';
 import { ServerActionErrorMessage } from '@/components/server-action-error';
 import { toast } from '@/hooks/use-toast';
@@ -84,7 +84,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                 className="space-y-6"
             >
                 <TextFormField<ChangePasswordFormValues>
-                    field="currentPassword"
+                    name="currentPassword"
                     label="Current Password"
                     type="password"
                     maxLength={50}
@@ -95,7 +95,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
 
                 <div className="flex flex-col gap-6 sm:flex-row">
                     <TextFormField<ChangePasswordFormValues>
-                        field="newPassword"
+                        name="newPassword"
                         label="New Password"
                         type="password"
                         maxLength={50}
@@ -105,7 +105,7 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
                         className="flex-1"
                     />
                     <TextFormField<ChangePasswordFormValues>
-                        field="confirmNewPassword"
+                        name="confirmNewPassword"
                         label="Confirm New Password"
                         type="password"
                         maxLength={50}
@@ -118,22 +118,12 @@ export function ChangePasswordForm({ profile }: ChangePasswordFormProps) {
 
                 <div className="flex flex-col-reverse justify-end gap-2 sm:flex-row">
                     <Button asChild variant="outline">
-                        <Link href="/profile" className="min-w-32">
-                            Cancel
-                        </Link>
+                        <Link href="/profile">Cancel</Link>
                     </Button>
 
-                    <Button
-                        type="submit"
-                        disabled={isPending}
-                        className="min-w-32"
-                    >
-                        {isPending ? (
-                            <Loader2 className="animate-spin" />
-                        ) : (
-                            'Submit'
-                        )}
-                    </Button>
+                    <LoadingButton type="submit" loading={isPending}>
+                        Submit
+                    </LoadingButton>
                 </div>
             </form>
         </Form>

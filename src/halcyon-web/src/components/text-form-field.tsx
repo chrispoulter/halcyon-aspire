@@ -1,4 +1,3 @@
-import { InputHTMLAttributes } from 'react';
 import { FieldPath, FieldValues, useFormContext } from 'react-hook-form';
 import {
     FormControl,
@@ -10,22 +9,28 @@ import {
 import { Input } from '@/components/ui/input';
 
 type TextFormFieldProps<TFieldValues extends FieldValues> = {
-    field: FieldPath<TFieldValues>;
+    name: FieldPath<TFieldValues>;
     label: string;
-} & InputHTMLAttributes<HTMLInputElement>;
+    type?: string;
+    maxLength?: number;
+    autoComplete?: string;
+    required?: boolean;
+    disabled?: boolean;
+    className?: string;
+};
 
 export function TextFormField<TFieldValues extends FieldValues>({
-    field,
+    name,
     label,
     className,
     ...props
 }: TextFormFieldProps<TFieldValues>) {
-    const form = useFormContext<TFieldValues>();
+    const { control } = useFormContext<TFieldValues>();
 
     return (
         <FormField
-            control={form.control}
-            name={field}
+            control={control}
+            name={name}
             render={({ field }) => (
                 <FormItem className={className}>
                     <FormLabel>{label}</FormLabel>

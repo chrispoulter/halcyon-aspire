@@ -16,7 +16,7 @@ import {
 import { currentYear, monthNames } from '@/lib/dates';
 
 type DateFormFieldProps<TFieldValues extends FieldValues> = {
-    field: FieldPath<TFieldValues>;
+    name: FieldPath<TFieldValues>;
     label: string;
     required?: boolean;
     disabled?: boolean;
@@ -25,34 +25,32 @@ type DateFormFieldProps<TFieldValues extends FieldValues> = {
 };
 
 export function DateFormField<TFieldValues extends FieldValues>({
-    field,
+    name,
     label,
     required,
     disabled,
     autoComplete,
     className,
 }: DateFormFieldProps<TFieldValues>) {
-    const form = useFormContext<TFieldValues>();
+    const { control } = useFormContext<TFieldValues>();
 
     return (
         <FormField
-            control={form.control}
-            name={field}
-            render={({ field }) => {
-                const day = field.value?.split('-')[2] ?? '';
-                const month = field.value?.split('-')[1] ?? '';
-                const year = field.value?.split('-')[0] ?? '';
+            control={control}
+            name={name}
+            render={({ field: { name, value = '--', onChange } }) => {
+                const [year, month, day] = value.split('-');
 
                 function onDayChange(value: string) {
-                    field.onChange(`${year}-${month}-${value}`);
+                    onChange(`${year}-${month}-${value}`);
                 }
 
                 function onMonthChange(value: string) {
-                    field.onChange(`${year}-${value}-${day}`);
+                    onChange(`${year}-${value}-${day}`);
                 }
 
                 function onYearChange(value: string) {
-                    field.onChange(`${value}-${month}-${day}`);
+                    onChange(`${value}-${month}-${day}`);
                 }
 
                 return (
@@ -102,7 +100,7 @@ export function DateFormField<TFieldValues extends FieldValues>({
                                         autoComplete && autoComplete[1]
                                     }
                                 >
-                                    <FormControl id={`${field.name}-month`}>
+                                    <FormControl id={`${name}-month`}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Month..." />
                                         </SelectTrigger>
@@ -133,7 +131,7 @@ export function DateFormField<TFieldValues extends FieldValues>({
                                         autoComplete && autoComplete[2]
                                     }
                                 >
-                                    <FormControl id={`${field.name}-year`}>
+                                    <FormControl id={`${name}-year`}>
                                         <SelectTrigger>
                                             <SelectValue placeholder="Year..." />
                                         </SelectTrigger>

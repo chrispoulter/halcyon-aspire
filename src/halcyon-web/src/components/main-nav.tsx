@@ -15,14 +15,8 @@ import {
 import { type SessionPayload, Role } from '@/lib/session-types';
 
 const routes = [
-    {
-        href: '/',
-        label: 'Home',
-    },
-    {
-        href: '/about',
-        label: 'About',
-    },
+    { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
     {
         href: '/user',
         label: 'Users',
@@ -38,15 +32,14 @@ export function MainNav({ session }: MainNavProps) {
     const [open, setOpen] = useState(false);
 
     const routeLinks = routes
-        .filter((route) =>
-            route.roles
-                ? route.roles.some((value) => session?.roles?.includes(value))
-                : true
+        .filter(
+            ({ roles }) =>
+                !roles || roles.some((value) => session?.roles?.includes(value))
         )
-        .map((route) => (
-            <Button key={route.href} asChild variant="link">
-                <Link href={route.href} onClick={() => setOpen(false)}>
-                    {route.label}
+        .map(({ href, label }) => (
+            <Button key={href} asChild variant="link">
+                <Link href={href} onClick={() => setOpen(false)}>
+                    {label}
                 </Link>
             </Button>
         ));
@@ -64,10 +57,8 @@ export function MainNav({ session }: MainNavProps) {
                 <DrawerContent>
                     <div className="mx-auto w-full max-w-sm">
                         <DrawerHeader className="sr-only">
-                            <DrawerTitle>Main Menu</DrawerTitle>
-                            <DrawerDescription>
-                                Main menu navigation links
-                            </DrawerDescription>
+                            <DrawerTitle>Halcyon</DrawerTitle>
+                            <DrawerDescription>Main Menu</DrawerDescription>
                         </DrawerHeader>
                         <nav className="flex flex-col items-stretch justify-center gap-2 p-4">
                             {routeLinks}
