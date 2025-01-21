@@ -55,7 +55,6 @@ var sessionSecret = builder.AddParameter("sessionSecret", secret: true);
 var web = builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
     .WithEnvironment("NODE_TLS_REJECT_UNAUTHORIZED", "0")
-    .WithEnvironment("VERSION", "1.0.0-aspire")
     .WithEnvironment("API_URL", api.GetEndpoint("https"))
     .WithEnvironment("JWT_SECURITY_KEY", jwtSecurityKey)
     .WithEnvironment("JWT_ISSUER", jwtIssuer)
