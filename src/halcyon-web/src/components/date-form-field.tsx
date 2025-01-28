@@ -1,4 +1,4 @@
-import { FieldPath, FieldValues, useFormContext } from 'react-hook-form';
+import type { FieldValues, UseControllerProps } from 'react-hook-form';
 import {
     FormControl,
     FormField,
@@ -16,15 +16,14 @@ import {
 import { currentYear, monthNames } from '@/lib/dates';
 
 type DateFormFieldProps<TFieldValues extends FieldValues> = {
-    name: FieldPath<TFieldValues>;
     label: string;
     required?: boolean;
-    disabled?: boolean;
     autoComplete?: [string, string, string];
     className?: string;
-};
+} & UseControllerProps<TFieldValues>;
 
 export function DateFormField<TFieldValues extends FieldValues>({
+    control,
     name,
     label,
     required,
@@ -32,7 +31,7 @@ export function DateFormField<TFieldValues extends FieldValues>({
     autoComplete,
     className,
 }: DateFormFieldProps<TFieldValues>) {
-    const { control } = useFormContext<TFieldValues>();
+    const [dayAuto, monthAuto, yearAuto] = autoComplete || [];
 
     return (
         <FormField
@@ -63,9 +62,7 @@ export function DateFormField<TFieldValues extends FieldValues>({
                                     defaultValue={day}
                                     required={required}
                                     disabled={disabled}
-                                    autoComplete={
-                                        autoComplete && autoComplete[0]
-                                    }
+                                    autoComplete={dayAuto}
                                 >
                                     <FormControl>
                                         <SelectTrigger>
@@ -96,9 +93,7 @@ export function DateFormField<TFieldValues extends FieldValues>({
                                     defaultValue={month}
                                     required={required}
                                     disabled={disabled}
-                                    autoComplete={
-                                        autoComplete && autoComplete[1]
-                                    }
+                                    autoComplete={monthAuto}
                                 >
                                     <FormControl id={`${name}-month`}>
                                         <SelectTrigger>
@@ -127,9 +122,7 @@ export function DateFormField<TFieldValues extends FieldValues>({
                                     defaultValue={year}
                                     required={required}
                                     disabled={disabled}
-                                    autoComplete={
-                                        autoComplete && autoComplete[2]
-                                    }
+                                    autoComplete={yearAuto}
                                 >
                                     <FormControl id={`${name}-year`}>
                                         <SelectTrigger>
