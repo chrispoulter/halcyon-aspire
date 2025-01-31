@@ -1,4 +1,4 @@
-﻿# Halcyon
+﻿# Halcyon Aspire
 
 A .NET Core web project template 👷 Built with a sense of peace and tranquillity 🙏
 
