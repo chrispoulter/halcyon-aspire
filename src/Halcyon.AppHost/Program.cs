@@ -54,13 +54,8 @@ var sessionSecret = builder.AddParameter("sessionSecret", secret: true);
 
 var web = builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
-    .WithEnvironment("NODE_TLS_REJECT_UNAUTHORIZED", "0")
-    .WithEnvironment("API_URL", api.GetEndpoint("https"))
-    .WithEnvironment("JWT_SECURITY_KEY", jwtSecurityKey)
-    .WithEnvironment("JWT_ISSUER", jwtIssuer)
-    .WithEnvironment("JWT_AUDIENCE", jwtAudience)
-    .WithEnvironment("SESSION_SECRET", sessionSecret)
-    .WithHttpEndpoint(port: 3000, env: "PORT", isProxied: false)
+    .WithEnvironment("VITE_API_URL", api.GetEndpoint("https"))
+    .WithHttpEndpoint(port: 5173, env: "PORT", isProxied: false)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile()
     .WaitFor(api);

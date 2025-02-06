@@ -1,21 +1,19 @@
 name: halcyon
 
 services:
-    halcyon:
-        image: halcyon:dev
+    halcyon-vite:
+        image: halcyon-vite:dev
         build:
             context: .
             target: dev
-        command: npm run dev
+            args:
+                VERSION: 1.0.0-docker
+        command: npm run dev -- --host=0.0.0.0 --port=5173
         environment:
-            WATCHPACK_POLLING: true
-            API_URL: http://host.docker.internal:5257
-            JWT_SECURITY_KEY: super_secret_key_that_should_be_changed
-            JWT_ISSUER: HalcyonApi
-            JWT_AUDIENCE: HalcyonClient
-            SESSION_SECRET: super_secret_key_that_should_be_changed
+            USE_POLLING: true
+            API_URL: http://localhost:5257
         ports:
-            - 3000:3000
+            - 5173:5173
         volumes:
             - ./src:/app/src
             - ./public:/app/public

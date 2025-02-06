@@ -1,6 +1,3 @@
-'use client';
-
-import { usePathname, useSearchParams } from 'next/navigation';
 import {
     Pagination,
     PaginationContent,
@@ -12,16 +9,18 @@ import {
 type PagerProps = {
     hasPreviousPage: boolean;
     hasNextPage: boolean;
-    page?: number;
+    onPreviousPage: () => void;
+    onNextPage: () => void;
+    disabled?: boolean;
 };
 
-export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
-    const pathname = usePathname();
-
-    const searchParams = useSearchParams();
-
-    const query = Object.fromEntries(searchParams.entries());
-
+export function Pager({
+    hasPreviousPage,
+    hasNextPage,
+    onPreviousPage,
+    onNextPage,
+    disabled,
+}: PagerProps) {
     if (!hasPreviousPage && !hasNextPage) {
         return null;
     }
@@ -32,26 +31,16 @@ export function Pager({ hasPreviousPage, hasNextPage, page = 1 }: PagerProps) {
                 {hasPreviousPage && (
                     <PaginationItem>
                         <PaginationPrevious
-                            href={{
-                                pathname,
-                                query: {
-                                    ...query,
-                                    page: page - 1,
-                                },
-                            }}
+                            disabled={disabled}
+                            onClick={() => onPreviousPage()}
                         />
                     </PaginationItem>
                 )}
                 {hasNextPage && (
                     <PaginationItem>
                         <PaginationNext
-                            href={{
-                                pathname,
-                                query: {
-                                    ...query,
-                                    page: page + 1,
-                                },
-                            }}
+                            disabled={disabled}
+                            onClick={() => onNextPage()}
                         />
                     </PaginationItem>
                 )}
