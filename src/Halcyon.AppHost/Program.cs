@@ -50,8 +50,6 @@ var api = builder
     .WithReference(maildev)
     .WaitFor(maildev);
 
-var sessionSecret = builder.AddParameter("sessionSecret", secret: true);
-
 var web = builder
     .AddNpmApp("web", "../halcyon-web", scriptName: "dev")
     .WithEnvironment("VITE_API_URL", api.GetEndpoint("https"))
