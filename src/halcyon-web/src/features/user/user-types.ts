@@ -20,7 +20,7 @@ export type SearchUsersResponse = {
         emailAddress: string;
         firstName: string;
         lastName: string;
-        isLockedOut: boolean;
+        isLockedOut?: boolean;
         roles?: Role[];
     }[];
     hasNextPage: boolean;

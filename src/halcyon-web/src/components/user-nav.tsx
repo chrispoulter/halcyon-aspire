@@ -49,7 +49,7 @@ export function UserNav() {
                         <div className="truncate text-sm font-medium">
                             {user.given_name} {user.family_name}
                         </div>
-                        <div className="truncate text-sm text-muted-foreground">
+                        <div className="text-muted-foreground truncate text-sm">
                             {user.email}
                         </div>
                     </div>

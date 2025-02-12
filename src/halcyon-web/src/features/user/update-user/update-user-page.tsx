@@ -1,4 +1,5 @@
 import { Link, useNavigate, useParams } from 'react-router';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
@@ -15,7 +16,6 @@ import { DeleteUserButton } from '@/features/user/update-user/delete-user-button
 import { LockUserButton } from '@/features/user/update-user/lock-user-button';
 import { UnlockUserButton } from '@/features/user/update-user/unlock-user-button';
 import { UpdateUserLoading } from '@/features/user/update-user/update-user-loading';
-import { toast } from '@/hooks/use-toast';
 
 type UpdateUserPageParams = { id: string };
 
@@ -58,20 +58,10 @@ export function UpdateUserPage() {
             },
             {
                 onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully updated.',
-                    });
-
+                    toast.success('User successfully updated.');
                     navigate('/user');
                 },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onError: (error) => toast.error(error.message),
             }
         );
     }
@@ -82,19 +72,8 @@ export function UpdateUserPage() {
                 version,
             },
             {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully locked.',
-                    });
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onSuccess: () => toast.success('User successfully locked.'),
+                onError: (error) => toast.error(error.message),
             }
         );
     }
@@ -105,19 +84,8 @@ export function UpdateUserPage() {
                 version,
             },
             {
-                onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully unlocked.',
-                    });
-                },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onSuccess: () => toast.success('User successfully unlocked.'),
+                onError: (error) => toast.error(error.message),
             }
         );
     }
@@ -129,20 +97,10 @@ export function UpdateUserPage() {
             },
             {
                 onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'User successfully deleted.',
-                    });
-
+                    toast.success('User successfully deleted.');
                     navigate('/user');
                 },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onError: (error) => toast.error(error.message),
             }
         );
     }

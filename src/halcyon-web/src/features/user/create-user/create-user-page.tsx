@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import {
@@ -6,7 +7,6 @@ import {
     type CreateUserFormValues,
 } from '@/features/user/create-user/create-user-form';
 import { useCreateUser } from '@/features/user/hooks/use-create-user';
-import { toast } from '@/hooks/use-toast';
 
 export function CreateUserPage() {
     const navigate = useNavigate();
@@ -16,20 +16,10 @@ export function CreateUserPage() {
     function onSubmit(data: CreateUserFormValues) {
         createUser(data, {
             onSuccess: () => {
-                toast({
-                    title: 'Success',
-                    description: 'User successfully created.',
-                });
-
+                toast.success('User successfully created.');
                 navigate('/user');
             },
-            onError: (error) => {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: error.message,
-                });
-            },
+            onError: (error) => toast.error(error.message),
         });
     }
 

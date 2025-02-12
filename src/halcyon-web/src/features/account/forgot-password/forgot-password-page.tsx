@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { Metadata } from '@/components/metadata';
 import {
     ForgotPasswordForm,
     type ForgotPasswordFormValues,
 } from '@/features/account/forgot-password/forgot-password-form';
 import { useForgotPassword } from '@/features/account/hooks/use-forgot-password';
-import { toast } from '@/hooks/use-toast';
 
 export function ForgotPasswordPage() {
     const navigate = useNavigate();
@@ -15,21 +15,13 @@ export function ForgotPasswordPage() {
     function onSubmit(data: ForgotPasswordFormValues) {
         forgotPassword(data, {
             onSuccess: () => {
-                toast({
-                    title: 'Success',
-                    description:
-                        'Instructions as to how to reset your password have been sent to you via email.',
-                });
+                toast.success(
+                    'Instructions as to how to reset your password have been sent to you via email.'
+                );
 
                 navigate('/account/login');
             },
-            onError: (error) => {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: error.message,
-                });
-            },
+            onError: (error) => toast.error(error.message),
         });
     }
 

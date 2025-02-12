@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { useAuth } from '@/components/auth-provider';
 import { Metadata } from '@/components/metadata';
 import { useLogin } from '@/features/account/hooks/use-login';
@@ -6,7 +7,6 @@ import {
     LoginForm,
     LoginFormValues,
 } from '@/features/account/login/login-form';
-import { toast } from '@/hooks/use-toast';
 
 export function LoginPage() {
     const navigate = useNavigate();
@@ -21,13 +21,7 @@ export function LoginPage() {
                 setAuth(data.accessToken);
                 navigate('/');
             },
-            onError: (error) => {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: error.message,
-                });
-            },
+            onError: (error) => toast.error(error.message),
         });
     }
     return (
@@ -45,7 +39,7 @@ export function LoginPage() {
             <LoginForm loading={isSaving} onSubmit={onSubmit} />
 
             <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Not already a member?{' '}
                     <Link
                         to="/account/register"
@@ -54,7 +48,7 @@ export function LoginPage() {
                         Register now
                     </Link>
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                     Forgotten your password?{' '}
                     <Link
                         to="/account/forgot-password"

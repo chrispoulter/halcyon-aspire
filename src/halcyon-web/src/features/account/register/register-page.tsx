@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { Metadata } from '@/components/metadata';
 import { useRegister } from '@/features/account/hooks/use-register';
 import {
     RegisterForm,
     type RegisterFormValues,
 } from '@/features/account/register/register-form';
-import { toast } from '@/hooks/use-toast';
 
 export function RegisterPage() {
     const navigate = useNavigate();
@@ -15,20 +15,10 @@ export function RegisterPage() {
     function onSubmit(data: RegisterFormValues) {
         register(data, {
             onSuccess: () => {
-                toast({
-                    title: 'Success',
-                    description: 'User successfully registered.',
-                });
-
+                toast.success('User successfully registered.');
                 navigate('/account/login');
             },
-            onError: (error) => {
-                toast({
-                    variant: 'destructive',
-                    title: 'Error',
-                    description: error.message,
-                });
-            },
+            onError: (error) => toast.error(error.message),
         });
     }
 
@@ -47,7 +37,7 @@ export function RegisterPage() {
 
             <RegisterForm loading={isSaving} onSubmit={onSubmit} />
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
                 Already have an account?{' '}
                 <Link
                     to="/account/login"

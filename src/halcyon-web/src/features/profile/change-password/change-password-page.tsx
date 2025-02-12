@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
@@ -9,7 +10,6 @@ import {
 import { ChangePasswordLoading } from '@/features/profile/change-password/change-password-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { useChangePassword } from '@/features/profile/hooks/use-change-password';
-import { toast } from '@/hooks/use-toast';
 
 export function ChangePasswordPage() {
     const navigate = useNavigate();
@@ -42,20 +42,10 @@ export function ChangePasswordPage() {
             },
             {
                 onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your password has been changed.',
-                    });
-
+                    toast.success('Your password has been changed.');
                     navigate('/profile');
                 },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onError: (error) => toast.error(error.message),
             }
         );
     }
@@ -84,7 +74,7 @@ export function ChangePasswordPage() {
                 </Button>
             </ChangePasswordForm>
 
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
                 Forgotten your password?{' '}
                 <Link
                     to="/account/forgot-password"

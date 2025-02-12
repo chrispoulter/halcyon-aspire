@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/components/auth-provider';
 import { Metadata } from '@/components/metadata';
@@ -7,7 +8,6 @@ import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { useDeleteAccount } from '@/features/profile/hooks/use-delete-account';
 import { DeleteAccountButton } from '@/features/profile/profile/delete-account-button';
 import { ProfileLoading } from '@/features/profile/profile/profile-loading';
-import { toast } from '@/hooks/use-toast';
 import { toLocaleString } from '@/lib/dates';
 
 export function ProfilePage() {
@@ -42,21 +42,11 @@ export function ProfilePage() {
             },
             {
                 onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your account has been deleted.',
-                    });
-
+                    toast.success('Your account has been deleted.');
                     clearAuth();
                     navigate('/');
                 },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onError: (error) => toast.error(error.message),
             }
         );
     }
@@ -74,20 +64,20 @@ export function ProfilePage() {
             </h2>
 
             <dl className="space-y-2">
-                <dt className="text-sm font-medium leading-none">
+                <dt className="text-sm leading-none font-medium">
                     Email Address
                 </dt>
-                <dd className="truncate text-sm text-muted-foreground">
+                <dd className="text-muted-foreground truncate text-sm">
                     {profile.emailAddress}
                 </dd>
-                <dt className="text-sm font-medium leading-none">Name</dt>
-                <dd className="truncate text-sm text-muted-foreground">
+                <dt className="text-sm leading-none font-medium">Name</dt>
+                <dd className="text-muted-foreground truncate text-sm">
                     {profile.firstName} {profile.lastName}
                 </dd>
-                <dt className="text-sm font-medium leading-none">
+                <dt className="text-sm leading-none font-medium">
                     Date Of Birth
                 </dt>
-                <dd className="truncate text-sm text-muted-foreground">
+                <dd className="text-muted-foreground truncate text-sm">
                     {toLocaleString(profile.dateOfBirth)}
                 </dd>
             </dl>

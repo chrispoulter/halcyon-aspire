@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Metadata } from '@/components/metadata';
 import { QueryError } from '@/components/query-error';
@@ -9,7 +10,6 @@ import {
 import { UpdateProfileLoading } from '@/features/profile/update-profile/update-profile-loading';
 import { useGetProfile } from '@/features/profile/hooks/use-get-profile';
 import { useUpdateProfile } from '@/features/profile/hooks/use-update-profile';
-import { toast } from '@/hooks/use-toast';
 
 export function UpdateProfilePage() {
     const navigate = useNavigate();
@@ -42,20 +42,10 @@ export function UpdateProfilePage() {
             },
             {
                 onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your profile has been updated.',
-                    });
-
+                    toast.success('Your profile has been updated.');
                     navigate('/profile');
                 },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onError: (error) => toast.error(error.message),
             }
         );
     }

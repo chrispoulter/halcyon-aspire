@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from 'react-router';
+import { toast } from 'sonner';
 import { Metadata } from '@/components/metadata';
 import { useResetPassword } from '@/features/account/hooks/use-reset-password';
 import {
     ResetPasswordForm,
     ResetPasswordFormValues,
 } from '@/features/account/reset-password/reset-password-form';
-import { toast } from '@/hooks/use-toast';
 
 type ResetPasswordPageParams = { token: string };
 
@@ -24,20 +24,10 @@ export function ResetPasswordPage() {
             },
             {
                 onSuccess: () => {
-                    toast({
-                        title: 'Success',
-                        description: 'Your password has been reset.',
-                    });
-
+                    toast.success('Your password has been reset.');
                     navigate('/account/login');
                 },
-                onError: (error) => {
-                    toast({
-                        variant: 'destructive',
-                        title: 'Error',
-                        description: error.message,
-                    });
-                },
+                onError: (error) => toast.error(error.message),
             }
         );
     }
