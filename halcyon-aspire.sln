@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon.AppHost", "src\Halc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halcyon.ServiceDefaults", "src\Halcyon.ServiceDefaults\Halcyon.ServiceDefaults.csproj", "{52DFA8CE-448B-4552-9481-A8D867D1B8A8}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Halyon.Web", "src\Halcyon.Web\Halyon.Web.esproj", "{9AFC3BDE-93C2-4DAB-B9AD-38A0367E474A}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Halcyon.Web", "src\Halcyon.Web\Halcyon.Web.esproj", "{9AFC3BDE-93C2-4DAB-B9AD-38A0367E474A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
