@@ -18,6 +18,24 @@ A .NET Core web project template 👷 Built with a sense of peace and tranquilli
   [https://github.com/MapsterMapper/Mapster](https://github.com/MapsterMapper/Mapster)
 - Swagger
   [https://swagger.io/](https://swagger.io/)
+
+- Vite
+  [https://vite.dev/](https://vite.dev/)
+- React
+  [https://react.dev/](https://react.dev/)
+- React Router
+  [https://reactrouter.com/](https://reactrouter.com/)
+- TanStack Query
+  [https://tanstack.com/query](https://tanstack.com/query)
+- Shadcn UI
+  [https://ui.shadcn.com/](https://ui.shadcn.com/)
+- React Hook Form
+  [https://react-hook-form.com/](https://react-hook-form.com/)
+- Zod
+  [https://zod.dev/](https://zod.dev/)
+- Tailwind CSS
+  [https://tailwindcss.com/](https://tailwindcss.com/)
+
 - Aspire
   [https://learn.microsoft.com/en-us/dotnet/aspire](https://learn.microsoft.com/en-us/dotnet/aspire/)
 - GitHub Actions
@@ -94,9 +112,9 @@ In the `src/Halcyon.Api` directory of the project, create a new `appsettings.Dev
 dotnet run --project "src/Halcyon.AppHost/Halcyon.AppHost.csproj"
 ```
 
-### Access the API
+### Access the .NET Aspire dashboard
 
-Once running, you can explore the API using Swagger UI at https://localhost:7257
+Once running, you can explore the .NET Aspire dashboard at https://localhost:17255
 
 ## Contributing
 
