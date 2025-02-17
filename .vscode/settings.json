@@ -9,5 +9,5 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "terminal.integrated.cwd": "${workspaceFolder}/src/halcyon-web"
+  "terminal.integrated.cwd": "${workspaceFolder}/src/Halyon.Web"
 }

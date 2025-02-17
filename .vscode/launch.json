@@ -6,6 +6,13 @@
       "request": "launch",
       "projectPath": "${workspaceFolder}\\src\\Halcyon.AppHost\\Halcyon.AppHost.csproj",
       "launchConfigurationId": "TargetFramework=;https"
-    }
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "localhost (Chrome)",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}\\src\\Halcyon.Web"
+  }
   ]
 }
